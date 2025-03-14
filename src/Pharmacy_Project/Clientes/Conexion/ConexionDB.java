@@ -1,4 +1,4 @@
-package Clientes.Conexion;
+package Pharmacy_Project.Clientes.Conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

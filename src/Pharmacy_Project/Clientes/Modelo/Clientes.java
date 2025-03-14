@@ -1,4 +1,4 @@
-package Clientes.Modelo;
+package Pharmacy_Project.Clientes.Modelo;
 
 public class Clientes {
     int id_cliente;

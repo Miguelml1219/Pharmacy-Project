@@ -1,8 +1,8 @@
-package Clientes.Vista;
+package Pharmacy_Project.Clientes.Vista;
 
-import Clientes.Conexion.ConexionDB;
-import Clientes.DAO.ClientesDAO;
-import Clientes.Modelo.Clientes;
+import Pharmacy_Project.Clientes.Conexion.ConexionDB;
+import Pharmacy_Project.Clientes.DAO.ClientesDAO;
+import Pharmacy_Project.Clientes.Modelo.Clientes;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

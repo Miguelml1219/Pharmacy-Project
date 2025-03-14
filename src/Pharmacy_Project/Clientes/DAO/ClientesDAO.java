@@ -1,7 +1,7 @@
-package Clientes.DAO;
+package Pharmacy_Project.Clientes.DAO;
 
-import Clientes.Conexion.ConexionDB;
-import Clientes.Modelo.Clientes;
+import Pharmacy_Project.Clientes.Conexion.ConexionDB;
+import Pharmacy_Project.Clientes.Modelo.Clientes;
 
 import javax.swing.*;
 import java.sql.*;
