@@ -1,7 +1,7 @@
-package DAO;
+package Clientes.DAO;
 
-import Conexion.ConexionDB;
-import Modelo.Clientes;
+import Clientes.Conexion.ConexionDB;
+import Clientes.Modelo.Clientes;
 
 import javax.swing.*;
 import java.sql.*;

@@ -1,8 +1,8 @@
-package Vista;
+package Clientes.Vista;
 
-import Conexion.ConexionDB;
-import DAO.ClientesDAO;
-import Modelo.Clientes;
+import Clientes.Conexion.ConexionDB;
+import Clientes.DAO.ClientesDAO;
+import Clientes.Modelo.Clientes;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

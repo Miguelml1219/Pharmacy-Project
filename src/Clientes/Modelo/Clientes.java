@@ -1,4 +1,4 @@
-package Modelo;
+package Clientes.Modelo;
 
 public class Clientes {
     int id_cliente;
