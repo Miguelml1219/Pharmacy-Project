@@ -64,10 +64,10 @@ public class CustomerDAO {
             stmt.setInt(1, id);
             int files = stmt.executeUpdate();
             if (files > 0) {
-                JOptionPane.showMessageDialog(null, "Registro eliminado exitosamente!");
+                JOptionPane.showMessageDialog(null, "Registration successfully deleted!");
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "No se encontro el registro.");
+                JOptionPane.showMessageDialog(null, "The record was not found.");
                 return false;
             }
         } catch (SQLException e) {
