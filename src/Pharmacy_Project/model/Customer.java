@@ -1,10 +1,10 @@
-package Pharmacy_Project.Clientes.Modelo;
+package Pharmacy_Project.model;
 
-public class Clientes {
-    int id_cliente;
-    String cedula, nombre_completo, telefono, correo_electronico, direccion, categoria;
+public class Customer {
 
-    public Clientes(int id_cliente, String cedula, String nombre_completo, String telefono, String correo_electronico, String direccion, String categoria) {
+    int id_cliente; String cedula, nombre_completo, telefono, correo_electronico, direccion, categoria;
+
+    public Customer(int id_cliente, String cedula, String nombre_completo, String telefono, String correo_electronico, String direccion, String categoria) {
         this.id_cliente = id_cliente;
         this.cedula = cedula;
         this.nombre_completo = nombre_completo;
