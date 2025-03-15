@@ -4,18 +4,20 @@ import java.util.Date;
 
 public class Products {
 
-    int id_producto, id_categoria; String nombre, descripcion; int precio, stock_actual, stock_minimo; Date fecha_vencimiento; String lote;
+    int id_producto, id_categoria, precio, stock_actual, stock_minimo;
+    String nombre, descripcion, lote;
+    Date fecha_vencimiento;
 
-    public Products(int id_producto, int id_categoria, String nombre, String descripcion, int precio, int stock_actual, int stock_minimo, Date fecha_vencimiento, String lote) {
+    public Products(int id_producto, int id_categoria, int precio, int stock_actual, int stock_minimo, String nombre, String descripcion, String lote, Date fecha_vencimiento) {
         this.id_producto = id_producto;
         this.id_categoria = id_categoria;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
         this.precio = precio;
         this.stock_actual = stock_actual;
         this.stock_minimo = stock_minimo;
-        this.fecha_vencimiento = fecha_vencimiento;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
         this.lote = lote;
+        this.fecha_vencimiento = fecha_vencimiento;
     }
 
     public int getId_producto() {
@@ -32,22 +34,6 @@ public class Products {
 
     public void setId_categoria(int id_categoria) {
         this.id_categoria = id_categoria;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public int getPrecio() {
@@ -74,12 +60,20 @@ public class Products {
         this.stock_minimo = stock_minimo;
     }
 
-    public Date getFecha_vencimiento() {
-        return fecha_vencimiento;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setFecha_vencimiento(Date fecha_vencimiento) {
-        this.fecha_vencimiento = fecha_vencimiento;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getLote() {
@@ -88,5 +82,13 @@ public class Products {
 
     public void setLote(String lote) {
         this.lote = lote;
+    }
+
+    public Date getFecha_vencimiento() {
+        return fecha_vencimiento;
+    }
+
+    public void setFecha_vencimiento(Date fecha_vencimiento) {
+        this.fecha_vencimiento = fecha_vencimiento;
     }
 }
