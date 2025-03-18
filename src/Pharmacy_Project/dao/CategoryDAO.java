@@ -7,7 +7,7 @@ public class CategoryDAO {
 
     public CategoryDAO() {
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/drogueria", "root", "password");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/farmacia", "root", "password");
         } catch (SQLException e) {
             e.printStackTrace();
         }
