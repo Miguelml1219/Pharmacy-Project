@@ -1,5 +1,4 @@
 package Pharmacy_Project.connection;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 
