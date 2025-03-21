@@ -74,8 +74,8 @@ public class Products {
         this.stock_minimo = stock_minimo;
     }
 
-    public Date getFecha_vencimiento() {
-        return fecha_vencimiento;
+    public java.sql.Date getFecha_vencimiento() {
+        return (java.sql.Date) fecha_vencimiento;
     }
 
     public void setFecha_vencimiento(Date fecha_vencimiento) {

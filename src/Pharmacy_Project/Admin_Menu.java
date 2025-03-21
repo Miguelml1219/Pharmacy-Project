@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Clase Admin_Menu representa la interfaz de administración del sistema.
@@ -26,10 +28,11 @@ public class Admin_Menu {
     private JButton tablesButton;
     private JButton inventoryButton;
     private JButton BackButton;
+    private JButton expensesButton;
     private JButton reportButton;
     private JButton detailInventoryButton;
     private JButton amountProductsButton;
-    private JButton lowIncomeButton;
+    private JButton lowStockButton;
     private JFrame frame;
     private JFrame parentFrame;
 
@@ -103,6 +106,14 @@ public class Admin_Menu {
             }
         });
 
+        lowStockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LowStock lowstock = new LowStock(frame);
+                lowstock.runLow();
+            }
+        });
+
         // Acción para regresar al menú principal
         BackButton.addActionListener(new ActionListener() {
             @Override
@@ -124,11 +135,23 @@ public class Admin_Menu {
 
         frame = new JFrame("Data Base Pharmacy");
         frame.setContentPane(this.main);
-//          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(530,450);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setUndecorated(true);
         frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                if(option == JOptionPane.YES_OPTION)
+                {
+                    frame.dispose(); // Cierra la ventana
+                    System.exit(0);
+                }
+            }
+        });
     }
 
 }

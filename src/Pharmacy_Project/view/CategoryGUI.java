@@ -5,10 +5,8 @@ import Pharmacy_Project.model.Category;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,6 +35,7 @@ public class CategoryGUI {
 
         textField1.setVisible(false);
         this.parentFrame = parentFrame;
+
         showdata();
 
         addButton.addActionListener(new ActionListener() {
@@ -53,6 +52,21 @@ public class CategoryGUI {
 
                     if (!name_cat.matches("^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$")) {
                         JOptionPane.showMessageDialog(null, "The Name Category field must only contain letters");
+                        return;
+                    }
+
+                    boolean namExist = false;
+                    for (int i = 0; i < table1.getRowCount(); i++) {
+                        String namExisting = table1.getValueAt(i, 1).toString();
+                        if (namExisting.equalsIgnoreCase(name_cat)) {
+                            namExist = true;
+                            break;
+                        }
+                    }
+
+                    if (namExist) {
+                        JOptionPane.showMessageDialog(null, "The name " + name_cat + " already exists");
+                        textField2.setText("");
                         return;
                     }
 
@@ -83,6 +97,21 @@ public class CategoryGUI {
                         return;
                     }
 
+                    boolean namExist = false;
+                    for (int i = 0; i < table1.getRowCount(); i++) {
+                        String namExisting = table1.getValueAt(i, 1).toString();
+                        if (namExisting.equalsIgnoreCase(name_cat)) {
+                            namExist = true;
+                            break;
+                        }
+                    }
+
+                    if (namExist) {
+                        JOptionPane.showMessageDialog(null, "The name " + name_cat + " already exists");
+                        textField2.setText("");
+                        return;
+                    }
+
                     Category category = new Category(id_category, name_cat);
                     categoryDAO.update(category);
                     clear();
@@ -95,10 +124,12 @@ public class CategoryGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                int selectedRow = table1.getSelectedRow();
+
                 if (textField2.getText().trim().isEmpty()) {
-
                     JOptionPane.showMessageDialog(null, "Complete the field Name Category");
-
+                }else if (selectedRow == -1) { // Si no hay fila seleccionada
+                    JOptionPane.showMessageDialog(null, "Please, select a category to remove");
                 } else {
 
                     int id_category = Integer.parseInt(textField1.getText());
@@ -182,10 +213,22 @@ public class CategoryGUI {
 
         frame = new JFrame("Data Base Pharmacy");
         frame.setContentPane(this.main);
-//          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(600, 350);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setUndecorated(true);
         frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                if(option == JOptionPane.YES_OPTION)
+                {
+                    frame.dispose(); // Cierra la ventana
+                    System.exit(0);
+                }
+            }
+        });
     }
 }

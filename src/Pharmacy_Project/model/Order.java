@@ -4,13 +4,13 @@ import java.sql.Timestamp;
 
 public class Order {
 
-    int id_pedido, id_cliente; Timestamp fecha_pedido; int toal_pedido; String metodo_pago, estado;
+    int id_pedido, id_cliente; Timestamp fecha_pedido; int total_pedido; String metodo_pago, estado;
 
-    public Order(int id_pedido, int id_cliente, Timestamp fecha_pedido, int toal_pedido, String metodo_pago, String estado) {
+    public Order(int id_pedido, int id_cliente, Timestamp fecha_pedido, int total_pedido, String metodo_pago, String estado) {
         this.id_pedido = id_pedido;
         this.id_cliente = id_cliente;
         this.fecha_pedido = fecha_pedido;
-        this.toal_pedido = toal_pedido;
+        this.total_pedido = total_pedido;
         this.metodo_pago = metodo_pago;
         this.estado = estado;
     }
@@ -39,12 +39,10 @@ public class Order {
         this.fecha_pedido = fecha_pedido;
     }
 
-    public int getToal_pedido() {
-        return toal_pedido;
-    }
+    public int getTotal_pedido() {return total_pedido;}
 
-    public void setToal_pedido(int toal_pedido) {
-        this.toal_pedido = toal_pedido;
+    public void setToal_pedido(int total_pedido) {
+        this.total_pedido = total_pedido;
     }
 
     public String getMetodo_pago() {

@@ -2,15 +2,15 @@ package Pharmacy_Project.model;
 
 public class Order_Detail {
 
-    int id_detalle, id_pedido, id_producto; String und_medida; int precio_unitario, cantidad, subtotal;
+    int id_detalle, id_pedido, id_producto; String und_medida; int cantidad, precio_unitario, subtotal;
 
-    public Order_Detail(int id_detalle, int id_pedido, int id_producto, String und_medida, int precio_unitario, int cantidad, int subtotal) {
+    public Order_Detail(int id_detalle, int id_pedido, int id_producto, String und_medida, int cantidad, int precio_unitario, int subtotal) {
         this.id_detalle = id_detalle;
         this.id_pedido = id_pedido;
         this.id_producto = id_producto;
         this.und_medida = und_medida;
-        this.precio_unitario = precio_unitario;
         this.cantidad = cantidad;
+        this.precio_unitario = precio_unitario;
         this.subtotal = subtotal;
     }
 
@@ -46,20 +46,20 @@ public class Order_Detail {
         this.und_medida = und_medida;
     }
 
-    public int getPrecio_unitario() {
-        return precio_unitario;
-    }
-
-    public void setPrecio_unitario(int precio_unitario) {
-        this.precio_unitario = precio_unitario;
-    }
-
     public int getCantidad() {
         return cantidad;
     }
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public int getPrecio_unitario() {
+        return precio_unitario;
+    }
+
+    public void setPrecio_unitario(int precio_unitario) {
+        this.precio_unitario = precio_unitario;
     }
 
     public int getSubtotal() {

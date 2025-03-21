@@ -5,8 +5,11 @@ import Pharmacy_Project.network.socket_client.Socket_ClientGUI;
 import Pharmacy_Project.view.Order_DetailGUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Clase que representa el menú principal del sistema de la farmacia.
@@ -21,6 +24,7 @@ public class Main_Menu {
     private JButton exitButton;
     private JFrame frame;
 
+
     /**
      * Constructor de la clase Main_Menu.
      *
@@ -30,6 +34,7 @@ public class Main_Menu {
     public Main_Menu(JFrame frame)
     {
         this.frame  = frame;
+
 
         adminMenuButton.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +51,6 @@ public class Main_Menu {
                 order_detailGUI.runOrder();
                 frame.setVisible(false);
 
-
             }
         });
 
@@ -54,7 +58,7 @@ public class Main_Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(null, "¿Desea entrar al chat?", "Enter to the chat", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(null, "Want to enter the chat?", "Enter to the chat", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                 if (option == JOptionPane.YES_OPTION) {
 
@@ -100,11 +104,24 @@ public class Main_Menu {
         JFrame frame = new JFrame("Data Base Pharmacy");
         Main_Menu main_menu = new Main_Menu(frame); // Se pasa el frame al constructor de Menu
         frame.setContentPane(main_menu.main);
-//          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(350,250);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setUndecorated(true);
         frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                if(option == JOptionPane.NO_OPTION)
+                {
+                    frame.dispose(); // Cierra la ventana
+                    System.exit(0);
+                }
+            }
+        });
+
     }
 
 }
