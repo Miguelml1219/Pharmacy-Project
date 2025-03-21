@@ -9,6 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
 
+/**
+ * Clase que representa la interfaz gráfica para la gestión de categorías.
+ */
 public class CategoryGUI {
     private JComboBox comboBox1;
     private JButton registrarButton;
@@ -19,6 +22,9 @@ public class CategoryGUI {
     private CategoryDAO categoryDAO = new CategoryDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Constructor de la clase CategoryGUI. Inicializa la interfaz y carga los datos de las categorías.
+     */
     public CategoryGUI() {
         obtenerCategoria();
 
@@ -42,16 +48,17 @@ public class CategoryGUI {
                 if (seleccion >= 0) {
                     comboBox1.setSelectedItem(table1.getValueAt(seleccion, 1).toString());
                 }
-
             }
         });
     }
 
+    /**
+     * Obtiene los datos de las categorías desde la base de datos y los muestra en la tabla.
+     */
     public void obtenerCategoria() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Category");
-
 
         table1.setModel(modelo);
         String[] datos = new String[2];
@@ -64,7 +71,6 @@ public class CategoryGUI {
             while (rs.next()) {
                 datos[0] = rs.getString(1);
                 datos[1] = rs.getString(2);
-
                 modelo.addRow(datos);
             }
         } catch (SQLException e) {
@@ -72,8 +78,10 @@ public class CategoryGUI {
         }
     }
 
+    /**
+     * Agrega una nueva categoría a la base de datos con los datos ingresados en la interfaz.
+     */
     private void agregarCategoria() {
-
         String categoria = comboBox1.getSelectedItem().toString();
 
         Category ct = new Category(0, categoria);
@@ -84,12 +92,15 @@ public class CategoryGUI {
         }
     }
 
+    /**
+     * Elimina la categoría seleccionada en la tabla de la base de datos.
+     */
     private void eliminarCategoria() {
         try {
-            int selectedRow = table1.getSelectedRow(); //selectedrow para seleccionar en id del cliente
+            int selectedRow = table1.getSelectedRow();
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
             if (categoryDAO.eliminarCategoria(id)) {
-
+                JOptionPane.showMessageDialog(null, "Category successfully deleted.");
             } else {
                 JOptionPane.showMessageDialog(null, "The category was not found.");
             }
@@ -98,6 +109,9 @@ public class CategoryGUI {
         }
     }
 
+    /**
+     * Actualiza la categoría seleccionada con los nuevos valores ingresados en la interfaz.
+     */
     private void actualizarCategoria() {
         int selectedRow = table1.getSelectedRow();
         if (selectedRow == -1) {
@@ -110,8 +124,7 @@ public class CategoryGUI {
                      "UPDATE categoria SET nombre_categoria=? WHERE id_categoria=?")) {
 
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
-
-            ps.setString(1, comboBox1.getSelectedItem().toString()); // Categoria
+            ps.setString(1, comboBox1.getSelectedItem().toString());
             ps.setInt(2, id);
 
             int filasActualizadas = ps.executeUpdate();
@@ -129,6 +142,11 @@ public class CategoryGUI {
             JOptionPane.showMessageDialog(null, "ID invalid.");
         }
     }
+
+    /**
+     * Método principal para ejecutar la interfaz de gestión de categorías.
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("CRUD CATEGORY");
         frame.setContentPane(new CategoryGUI().main);

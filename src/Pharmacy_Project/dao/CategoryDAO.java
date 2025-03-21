@@ -1,6 +1,5 @@
 package Pharmacy_Project.dao;
 
-
 import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.model.Category;
 
@@ -9,9 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) para la gestión de categorías en la base de datos.
+ */
 public class CategoryDAO {
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Obtiene la lista de categorías desde la base de datos.
+     *
+     * @return una lista de objetos {@link Category} con las categorías registradas.
+     */
     public List<Category> obtenerCategoria() {
         List<Category> categoria = new ArrayList<>();
         String query = "SELECT * FROM categoria";
@@ -31,7 +38,12 @@ public class CategoryDAO {
         return categoria;
     }
 
-
+    /**
+     * Agrega una nueva categoría a la base de datos.
+     *
+     * @param categoria el objeto {@link Category} que representa la categoría a agregar.
+     * @return true si la categoría fue agregada exitosamente, false en caso contrario.
+     */
     public boolean agregarCategoria(Category categoria) {
         String query = "INSERT INTO categoria (nombre_categoria) VALUES (?)";
 
@@ -39,7 +51,6 @@ public class CategoryDAO {
              PreparedStatement pst = con.prepareStatement(query)) {
 
             pst.setString(1, categoria.getCategoria());
-
 
             int resultado = pst.executeUpdate();
             return resultado > 0;
@@ -49,6 +60,12 @@ public class CategoryDAO {
         }
     }
 
+    /**
+     * Elimina una categoría de la base de datos por su ID.
+     *
+     * @param id el identificador de la categoría a eliminar.
+     * @return true si la categoría fue eliminada exitosamente, false en caso contrario.
+     */
     public boolean eliminarCategoria(int id) {
         String query = "DELETE FROM categoria WHERE id_categoria = ?";
         try (Connection con = connectionDB.getConnection();
@@ -68,5 +85,4 @@ public class CategoryDAO {
             return false;
         }
     }
-
 }

@@ -9,16 +9,21 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase que representa la interfaz gráfica para la gestión de clientes.
+ */
 public class CustomerGUI {
     private JPanel main;
     private JButton agregarButton, eliminarButton, actualizarButton;
     private JTextField textField1, textField2, textField3, textField4, textField5;
-    private JComboBox<String> comboBoxCategoria;  // ComboBox para categoría
+    private JComboBox<String> comboBoxCategoria;
     private JTable Tabla;
     private CustomerDAO customerDAO = new CustomerDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
 
-
+    /**
+     * Constructor de la clase CustomerGUI. Inicializa la interfaz y carga los datos de los clientes.
+     */
     public CustomerGUI() {
         obtenerClientes();
 
@@ -47,11 +52,13 @@ public class CustomerGUI {
                     textField5.setText(Tabla.getValueAt(seleccion, 5).toString());
                     comboBoxCategoria.setSelectedItem(Tabla.getValueAt(seleccion, 6).toString());
                 }
-
             }
         });
     }
 
+    /**
+     * Obtiene los datos de los clientes desde la base de datos y los muestra en la tabla.
+     */
     public void obtenerClientes() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
@@ -85,7 +92,9 @@ public class CustomerGUI {
         }
     }
 
-
+    /**
+     * Agrega un nuevo cliente a la base de datos con los datos ingresados en la interfaz.
+     */
     private void agregarCliente() {
         String cedula = textField1.getText();
         String nombre = textField2.getText();
@@ -102,12 +111,15 @@ public class CustomerGUI {
         }
     }
 
+    /**
+     * Elimina el cliente seleccionado en la tabla de la base de datos.
+     */
     private void eliminarCliente() {
         try {
-            int selectedRow = Tabla.getSelectedRow(); //selectedrow para seleccionar en id del cliente
+            int selectedRow = Tabla.getSelectedRow();
             int id = Integer.parseInt(Tabla.getValueAt(selectedRow, 0).toString());
             if (customerDAO.eliminarCliente(id)) {
-
+                JOptionPane.showMessageDialog(main, "Customer successfully deleted.");
             } else {
                 JOptionPane.showMessageDialog(main, "Customer not found.");
             }
@@ -116,6 +128,9 @@ public class CustomerGUI {
         }
     }
 
+    /**
+     * Actualiza el cliente seleccionado con los nuevos valores ingresados en la interfaz.
+     */
     private void actualizarCliente() {
         int selectedRow = Tabla.getSelectedRow();
         if (selectedRow == -1) {
@@ -129,18 +144,18 @@ public class CustomerGUI {
 
             int id = Integer.parseInt(Tabla.getValueAt(selectedRow, 0).toString());
 
-            ps.setString(1, textField1.getText()); // Cedula
-            ps.setString(2, textField2.getText()); // Nombre
-            ps.setString(3, textField3.getText()); // Telefono
-            ps.setString(4, textField4.getText()); // Correo
-            ps.setString(5, textField5.getText()); // Dirección
-            ps.setString(6, comboBoxCategoria.getSelectedItem().toString()); // Categoria
+            ps.setString(1, textField1.getText());
+            ps.setString(2, textField2.getText());
+            ps.setString(3, textField3.getText());
+            ps.setString(4, textField4.getText());
+            ps.setString(5, textField5.getText());
+            ps.setString(6, comboBoxCategoria.getSelectedItem().toString());
             ps.setInt(7, id);
 
             int filasActualizadas = ps.executeUpdate();
 
             if (filasActualizadas > 0) {
-                JOptionPane.showMessageDialog(null, "Client successfully upgraded");
+                JOptionPane.showMessageDialog(null, "Client successfully updated");
                 obtenerClientes();
             } else {
                 JOptionPane.showMessageDialog(null, "Client not found for update");
@@ -153,7 +168,10 @@ public class CustomerGUI {
         }
     }
 
-
+    /**
+     * Método principal para ejecutar la interfaz de gestión de clientes.
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("CRUD CUSTOMERS");
         frame.setContentPane(new CustomerGUI().main);

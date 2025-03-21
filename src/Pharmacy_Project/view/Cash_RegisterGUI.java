@@ -10,6 +10,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
 
+/**
+ * Clase que representa la interfaz gráfica para la gestión de caja.
+ */
 public class Cash_RegisterGUI {
     private JComboBox comboBox1;
     private JTextField textField1;
@@ -22,7 +25,9 @@ public class Cash_RegisterGUI {
     private Cash_RegisterDAO cashRegisterDAO = new Cash_RegisterDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
 
-
+    /**
+     * Constructor de la clase Cash_RegisterGUI. Inicializa la interfaz y carga los datos de la caja.
+     */
     public Cash_RegisterGUI() {
         obtenerCaja();
 
@@ -46,12 +51,14 @@ public class Cash_RegisterGUI {
                 if (seleccion >= 0) {
                     comboBox1.setSelectedItem(table1.getValueAt(seleccion, 1).toString());
                     textField1.setText(table1.getValueAt(seleccion, 2).toString());
-
                 }
-
             }
         });
     }
+
+    /**
+     * Obtiene los datos de la caja desde la base de datos y los muestra en la tabla.
+     */
     public void obtenerCaja() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
@@ -70,7 +77,6 @@ public class Cash_RegisterGUI {
                 datos[0] = rs.getString(1);
                 datos[1] = rs.getString(2);
                 datos[2] = rs.getString(3);
-
                 modelo.addRow(datos);
             }
         } catch (SQLException e) {
@@ -78,7 +84,9 @@ public class Cash_RegisterGUI {
         }
     }
 
-
+    /**
+     * Agrega una nueva caja a la base de datos con los datos ingresados en la interfaz.
+     */
     private void agregarCaja() {
         String concepto = comboBox1.getSelectedItem().toString();
         int valor = Integer.parseInt(textField1.getText());
@@ -91,12 +99,15 @@ public class Cash_RegisterGUI {
         }
     }
 
+    /**
+     * Elimina la caja seleccionada en la tabla de la base de datos.
+     */
     private void eliminarCaja() {
         try {
             int selectedRow = table1.getSelectedRow();
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
             if (cashRegisterDAO.eliminarCaja(id)) {
-
+                JOptionPane.showMessageDialog(null, "Box successfully deleted.");
             } else {
                 JOptionPane.showMessageDialog(null, "The box was not found.");
             }
@@ -105,6 +116,9 @@ public class Cash_RegisterGUI {
         }
     }
 
+    /**
+     * Actualiza la caja seleccionada con los nuevos valores ingresados en la interfaz.
+     */
     private void actualizarCaja() {
         int selectedRow = table1.getSelectedRow();
         if (selectedRow == -1) {
@@ -117,11 +131,8 @@ public class Cash_RegisterGUI {
                      "UPDATE caja SET concepto=?, valor=? WHERE id_caja=?")) {
 
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
-
             ps.setString(1, comboBox1.getSelectedItem().toString());
-
             ps.setString(2, textField1.getText());
-
             ps.setInt(3, id);
 
             int filasActualizadas = ps.executeUpdate();
@@ -140,7 +151,10 @@ public class Cash_RegisterGUI {
         }
     }
 
-
+    /**
+     * Método principal para ejecutar la interfaz de gestión de caja.
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("CRUD CASH");
         frame.setContentPane(new Cash_RegisterGUI().main);

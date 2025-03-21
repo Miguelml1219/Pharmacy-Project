@@ -1,6 +1,5 @@
 package Pharmacy_Project.dao;
 
-
 import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.model.Cash_Register;
 
@@ -9,9 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) para la gestión de la caja en la base de datos.
+ */
 public class Cash_RegisterDAO {
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Obtiene la lista de registros de caja desde la base de datos.
+     *
+     * @return una lista de objetos {@link Cash_Register} con los registros de caja.
+     */
     public List<Cash_Register> obtenerCaja() {
         List<Cash_Register> cajas = new ArrayList<>();
         String query = "SELECT * FROM caja";
@@ -31,7 +38,12 @@ public class Cash_RegisterDAO {
         return cajas;
     }
 
-
+    /**
+     * Agrega un nuevo registro de caja a la base de datos.
+     *
+     * @param caja el objeto {@link Cash_Register} que representa el registro a agregar.
+     * @return true si el registro fue agregado exitosamente, false en caso contrario.
+     */
     public boolean agregarCaja(Cash_Register caja) {
         String query = "INSERT INTO caja (concepto, valor) VALUES (?, ?)";
 
@@ -41,7 +53,6 @@ public class Cash_RegisterDAO {
             pst.setString(1, caja.getConcepto());
             pst.setInt(2, caja.getValor());
 
-
             int resultado = pst.executeUpdate();
             return resultado > 0;
         } catch (SQLException e) {
@@ -50,6 +61,12 @@ public class Cash_RegisterDAO {
         }
     }
 
+    /**
+     * Elimina un registro de caja de la base de datos por su ID.
+     *
+     * @param id el identificador del registro a eliminar.
+     * @return true si el registro fue eliminado exitosamente, false en caso contrario.
+     */
     public boolean eliminarCaja(int id) {
         String query = "DELETE FROM caja WHERE id_caja = ?";
         try (Connection con = connectionDB.getConnection();
@@ -69,5 +86,4 @@ public class Cash_RegisterDAO {
             return false;
         }
     }
-
 }

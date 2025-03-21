@@ -13,23 +13,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Clase que representa la interfaz gráfica para la gestión de productos.
+ */
 public class ProductsGUI {
-    private JButton registrarButton;
-    private JButton actualizarButton;
-    private JButton eliminarButton;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JTextField textField5;
-    private JTextField textField6;
-    private JTextField textField7;
+    private JButton registrarButton, actualizarButton, eliminarButton;
+    private JTextField textField1, textField2, textField3, textField4, textField5, textField6, textField7;
     private JTable table1;
     private JPanel main;
-
     private ProductsDAO productosDAO = new ProductsDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Constructor de la clase ProductsGUI. Inicializa la interfaz y carga los datos de los productos.
+     */
     public ProductsGUI() {
         obtenerProductos();
 
@@ -53,19 +50,21 @@ public class ProductsGUI {
             public void mouseClicked(MouseEvent e) {
                 int seleccion = table1.getSelectedRow();
                 if (seleccion >= 0) {
-                    textField1.setText(table1.getValueAt(seleccion, 2).toString()); // Nombre
-                    textField2.setText(table1.getValueAt(seleccion, 3).toString()); // Descripción
-                    textField3.setText(table1.getValueAt(seleccion, 4).toString()); // Precio
-                    textField4.setText(table1.getValueAt(seleccion, 5).toString()); // Stock actual
-                    textField5.setText(table1.getValueAt(seleccion, 6).toString()); // Stock mínimo
-                    textField6.setText(table1.getValueAt(seleccion, 7).toString()); // Fecha de vencimiento
-                    textField7.setText(table1.getValueAt(seleccion, 8).toString()); // Lote
-
+                    textField1.setText(table1.getValueAt(seleccion, 2).toString());
+                    textField2.setText(table1.getValueAt(seleccion, 3).toString());
+                    textField3.setText(table1.getValueAt(seleccion, 4).toString());
+                    textField4.setText(table1.getValueAt(seleccion, 5).toString());
+                    textField5.setText(table1.getValueAt(seleccion, 6).toString());
+                    textField6.setText(table1.getValueAt(seleccion, 7).toString());
+                    textField7.setText(table1.getValueAt(seleccion, 8).toString());
                 }
             }
         });
     }
 
+    /**
+     * Obtiene los datos de los productos desde la base de datos y los muestra en la tabla.
+     */
     public void obtenerProductos() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
@@ -78,8 +77,6 @@ public class ProductsGUI {
         modelo.addColumn("Expiration Date ");
         modelo.addColumn("Lot");
 
-
-
         table1.setModel(modelo);
 
         try (Connection con = connectionDB.getConnection();
@@ -87,7 +84,7 @@ public class ProductsGUI {
              ResultSet rs = stmt.executeQuery("SELECT * FROM productos")) {
 
             while (rs.next()) {
-                String[] datos = new String[9]; // Crear nuevo array en cada iteración
+                String[] datos = new String[9];
                 datos[0] = rs.getString("id_producto");
                 datos[1] = rs.getString("id_categoria");
                 datos[2] = rs.getString("nombre");
@@ -97,15 +94,16 @@ public class ProductsGUI {
                 datos[6] = rs.getString("stock_minimo");
                 datos[7] = rs.getString("fecha_vencimiento");
                 datos[8] = rs.getString("lote");
-
                 modelo.addRow(datos);
             }
-
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error when loading products.");
         }
     }
 
+    /**
+     * Agrega un nuevo producto a la base de datos con los datos ingresados en la interfaz.
+     */
     private void agregarProducto() {
         try {
             String nombre = textField1.getText();
@@ -133,17 +131,18 @@ public class ProductsGUI {
             } else {
                 JOptionPane.showMessageDialog(null, "Error adding product.");
             }
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Date format error. Use Year/Month/Day.");
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Error in numerical format.");
+        } catch (ParseException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error in input format.");
         }
     }
 
+    /**
+     * Actualiza el producto seleccionado con los nuevos valores ingresados en la interfaz.
+     */
     private void actualizarProducto() {
         int selectedRow = table1.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Select a product to upgrade");
+            JOptionPane.showMessageDialog(null, "Select a product to update");
             return;
         }
 
@@ -157,43 +156,37 @@ public class ProductsGUI {
             ps.setInt(3, Integer.parseInt(textField3.getText()));
             ps.setInt(4, Integer.parseInt(textField4.getText()));
             ps.setInt(5, Integer.parseInt(textField5.getText()));
-
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaUtil = formato.parse(textField6.getText());
             ps.setDate(6, new java.sql.Date(fechaUtil.getTime()));
-
             ps.setString(7, textField7.getText());
             ps.setInt(8, id);
 
-            int filasActualizadas = ps.executeUpdate();
-
-            if (filasActualizadas > 0) {
-                JOptionPane.showMessageDialog(null, "Product successfully upgraded");
-                obtenerProductos();
-            } else {
-                JOptionPane.showMessageDialog(null, "Product not found for upgrade");
-            }
+            ps.executeUpdate();
+            obtenerProductos();
         } catch (SQLException | ParseException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error updating product.");
         }
     }
 
+    /**
+     * Elimina el producto seleccionado en la tabla de la base de datos.
+     */
     private void eliminarProducto() {
         try {
             int selectedRow = table1.getSelectedRow();
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
-            if (productosDAO.eliminarProducto(id)) {
-
-            } else {
-                JOptionPane.showMessageDialog(main, "The product was not found.");
-            }
+            productosDAO.eliminarProducto(id);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(main, "ID invalid.");
+            JOptionPane.showMessageDialog(null, "Invalid ID.");
         }
     }
-
+    /**
+     * Método principal para ejecutar la interfaz de gestión de clientes.
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
-        JFrame frame = new JFrame("CRUD PRODUCTS");
+        JFrame frame = new JFrame("CRUD CUSTOMERS");
         frame.setContentPane(new ProductsGUI().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
