@@ -1,13 +1,29 @@
 package Pharmacy_Project.view;
-
 import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.dao.CustomerDAO;
 import Pharmacy_Project.model.Customer;
-
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.DocumentException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Font;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.*;
+
 
 /**
  * Clase que representa la interfaz gráfica para la gestión de clientes.
@@ -18,6 +34,7 @@ public class CustomerGUI {
     private JTextField textField1, textField2, textField3, textField4, textField5;
     private JComboBox<String> comboBoxCategoria;
     private JTable Tabla;
+    private JButton generatePDFButton;
     private CustomerDAO customerDAO = new CustomerDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
 
@@ -52,6 +69,76 @@ public class CustomerGUI {
                     textField5.setText(Tabla.getValueAt(seleccion, 5).toString());
                     comboBoxCategoria.setSelectedItem(Tabla.getValueAt(seleccion, 6).toString());
                 }
+            }
+        });
+
+        /**
+         * Genera un archivo PDF con la lista de clientes registrados.
+         */
+        generatePDFButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Document documento = new Document();
+
+                try {
+                    String ruta = System.getProperty("user.home");
+                    PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/customers.pdf"));
+
+                    Image header = Image.getInstance("src/imagenes/img.png");
+                    header.scaleToFit(650, 1000);
+                    header.setAlignment(Chunk.ALIGN_CENTER);
+                    Paragraph parraro = new Paragraph();
+                    parraro.setAlignment(Paragraph.ALIGN_CENTER);
+                    parraro.add("Format created by Miguel, Santiago and Dreidy©. \n \n");
+                    parraro.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.GREEN));
+                    parraro.add("Registered Customers \n\n");
+                    documento.open();
+                    documento.add(header);
+                    documento.add(parraro);
+
+                    PdfPTable tabla = new PdfPTable(7);
+                    tabla.addCell("ID");
+                    tabla.addCell("Document");
+                    tabla.addCell("Name");
+                    tabla.addCell("Number");
+                    tabla.addCell("Email");
+                    tabla.addCell("Location");
+                    tabla.addCell("Category");
+
+
+                    try {
+                        Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/farmacia", "root", "");
+                        PreparedStatement pst = cn.prepareStatement("SELECT * FROM clientes");
+                        ResultSet rs = pst.executeQuery();
+
+                        if (rs.next()) {
+                            do {
+                                tabla.addCell(rs.getString(1));
+                                tabla.addCell(rs.getString(2));
+                                tabla.addCell(rs.getString(3));
+                                tabla.addCell(rs.getString(4));
+                                tabla.addCell(rs.getString(5));
+                                tabla.addCell(rs.getString(6));
+                                tabla.addCell(rs.getString(7));
+                            } while (rs.next());
+                        }
+
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Error connecting to the database: " + ex.getMessage());
+                    }
+
+                    documento.add(tabla);
+                    documento.close();
+                    JOptionPane.showMessageDialog(null, "PDF Successfully Generated.");
+
+                } catch (DocumentException | FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "Error generating PDF document: " + ex.getMessage());
+                } catch (MalformedURLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             }
         });
     }
