@@ -1,5 +1,8 @@
 package Pharmacy_Project.dao;
 
+import Pharmacy_Project.connection.ConnectionDB;
+import Pharmacy_Project.model.Customers;
+
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +12,7 @@ import java.util.List;
  * Clase de acceso a datos (DAO) para la gestión de clientes en la base de datos.
  */
 public class CustomersDAO {
-    private ConexionDB conexionDB = new ConexionDB();
+    private ConnectionDB connectionDB = new ConnectionDB();
 
     /**
      * Obtiene la lista de todos los clientes registrados en la base de datos.
@@ -20,7 +23,7 @@ public class CustomersDAO {
         List<Customers> clientes = new ArrayList<>();
         String query = "SELECT * FROM clientes";
 
-        try (Connection con = conexionDB.getconnection();
+        try (Connection con = connectionDB.getConnection();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
@@ -46,7 +49,7 @@ public class CustomersDAO {
     public boolean agregarCliente(Customers customers) {
         String query = "INSERT INTO clientes (cedula, nombre_completo, telefono, correo_electronico, direccion, categoria) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = conexionDB.getconnection();
+        try (Connection con = connectionDB.getConnection();
              PreparedStatement pst = con.prepareStatement(query)) {
 
             pst.setString(1, customers.getCedula());
@@ -72,7 +75,7 @@ public class CustomersDAO {
      */
     public boolean eliminarCliente(int id) {
         String query = "DELETE FROM clientes WHERE id_cliente = ?";
-        try (Connection con = conexionDB.getconnection();
+        try (Connection con = connectionDB.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, id);

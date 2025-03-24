@@ -1,4 +1,7 @@
 package Pharmacy_Project.view;
+import Pharmacy_Project.connection.ConnectionDB;
+import Pharmacy_Project.dao.CustomersDAO;
+import Pharmacy_Project.model.Customers;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -23,7 +26,7 @@ public class CustomersGUI {
     private JTable Tabla;
     private JButton generarPDFButton;
     private CustomersDAO customersDAO = new CustomersDAO();
-    private ConexionDB conexionDB = new ConexionDB();
+    private ConnectionDB connectionDB = new ConnectionDB();
 
 
     public CustomersGUI() {
@@ -149,7 +152,7 @@ public class CustomersGUI {
 
         Tabla.setModel(modelo);
         String[] datos = new String[7];
-        Connection con = conexionDB.getconnection();
+        Connection con = connectionDB.getConnection();
 
         try {
             Statement stmt = con.createStatement();
@@ -208,7 +211,7 @@ public class CustomersGUI {
             return;
         }
 
-        try (Connection con = conexionDB.getconnection();
+        try (Connection con = connectionDB.getConnection();
              PreparedStatement ps = con.prepareStatement(
                      "UPDATE clientes SET cedula=?, nombre_completo=?, telefono=?, correo_electronico=?, direccion=?, categoria=? WHERE id_cliente=?")) {
 
