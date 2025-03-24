@@ -104,7 +104,7 @@ public class ProductsGUI {
     /**
      * Agrega un nuevo producto a la base de datos con los datos ingresados en la interfaz.
      */
-    private void agregarProducto() {
+    public void agregarProducto() {
         try {
             String nombre = textField1.getText();
             String descripcion = textField2.getText();
@@ -139,7 +139,7 @@ public class ProductsGUI {
     /**
      * Actualiza el producto seleccionado con los nuevos valores ingresados en la interfaz.
      */
-    private void actualizarProducto() {
+    public void actualizarProducto() {
         int selectedRow = table1.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Select a product to update");
@@ -172,7 +172,7 @@ public class ProductsGUI {
     /**
      * Elimina el producto seleccionado en la tabla de la base de datos.
      */
-    private void eliminarProducto() {
+    public void eliminarProducto() {
         try {
             int selectedRow = table1.getSelectedRow();
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());

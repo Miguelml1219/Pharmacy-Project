@@ -174,7 +174,7 @@ public class CustomersGUI {
     }
 
 
-    private void agregarCliente() {
+    public void agregarCliente() {
         String cedula = textField1.getText();
         String nombre = textField2.getText();
         String telefono = textField3.getText();
@@ -190,7 +190,7 @@ public class CustomersGUI {
         }
     }
 
-    private void eliminarCliente() {
+    public void eliminarCliente() {
         try {
             int selectedRow = Tabla.getSelectedRow(); //selectedrow para seleccionar en id del cliente
             int id = Integer.parseInt(Tabla.getValueAt(selectedRow, 0).toString());
@@ -204,7 +204,7 @@ public class CustomersGUI {
         }
     }
 
-    private void actualizarCliente() {
+    public void actualizarCliente() {
         int selectedRow = Tabla.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Select a customer to update");

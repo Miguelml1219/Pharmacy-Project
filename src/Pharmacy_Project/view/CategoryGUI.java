@@ -81,7 +81,7 @@ public class CategoryGUI {
     /**
      * Agrega una nueva categoría a la base de datos con los datos ingresados en la interfaz.
      */
-    private void agregarCategoria() {
+    public void agregarCategoria() {
         String categoria = comboBox1.getSelectedItem().toString();
 
         Category ct = new Category(0, categoria);
@@ -95,7 +95,7 @@ public class CategoryGUI {
     /**
      * Elimina la categoría seleccionada en la tabla de la base de datos.
      */
-    private void eliminarCategoria() {
+    public void eliminarCategoria() {
         try {
             int selectedRow = table1.getSelectedRow();
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
@@ -112,7 +112,7 @@ public class CategoryGUI {
     /**
      * Actualiza la categoría seleccionada con los nuevos valores ingresados en la interfaz.
      */
-    private void actualizarCategoria() {
+    public void actualizarCategoria() {
         int selectedRow = table1.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Select a category to update");

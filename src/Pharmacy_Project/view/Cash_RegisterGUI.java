@@ -87,7 +87,7 @@ public class Cash_RegisterGUI {
     /**
      * Agrega una nueva caja a la base de datos con los datos ingresados en la interfaz.
      */
-    private void agregarCaja() {
+    public void agregarCaja() {
         String concepto = comboBox1.getSelectedItem().toString();
         int valor = Integer.parseInt(textField1.getText());
 
@@ -102,7 +102,7 @@ public class Cash_RegisterGUI {
     /**
      * Elimina la caja seleccionada en la tabla de la base de datos.
      */
-    private void eliminarCaja() {
+    public void eliminarCaja() {
         try {
             int selectedRow = table1.getSelectedRow();
             int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
@@ -119,7 +119,7 @@ public class Cash_RegisterGUI {
     /**
      * Actualiza la caja seleccionada con los nuevos valores ingresados en la interfaz.
      */
-    private void actualizarCaja() {
+    public void actualizarCaja() {
         int selectedRow = table1.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Select a box to update");
