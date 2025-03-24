@@ -17,7 +17,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
-
+/**
+ * Clase que representa la interfaz gráfica para la gestión de clientes.
+ */
 public class CustomersGUI {
     private JPanel main;
     private JButton agregarButton, eliminarButton, actualizarButton;
@@ -28,7 +30,9 @@ public class CustomersGUI {
     private CustomersDAO customersDAO = new CustomersDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
 
-
+    /**
+     * Constructor de la clase CustomersGUI. Inicializa la interfaz y carga los datos de los clientes.
+     */
     public CustomersGUI() {
         obtenerClientes();
 
@@ -60,6 +64,11 @@ public class CustomersGUI {
 
             }
         });
+
+        /**
+         * Agrega un ActionListener al botón generarPDFButton para generar un informe PDF
+         * con la lista de clientes registrados en la base de datos.
+         */
         generarPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,6 +149,10 @@ public class CustomersGUI {
         });
     }
 
+    /**
+     * Obtiene los datos de los clientes desde la base de datos y los muestra en la tabla.
+     */
+
     public void obtenerClientes() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
@@ -173,7 +186,9 @@ public class CustomersGUI {
         }
     }
 
-
+    /**
+     * Agrega un nuevo cliente a la base de datos con los datos ingresados en la interfaz.
+     */
     public void agregarCliente() {
         String cedula = textField1.getText();
         String nombre = textField2.getText();
@@ -190,6 +205,10 @@ public class CustomersGUI {
         }
     }
 
+    /**
+     * Elimina el cliente seleccionado en la tabla de la base de datos.
+     */
+
     public void eliminarCliente() {
         try {
             int selectedRow = Tabla.getSelectedRow(); //selectedrow para seleccionar en id del cliente
@@ -204,6 +223,9 @@ public class CustomersGUI {
         }
     }
 
+    /**
+     * Actualiza el cliente seleccionado con los nuevos valores ingresados en la interfaz.
+     */
     public void actualizarCliente() {
         int selectedRow = Tabla.getSelectedRow();
         if (selectedRow == -1) {
@@ -240,6 +262,11 @@ public class CustomersGUI {
             JOptionPane.showMessageDialog(null, "ID invalid.");
         }
     }
+
+    /**
+     * Método principal para ejecutar la interfaz de gestión de clientes.
+     * @param args Argumentos de línea de comandos.
+     */
 
 
     public static void main(String[] args) {
