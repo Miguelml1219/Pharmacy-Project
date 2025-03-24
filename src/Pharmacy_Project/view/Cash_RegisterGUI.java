@@ -49,7 +49,7 @@ public class Cash_RegisterGUI {
 
         table1.setModel(modelo);
 
-        String[] dato = new String[2];
+        String[] dato = new String[3];
         Connection con = connectionDB.getConnection();
 
         try {
@@ -81,7 +81,7 @@ public class Cash_RegisterGUI {
 
         frame = new JFrame("Data Base Pharmacy");
         frame.setContentPane(this.main);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
         frame.setVisible(true);
@@ -90,7 +90,7 @@ public class Cash_RegisterGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

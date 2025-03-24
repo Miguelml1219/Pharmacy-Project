@@ -6,7 +6,19 @@ import Pharmacy_Project.utils.EmailSender;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 
 public class CustomerDAO {
 
@@ -103,5 +115,99 @@ public class CustomerDAO {
 
         }
     }
+
+    public void enviarFacturaPorCorreo(String filePath, String customerName, String emailCliente) {
+        String remitente = "pharmacy1503@gmail.com";
+        String clave = "hxdn snye vvkg sayh";  // Usa una clave de aplicación de Gmail
+        String asunto = "Bill of your purchase";
+        //String cuerpo = "Attached you will find the invoice of your purchase, thank you for choosing us!";
+
+        String cuerpo = "<div style='font-family: Arial, sans-serif; color: #333; padding: 20px;'>"
+                + "<h1>Hello " + customerName + ",</h1>"
+                + "<p>Thank you for your purchase at <b>PharmaPlus</b>. Attached you will find your invoice.</p>"
+                + "<p>We appreciate your preference and look forward to serving you again!</p>"
+                + "<br>"
+                + "<img src='cid:logo' width='500' alt='Pharmacy Logo' style='border-radius: 10px;'>"
+                + "<p>Best regards,<br><b>PharmaPlus Team</b></p>";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(remitente, clave);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(remitente));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailCliente));
+            message.setSubject(asunto);
+
+            // 🔹 Parte del cuerpo en HTML
+            MimeBodyPart textPart = new MimeBodyPart();
+            textPart.setContent(cuerpo, "text/html");
+
+            MimeBodyPart imagePart = new MimeBodyPart();
+            String imagePath = "C:/Users/crist/IdeaProjects/Pharmacy-Project/src/Pharmacy_Project/utils/logo.png";
+            imagePart.attachFile(imagePath);
+            imagePart.setContentID("<logo>");
+            imagePart.setDisposition(MimeBodyPart.INLINE);
+
+
+            // Adjuntar archivo PDF
+            MimeBodyPart attachPart = new MimeBodyPart();
+            attachPart.attachFile(new File("Factura.pdf"));
+
+
+            // 🔹 Agrupar todas las partes en un solo mensaje
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(textPart);
+            multipart.addBodyPart(imagePart);
+            multipart.addBodyPart(attachPart);
+
+            message.setContent(multipart);
+
+            Transport.send(message);
+            JOptionPane.showMessageDialog(null, "Bill sent to: " + emailCliente);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error when sending the invoice.");
+        }
+    }
+
+    public String obtenerCorreo(String clienteSeleccionado) {
+        String email = null;
+
+        // Extraer el ID del cliente desde el formato "5 - Manuel"
+        String[] partes = clienteSeleccionado.split(" - ");
+        int idCliente = Integer.parseInt(partes[0]);
+
+        String sql = "SELECT correo_electronico FROM clientes WHERE id_cliente = ?";
+
+        try (Connection conn = connectionDB.getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, idCliente);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                email = rs.getString("correo_electronico");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return email;
+    }
+
+
 
 }

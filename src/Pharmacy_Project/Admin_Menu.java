@@ -1,5 +1,6 @@
 package Pharmacy_Project;
 
+import Pharmacy_Project.reports.ReportGUI;
 import Pharmacy_Project.view.*;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class Admin_Menu {
     private JButton tablesButton;
     private JButton inventoryButton;
     private JButton BackButton;
-    private JButton expensesButton;
+    private JButton ordersSentButton;
     private JButton reportButton;
     private JButton detailInventoryButton;
     private JButton amountProductsButton;
@@ -101,8 +102,8 @@ public class Admin_Menu {
         reportsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                //ReportGUI reportGUI = new ReportGUI(frame);
-//                reportGUI.runReport();
+                ReportGUI reportGUI = new ReportGUI(frame);
+                reportGUI.runReport();
             }
         });
 
@@ -111,6 +112,14 @@ public class Admin_Menu {
             public void actionPerformed(ActionEvent e) {
                 LowStock lowstock = new LowStock(frame);
                 lowstock.runLow();
+            }
+        });
+
+        ordersSentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SentGUI sentGUI = new SentGUI(frame);
+                sentGUI.runSent();
             }
         });
 
@@ -135,7 +144,7 @@ public class Admin_Menu {
 
         frame = new JFrame("Data Base Pharmacy");
         frame.setContentPane(this.main);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
         frame.setVisible(true);
@@ -144,7 +153,7 @@ public class Admin_Menu {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

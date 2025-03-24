@@ -166,7 +166,6 @@ public class Order_DetailDAO {
 
             if (rs.next()) {
                 int currentStock = rs.getInt("stock_actual");
-                int minimumStock = rs.getInt("stock_actual");
 
                 if (currentStock >= amountT) {
 

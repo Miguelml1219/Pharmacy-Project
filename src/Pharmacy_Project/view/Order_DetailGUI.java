@@ -1,15 +1,26 @@
 package Pharmacy_Project.view;
 
 import Pharmacy_Project.connection.ConnectionDB;
+import Pharmacy_Project.dao.CustomerDAO;
 import Pharmacy_Project.dao.OrderDAO;
 import Pharmacy_Project.dao.Order_DetailDAO;
+import Pharmacy_Project.dao.Financial_MovementsDAO;
+import Pharmacy_Project.model.Financial_Movements;
 import Pharmacy_Project.model.Order;
 import Pharmacy_Project.model.Order_Detail;
 import Pharmacy_Project.utils.QRGenerator;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.*;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,6 +51,8 @@ public class Order_DetailGUI {
     private JFrame frame;
     private JFrame parentFrame;
     private Order_DetailDAO order_detailDAO = new Order_DetailDAO();
+    private Financial_MovementsDAO financial_movementsDAO = new Financial_MovementsDAO();
+    private CustomerDAO customerDAO = new CustomerDAO();
     private OrderDAO orderDAO = new OrderDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
     private Map<String, Integer> customerMap = new HashMap<>();
@@ -339,6 +352,31 @@ public class Order_DetailGUI {
                     Order order = new Order(currentId, 0, fecha, total, metodo, "Sent");
                     orderDAO.upOrder(order);
 
+                    Financial_Movements financial_movements = new Financial_Movements(0,
+                            "Income","Sale",total,fecha,
+                            "Sale made - Pedido #" + currentId, metodo);
+
+                    financial_movementsDAO.add(financial_movements);
+
+                    JOptionPane.showMessageDialog(null, "Sale completed and financial movement registered");
+
+                    // Generar factura y obtener la ruta
+                    String filePath = generarFacturaPDF();
+
+                    if (filePath != null) {
+                        // Obtener el correo del cliente desde la base de datos
+                        String emailCliente = customerDAO.obtenerCorreo(comboBox2.getSelectedItem().toString());
+                        String customerName = comboBox2.getSelectedItem().toString();
+
+
+                        if (emailCliente != null && !emailCliente.isEmpty()) {
+                            customerDAO.enviarFacturaPorCorreo(filePath, customerName,emailCliente);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Email not found");
+                        }
+                    }
+
+                    generarFacturaPDF();
                     clearTable();
 
                     textField1.setText("");
@@ -366,13 +404,81 @@ public class Order_DetailGUI {
                     placeOrderButton.setEnabled(false);
 
                 }
-
-
-
-
-
             }
+
+            public String generarFacturaPDF() {
+                try {
+                    Document document = new Document();
+                    String filePath = "Factura.pdf";
+                    PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+                    document.open();
+
+                    // Cargar la imagen de fondo
+                    String imagePath = "src/Pharmacy_Project/utils/diseñofactura.png";
+                    Image background = Image.getInstance(imagePath);
+                    background.setAbsolutePosition(0, 0);
+                    background.scaleToFit(document.getPageSize().getWidth(), document.getPageSize().getHeight());
+
+                    // Agregar imagen de fondo al documento
+                    PdfContentByte canvas = writer.getDirectContentUnder();
+                    canvas.addImage(background);
+
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Bill of sale", new Font(Font.FontFamily.HELVETICA, 30, Font.BOLD)));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Order number: " + textField1.getText()));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Date: " + textField2.getText()));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Customer: " + comboBox2.getSelectedItem().toString()));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Category: " + textField3.getText()));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Method Payment: " + comboBox1.getSelectedItem().toString()));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+
+                    PdfPTable table = new PdfPTable(5);
+                    table.setWidthPercentage(100);
+                    table.setWidths(new float[]{3, 2, 1, 2, 2});
+                    table.addCell("Product");
+                    table.addCell("Presentation");
+                    table.addCell("Amount");
+                    table.addCell("Price");
+                    table.addCell("Subtotal");
+
+                    for (int i = 0; i < table1.getRowCount(); i++) {
+                        table.addCell(table1.getValueAt(i, 2).toString());
+                        table.addCell(table1.getValueAt(i, 3).toString());
+                        table.addCell(table1.getValueAt(i, 4).toString());
+                        table.addCell(table1.getValueAt(i, 5).toString());
+                        table.addCell(table1.getValueAt(i, 6).toString());
+                    }
+
+                    document.add(table);
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Total + IVA: " + textField6.getText()));
+                    document.close();
+
+                    JOptionPane.showMessageDialog(null, "Invoice generated and saved correctly: " + filePath);
+
+
+                    Desktop.getDesktop().open(new File(filePath));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return "";
+            }
+
+
         });
+
 
 
         comboBox1.addActionListener(e ->  {
@@ -397,6 +503,8 @@ public class Order_DetailGUI {
         });
 
     }
+
+
 
     public void updateCat(String cliente) {
         try {
@@ -597,7 +705,7 @@ public class Order_DetailGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     clearTable();

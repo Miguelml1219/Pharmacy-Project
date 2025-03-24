@@ -1,10 +1,7 @@
 package Pharmacy_Project.network.socket_server;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,6 +40,18 @@ public class Socket_ServerGUI {
                 }
                 JOptionPane.showMessageDialog(null, "You have left the chat.");
                 closeServer();
+            }
+        });
+
+        textField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if(e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    SendMessage();
+                    textField1.setText("");
+                }
             }
         });
 
@@ -126,6 +135,7 @@ public class Socket_ServerGUI {
         serverFrame.setSize(300, 300);
         serverFrame.setLocation(1000, 200);
         serverFrame.setVisible(true);
+
+
     }
 }
-

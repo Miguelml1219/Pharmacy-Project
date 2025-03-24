@@ -104,7 +104,4 @@ public class OrderDAO {
             JOptionPane.showMessageDialog(null,"Order not placed");        }
     }
 
-
-
-
 }

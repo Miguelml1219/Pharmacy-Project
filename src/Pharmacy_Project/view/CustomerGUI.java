@@ -2,6 +2,7 @@ package Pharmacy_Project.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.Statement;
 import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.dao.CustomerDAO;
 import Pharmacy_Project.model.Customer;
+import Pharmacy_Project.utils.BackGround;
 
 public class CustomerGUI {
     private JPanel main;
@@ -37,6 +39,33 @@ public class CustomerGUI {
 
     public CustomerGUI(JFrame parentFrame)
     {
+
+        Font headerFont = new Font("Marlett Non-latin", Font.BOLD, 14); // Fuente Arial, Negrita, Tamaño 14
+        JTableHeader tableHeader = table1.getTableHeader();
+        tableHeader.setFont(headerFont);
+
+        registerButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        updateButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        registerButton.setBackground(new Color(0, 200, 0)); // Verde base
+        registerButton.setForeground(Color.WHITE); // Texto en blanco
+        registerButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
+
+        updateButton.setBackground(new Color(211, 158, 0)); // Amarillo oscuro base
+        updateButton.setForeground(Color.WHITE); // Texto en blanco
+        updateButton.setBorder(BorderFactory.createLineBorder(new Color(153, 115, 0), 3)); // Borde amarillo más oscuro
+
+
+        deleteButton.setBackground(new Color(220, 53, 69)); // Rojo base
+        deleteButton.setForeground(Color.WHITE); // Texto en blanco
+        deleteButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
+
+        BackButton.setBackground(new Color(0, 123, 255)); // Azul base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
         textField1.setEditable(false);
         textField1.setVisible(false);
         showdata();
@@ -96,6 +125,18 @@ public class CustomerGUI {
             }
         });
 
+        registerButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                registerButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                registerButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
+            }
+        });
+
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,6 +174,18 @@ public class CustomerGUI {
             }
         });
 
+        updateButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                updateButton.setBackground(new Color(255, 193, 7)); // Amarillo más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                updateButton.setBackground(new Color(211, 158, 0)); // Restaurar color base
+            }
+        });
+
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,6 +207,19 @@ public class CustomerGUI {
             }
         });
 
+
+        deleteButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                deleteButton.setBackground(new Color(255, 102, 102)); // Rojo más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                deleteButton.setBackground(new Color(220, 53, 69)); // Restaurar color base
+            }
+        });
+
         BackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -163,6 +229,20 @@ public class CustomerGUI {
                 frame.dispose();
             }
         });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+            }
+        });
+
+
 
         table1.addMouseListener(new MouseAdapter() {
             @Override
@@ -253,7 +333,7 @@ public class CustomerGUI {
 
         frame = new JFrame("Data Base Pharmacy");
         frame.setContentPane(this.main);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
         frame.setVisible(true);
@@ -262,7 +342,7 @@ public class CustomerGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana
