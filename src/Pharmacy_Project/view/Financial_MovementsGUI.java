@@ -2,15 +2,28 @@ package Pharmacy_Project.view;
 
 import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.dao.Financial_MovementsDAO;
-import Pharmacy_Project.model.Category;
 import Pharmacy_Project.model.Financial_Movements;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.RowFilter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Financial_MovementsGUI {
 
@@ -30,8 +43,12 @@ public class Financial_MovementsGUI {
     private JComboBox comboBox4;
     private JTextField textField3;
     private JTextField textField4;
+    private JTextField search;
+    private JButton downloadPDFButton;
     private ConnectionDB connectionDB = new ConnectionDB();
     private Financial_MovementsDAO financial_movementsDAO = new Financial_MovementsDAO();
+    private TableRowSorter<DefaultTableModel> sorter;
+    private CustomerGUI.NonEditableTableModel modelo;
     int rows = 0;
 
     public Financial_MovementsGUI(JFrame parentFrame)
@@ -40,13 +57,16 @@ public class Financial_MovementsGUI {
         textField3.setEditable(false);
         comboBox1.setVisible(false);
         textField1.setVisible(false);
+
+        sorter = new TableRowSorter<>(modelo);
+        table1.setRowSorter(sorter);
+        showdata();
+
         this.parentFrame = parentFrame;
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         textField4.setText(now.format(formatter));
-
-        showdata();
 
         comboBox3.addItemListener(new ItemListener() {
             @Override
@@ -201,7 +221,121 @@ public class Financial_MovementsGUI {
                 }
             }
         });
+
+        downloadPDFButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generatePDF();
+            }
+        });
+
+        search.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String searchText = search.getText().trim().toLowerCase();
+
+                if (sorter != null) {
+                    // Filtro que busca en todas las columnas
+                    RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                        @Override
+                        public boolean include(Entry<? extends DefaultTableModel, ? extends Object> entry) {
+                            for (int i = 0; i < entry.getValueCount(); i++) {
+                                if (entry.getStringValue(i).toLowerCase().contains(searchText)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    };
+
+                    sorter.setRowFilter(filter);
+                }
+            }
+        });
     }
+
+
+    public void generatePDF(){
+        Document documento = new Document(PageSize.A4);
+
+        try {
+            String filePath = "Factura_Movimiento.pdf";
+            PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream(filePath));
+
+            documento.open();
+
+            String imagePath = "src/Pharmacy_Project/utils/plantilla.jpeg";
+            File imgFile = new File(imagePath);
+            if (!imgFile.exists()) {
+                JOptionPane.showMessageDialog(null, "Error: Background image not found.");
+                return;
+            }
+
+            Image background = Image.getInstance(imagePath);
+            background.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+            background.setAbsolutePosition(0, 0);
+
+            PdfContentByte canvas = writer.getDirectContentUnder();
+            canvas.addImage(background);
+
+
+            documento.add(new Paragraph("\n\n\n"));
+            documento.add(new Paragraph("\n\n\n"));
+
+            Paragraph titulo = new Paragraph("Registered Customers",
+                    FontFactory.getFont("Tahoma", 22, java.awt.Font.BOLD, BaseColor.BLUE));
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(titulo);
+            documento.add(new Paragraph("\n\n"));
+
+            PdfPTable tabla = new PdfPTable(7);
+            tabla.setWidthPercentage(100);
+            tabla.setSpacingBefore(10f);
+            tabla.setSpacingAfter(10f);
+
+            String[] headers = {"Id movement", "Type movement", "Category", "Amount", "Date", "Description", "Method payment"};
+            for (String header : headers) {
+                PdfPCell cell = new PdfPCell(new Phrase(header,
+                        FontFactory.getFont("Tahoma", 12, java.awt.Font.BOLD, BaseColor.WHITE)));
+                cell.setBackgroundColor(BaseColor.BLUE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tabla.addCell(cell);
+            }
+
+            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/farmacia", "root", "");
+                 PreparedStatement pst = cn.prepareStatement("SELECT * FROM movimientos_financieros");
+                 ResultSet rs = pst.executeQuery()) {
+
+                if (!rs.isBeforeFirst()) {
+                    JOptionPane.showMessageDialog(null, "No movements were found.");
+                } else {
+                    while (rs.next()) {
+                        for (int i = 1; i <= 7; i++) {
+                            tabla.addCell(rs.getString(i));
+                        }
+                    }
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error in the database: " + ex.getMessage());
+            }
+
+            documento.add(tabla);
+            documento.close();
+
+            JOptionPane.showMessageDialog(null, "PDF successfully generated.");
+
+            Desktop.getDesktop().open(new File(filePath));
+
+
+        } catch (DocumentException | IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error generating the PDF: " + ex.getMessage());
+        }
+
+    }
+
+
+
+
 
     public void updateComboBox3() {
         String selectedItem = (String) comboBox3.getSelectedItem();
@@ -260,6 +394,11 @@ public class Financial_MovementsGUI {
     }
 
     public void showdata() {
+
+        if (sorter != null) {
+            table1.setRowSorter(null);
+        }
+
         Financial_MovementsGUI.NonEditableTableModel modelo = new Financial_MovementsGUI.NonEditableTableModel();
 
         modelo.addColumn("Id_Movement");
@@ -289,6 +428,13 @@ public class Financial_MovementsGUI {
                 dato[6] = rs.getString(7);
 
                 modelo.addRow(dato);
+            }
+            sorter = new TableRowSorter<>(modelo);
+            table1.setRowSorter(sorter);
+
+            // Restablecer el filtro de búsqueda si hay texto
+            if (!search.getText().trim().isEmpty()) {
+                search.setText(search.getText());
             }
         } catch (SQLException e) {
             e.printStackTrace();

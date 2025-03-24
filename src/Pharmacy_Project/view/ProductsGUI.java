@@ -6,12 +6,16 @@ import Pharmacy_Project.model.Products;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.RowFilter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ProductsGUI {
     private JPanel main;
@@ -29,11 +33,15 @@ public class ProductsGUI {
     private JButton addButton;
     private JButton deleteButton;
     private JButton BackButton;
+    private JTextField search;
     private JFrame frame;
     private JFrame parentFrame;
     private ProductsDAO productsDAO = new ProductsDAO();
     private ConnectionDB connectionDB = new ConnectionDB();
     private Map<String, Integer> categoryMap = new HashMap<>();
+    private TableRowSorter<DefaultTableModel> sorter;
+    private CustomerGUI.NonEditableTableModel modeloa;
+
 
 
     int rows = 0;
@@ -42,7 +50,8 @@ public class ProductsGUI {
 
         textField1.setVisible(false);
         this.parentFrame = parentFrame;
-
+        sorter = new TableRowSorter<>(modeloa);
+        table1.setRowSorter(sorter);
         showdata();
         updateComboBox();
 
@@ -226,13 +235,39 @@ public class ProductsGUI {
 
             }
         });
+
+        search.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String searchText = search.getText().trim().toLowerCase();
+
+                if (sorter != null) {
+                    // Filtro que busca en todas las columnas
+                    RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                        @Override
+                        public boolean include(Entry<? extends DefaultTableModel, ? extends Object> entry) {
+                            for (int i = 0; i < entry.getValueCount(); i++) {
+                                if (entry.getStringValue(i).toLowerCase().contains(searchText)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    };
+
+                    sorter.setRowFilter(filter);
+                }
+            }
+        });
     }
 
     public void showdata()
     {
-        NonEditableTableModel modeloa = new NonEditableTableModel();
-        table1.setDefaultEditor(Object.class, null);
+        if (sorter != null) {
+            table1.setRowSorter(null);
+        }
 
+        NonEditableTableModel modeloa = new NonEditableTableModel();
 
         modeloa.addColumn("id_product");
         modeloa.addColumn("Category");
@@ -275,6 +310,14 @@ public class ProductsGUI {
                 dato[8] = rs.getString(9);
 
                 modeloa.addRow(dato);
+            }
+
+            sorter = new TableRowSorter<>(modeloa);
+            table1.setRowSorter(sorter);
+
+            // Restablecer el filtro de búsqueda si hay texto
+            if (!search.getText().trim().isEmpty()) {
+                search.setText(search.getText());
             }
         }
         catch (SQLException e)

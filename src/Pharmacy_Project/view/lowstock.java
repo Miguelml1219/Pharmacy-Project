@@ -1,7 +1,6 @@
 package Pharmacy_Project.view;
 
 import Pharmacy_Project.connection.ConnectionDB;
-import Pharmacy_Project.dao.ProductsDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,23 +12,30 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LowStock {
 
     private JPanel main;
     private JTable table1;
     private JButton BackButton;
+    private JTextField search;
 
     private JFrame frame;
     private JFrame parentFrame;
     private ConnectionDB connectionDB = new ConnectionDB();
+    private TableRowSorter<DefaultTableModel> sorter;
+    private CustomerGUI.NonEditableTableModel modelo;
 
 
     public LowStock(JFrame parentFrame)
     {
         this.parentFrame = parentFrame;
-
+        sorter = new TableRowSorter<>(modelo);
+        table1.setRowSorter(sorter);
         showdata();
 
         BackButton.addActionListener(new ActionListener() {
@@ -41,9 +47,38 @@ public class LowStock {
                 frame.dispose();
             }
         });
+
+        search.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String searchText = search.getText().trim().toLowerCase();
+
+                if (sorter != null) {
+                    // Filtro que busca en todas las columnas
+                    RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                        @Override
+                        public boolean include(Entry<? extends DefaultTableModel, ? extends Object> entry) {
+                            for (int i = 0; i < entry.getValueCount(); i++) {
+                                if (entry.getStringValue(i).toLowerCase().contains(searchText)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    };
+
+                    sorter.setRowFilter(filter);
+                }
+            }
+        });
     }
 
     public void showdata() {
+
+        if (sorter != null) {
+            table1.setRowSorter(null);
+        }
+
         LowStock.NonEditableTableModel modelo = new LowStock.NonEditableTableModel();
 
         modelo.addColumn("Product");
@@ -66,6 +101,15 @@ public class LowStock {
 
                 modelo.addRow(dato);
             }
+
+            sorter = new TableRowSorter<>(modelo);
+            table1.setRowSorter(sorter);
+
+            // Restablecer el filtro de búsqueda si hay texto
+            if (!search.getText().trim().isEmpty()) {
+                search.setText(search.getText());
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

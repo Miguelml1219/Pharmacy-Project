@@ -1,13 +1,19 @@
 package Pharmacy_Project.view;
 
 import Pharmacy_Project.connection.ConnectionDB;
+import Pharmacy_Project.dao.Financial_MovementsDAO;
 import Pharmacy_Project.dao.OrderDAO;
 import Pharmacy_Project.dao.Order_DetailDAO;
+import Pharmacy_Project.model.Financial_Movements;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.sql.*;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class SentGUI {
 
@@ -18,15 +24,20 @@ public class SentGUI {
     private JTable table1;
     private JButton BackButton;
     private JButton acceptButton;
-    private JTextField textField1;
+    private JTextField search;
     private ConnectionDB connectionDB= new ConnectionDB();
     private OrderDAO orderDAO = new OrderDAO();
     private Order_DetailDAO order_detailDAO = new Order_DetailDAO();
+    private TableRowSorter<DefaultTableModel> sorter;
+    private CustomerGUI.NonEditableTableModel modelo;
+    private Financial_MovementsDAO financial_movementsDAO= new Financial_MovementsDAO();
 
     int rows = 0;
 
     public SentGUI(JFrame parentFrame){
 
+        sorter = new TableRowSorter<>(modelo);
+        table1.setRowSorter(sorter);
         showdata();
         this.parentFrame = parentFrame;
 
@@ -57,9 +68,28 @@ public class SentGUI {
                     PreparedStatement pst = con.prepareStatement(query);
                     pst.setString(1, status);
                     pst.setInt(2, orderId);
-
                     int resultado = pst.executeUpdate();
+
                     if (resultado > 0) {
+                        if("Delivered".equalsIgnoreCase(status))
+                        {
+                            String totalQuery = "SELECT total_pedido, fecha_pedido FROM pedidos WHERE id_pedido = ?";
+                            PreparedStatement totalStmt = con.prepareStatement(totalQuery);
+                            totalStmt.setInt(1,orderId);
+                            ResultSet rs = totalStmt.executeQuery();
+
+                            if(rs.next())
+                            {
+                                int total = rs.getInt("total_pedido");
+                                Timestamp fecha = rs.getTimestamp("fecha_pedido");
+                                String metodo = table1.getValueAt(selectedRow,4).toString();
+
+                                Financial_Movements financial_movements = new Financial_Movements(0,
+                                        "Income","Sale",total,fecha,
+                                        "Sale made - Order #" + orderId, metodo);
+
+                                financial_movementsDAO.add(financial_movements);                            }
+                        }
                         JOptionPane.showMessageDialog(null, "Order updated successfully");
                     } else {
                         JOptionPane.showMessageDialog(null, "Order not update");
@@ -84,11 +114,53 @@ public class SentGUI {
             }
         });
 
+        search.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String searchText = search.getText().trim().toLowerCase();
+
+                if (sorter != null) {
+                    // Filtro que busca en todas las columnas
+                    RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                        @Override
+                        public boolean include(Entry<? extends DefaultTableModel, ? extends Object> entry) {
+                            for (int i = 0; i < entry.getValueCount(); i++) {
+                                if (entry.getStringValue(i).toLowerCase().contains(searchText)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    };
+
+                    sorter.setRowFilter(filter);
+                }
+            }
+        });
+
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount()==2 && table1.getSelectedRow()!= -1)
+                {
+                    int selectedRow = table1.getSelectedRow();
+                    int orderId = Integer.parseInt(table1.getValueAt(selectedRow,0).toString());
+
+                    DetailGUI detailGUI = new DetailGUI(frame,orderId);
+                    detailGUI.runDetail();
+                }
+            }
+        });
+
     }
 
 
     public void showdata()
     {
+        if (sorter != null) {
+            table1.setRowSorter(null);
+        }
+
         SentGUI.NonEditableTableModel modelo = new SentGUI.NonEditableTableModel();
 
         modelo.addColumn("Id_Order");
@@ -118,6 +190,14 @@ public class SentGUI {
                 dato[5] = rs.getString(6);
 
                 modelo.addRow(dato);
+            }
+
+            sorter = new TableRowSorter<>(modelo);
+            table1.setRowSorter(sorter);
+
+            // Restablecer el filtro de búsqueda si hay texto
+            if (!search.getText().trim().isEmpty()) {
+                search.setText(search.getText());
             }
         }
         catch (SQLException e)

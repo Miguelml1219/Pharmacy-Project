@@ -159,14 +159,15 @@ public class Order_DetailDAO {
 
         try {
 
-            String checkQuery = "SELECT stock_actual FROM productos WHERE id_producto = ?";
+            String checkQuery = "SELECT nombre, stock_actual, stock_minimo FROM productos WHERE id_producto = ?";
             PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
             checkStmt.setInt(1, idProducto);
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next()) {
+                String nameProduct = rs.getString("nombre");
                 int currentStock = rs.getInt("stock_actual");
-
+                int stockMinimo = rs.getInt("stock_minimo");
                 if (currentStock >= amountT) {
 
                     String updateQuery = "UPDATE productos SET stock_actual = stock_actual - ? WHERE id_producto = ?";
@@ -175,7 +176,16 @@ public class Order_DetailDAO {
                     updateStmt.setInt(2, idProducto);
                     updateStmt.executeUpdate();
 
+                    int nuevoStock = currentStock - amountT;
                     JOptionPane.showMessageDialog(null, "Stock updated correctly. " + amountT+ " units were discounted ");
+
+                    // Mostrar alerta si el stock está en su mínimo o menor
+                    if (nuevoStock <= stockMinimo) {
+                        JOptionPane.showMessageDialog(null,
+                                "Stock low for: " + nameProduct + " - Replenishment required!",
+                                "Stock Alert", JOptionPane.WARNING_MESSAGE);
+                    }
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Not enough stock. Current Stock: " + currentStock + ", Required: " + amountT);
                 }

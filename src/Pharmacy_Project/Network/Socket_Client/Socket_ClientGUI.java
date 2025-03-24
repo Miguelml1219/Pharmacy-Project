@@ -147,8 +147,10 @@ public class Socket_ClientGUI {
             clientFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    clientGUI.closeClient();
-                    clientFrame.dispose();
+                    JOptionPane.showMessageDialog(clientFrame,"You left the chat");
+
+//                    clientGUI.closeClient();
+//                    clientFrame.dispose();
                 }
             });
             clientFrame.pack();

@@ -59,7 +59,7 @@ public class Financial_MovementsDAO {
     public void update(Financial_Movements financial_movements){
         Connection con = connectionDB.getConnection();
 
-        String getPreviousQuery = "SELECT monto, metodo_pago FROM movimientos_financieros WHERE id_movimiento = ?";
+        String getPreviousQuery = "SELECT monto, metodo_pago, tipo_movimiento FROM movimientos_financieros WHERE id_movimiento = ?";
 
         try {
             PreparedStatement getPreviousStmt = con.prepareStatement(getPreviousQuery);

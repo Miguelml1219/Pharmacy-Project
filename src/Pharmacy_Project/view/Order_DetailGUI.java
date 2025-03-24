@@ -352,14 +352,6 @@ public class Order_DetailGUI {
                     Order order = new Order(currentId, 0, fecha, total, metodo, "Sent");
                     orderDAO.upOrder(order);
 
-                    Financial_Movements financial_movements = new Financial_Movements(0,
-                            "Income","Sale",total,fecha,
-                            "Sale made - Pedido #" + currentId, metodo);
-
-                    financial_movementsDAO.add(financial_movements);
-
-                    JOptionPane.showMessageDialog(null, "Sale completed and financial movement registered");
-
                     // Generar factura y obtener la ruta
                     String filePath = generarFacturaPDF();
 
