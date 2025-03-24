@@ -1,13 +1,9 @@
 package Pharmacy_Project.view;
-import Pharmacy_Project.connection.ConnectionDB;
-import Pharmacy_Project.dao.CustomerDAO;
-import Pharmacy_Project.model.Customer;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
+import com.itextpdf.text.pdf.PdfPTable;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -15,30 +11,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.sql.*;
 
-
-/**
- * Clase que representa la interfaz gráfica para la gestión de clientes.
- */
-public class CustomerGUI {
+public class CustomersGUI {
     private JPanel main;
     private JButton agregarButton, eliminarButton, actualizarButton;
     private JTextField textField1, textField2, textField3, textField4, textField5;
-    private JComboBox<String> comboBoxCategoria;
+    private JComboBox<String> comboBoxCategoria;  // ComboBox para categoría
     private JTable Tabla;
-    private JButton generatePDFButton;
-    private CustomerDAO customerDAO = new CustomerDAO();
-    private ConnectionDB connectionDB = new ConnectionDB();
+    private JButton generarPDFButton;
+    private CustomersDAO customersDAO = new CustomersDAO();
+    private ConexionDB conexionDB = new ConexionDB();
 
-    /**
-     * Constructor de la clase CustomerGUI. Inicializa la interfaz y carga los datos de los clientes.
-     */
-    public CustomerGUI() {
+
+    public CustomersGUI() {
         obtenerClientes();
 
         agregarButton.addActionListener(e -> {
@@ -66,13 +54,10 @@ public class CustomerGUI {
                     textField5.setText(Tabla.getValueAt(seleccion, 5).toString());
                     comboBoxCategoria.setSelectedItem(Tabla.getValueAt(seleccion, 6).toString());
                 }
+
             }
         });
-
-        /**
-         * Genera un archivo PDF con la lista de clientes registrados.
-         */
-        generatePDFButton.addActionListener(new ActionListener() {
+        generarPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Document documento = new Document(PageSize.A4);
@@ -86,7 +71,7 @@ public class CustomerGUI {
                     String imagePath = "src/imagenes/fondo.png";
                     File imgFile = new File(imagePath);
                     if (!imgFile.exists()) {
-                        JOptionPane.showMessageDialog(null, "Error: No se encontró la imagen de fondo.");
+                        JOptionPane.showMessageDialog(null, "Error: Background image not found.");
                         return;
                     }
 
@@ -97,7 +82,11 @@ public class CustomerGUI {
                     PdfContentByte canvas = writer.getDirectContentUnder();
                     canvas.addImage(background);
 
-                    Paragraph titulo = new Paragraph("Clientes Registrados",
+
+                    documento.add(new Paragraph("\n\n\n"));
+                    documento.add(new Paragraph("\n\n\n"));
+
+                    Paragraph titulo = new Paragraph("Registered Customers",
                             FontFactory.getFont("Tahoma", 22, Font.BOLD, BaseColor.BLUE));
                     titulo.setAlignment(Element.ALIGN_CENTER);
                     documento.add(titulo);
@@ -108,7 +97,7 @@ public class CustomerGUI {
                     tabla.setSpacingBefore(10f);
                     tabla.setSpacingAfter(10f);
 
-                    String[] headers = {"ID", "Documento", "Nombre", "Teléfono", "Correo", "Dirección", "Categoría"};
+                    String[] headers = {"ID", "Document", "Name", "Number", "Email", "Location", "Category"};
                     for (String header : headers) {
                         PdfPCell cell = new PdfPCell(new Phrase(header,
                                 FontFactory.getFont("Tahoma", 12, Font.BOLD, BaseColor.WHITE)));
@@ -122,7 +111,7 @@ public class CustomerGUI {
                          ResultSet rs = pst.executeQuery()) {
 
                         if (!rs.isBeforeFirst()) {
-                            JOptionPane.showMessageDialog(null, "No se encontraron clientes.");
+                            JOptionPane.showMessageDialog(null, "No clients were found.");
                         } else {
                             while (rs.next()) {
                                 for (int i = 1; i <= 7; i++) {
@@ -131,16 +120,16 @@ public class CustomerGUI {
                             }
                         }
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
+                        JOptionPane.showMessageDialog(null, "Error in the database: " + ex.getMessage());
                     }
 
                     documento.add(tabla);
                     documento.close();
 
-                    JOptionPane.showMessageDialog(null, "PDF generado correctamente en el escritorio.");
+                    JOptionPane.showMessageDialog(null, "PDF successfully generated on the desktop.");
 
                 } catch (DocumentException | IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Error al generar el PDF: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error generating the PDF: " + ex.getMessage());
                 }
 
             }
@@ -148,9 +137,6 @@ public class CustomerGUI {
         });
     }
 
-    /**
-     * Obtiene los datos de los clientes desde la base de datos y los muestra en la tabla.
-     */
     public void obtenerClientes() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
@@ -163,7 +149,7 @@ public class CustomerGUI {
 
         Tabla.setModel(modelo);
         String[] datos = new String[7];
-        Connection con = connectionDB.getConnection();
+        Connection con = conexionDB.getconnection();
 
         try {
             Statement stmt = con.createStatement();
@@ -184,9 +170,7 @@ public class CustomerGUI {
         }
     }
 
-    /**
-     * Agrega un nuevo cliente a la base de datos con los datos ingresados en la interfaz.
-     */
+
     private void agregarCliente() {
         String cedula = textField1.getText();
         String nombre = textField2.getText();
@@ -195,23 +179,20 @@ public class CustomerGUI {
         String direccion = textField5.getText();
         String categoria = comboBoxCategoria.getSelectedItem().toString();
 
-        Customer customer = new Customer(0, cedula, nombre, telefono, correo, direccion, categoria);
-        if (customerDAO.agregarCliente(customer)) {
+        Customers cliente = new Customers(0, cedula, nombre, telefono, correo, direccion, categoria);
+        if (customersDAO.agregarCliente(cliente)) {
             JOptionPane.showMessageDialog(main, "Customer successfully added.");
         } else {
             JOptionPane.showMessageDialog(main, "Error adding customer.");
         }
     }
 
-    /**
-     * Elimina el cliente seleccionado en la tabla de la base de datos.
-     */
     private void eliminarCliente() {
         try {
-            int selectedRow = Tabla.getSelectedRow();
+            int selectedRow = Tabla.getSelectedRow(); //selectedrow para seleccionar en id del cliente
             int id = Integer.parseInt(Tabla.getValueAt(selectedRow, 0).toString());
-            if (customerDAO.eliminarCliente(id)) {
-                JOptionPane.showMessageDialog(main, "Customer successfully deleted.");
+            if (customersDAO.eliminarCliente(id)) {
+
             } else {
                 JOptionPane.showMessageDialog(main, "Customer not found.");
             }
@@ -220,9 +201,6 @@ public class CustomerGUI {
         }
     }
 
-    /**
-     * Actualiza el cliente seleccionado con los nuevos valores ingresados en la interfaz.
-     */
     private void actualizarCliente() {
         int selectedRow = Tabla.getSelectedRow();
         if (selectedRow == -1) {
@@ -230,24 +208,24 @@ public class CustomerGUI {
             return;
         }
 
-        try (Connection con = connectionDB.getConnection();
+        try (Connection con = conexionDB.getconnection();
              PreparedStatement ps = con.prepareStatement(
                      "UPDATE clientes SET cedula=?, nombre_completo=?, telefono=?, correo_electronico=?, direccion=?, categoria=? WHERE id_cliente=?")) {
 
             int id = Integer.parseInt(Tabla.getValueAt(selectedRow, 0).toString());
 
-            ps.setString(1, textField1.getText());
-            ps.setString(2, textField2.getText());
-            ps.setString(3, textField3.getText());
-            ps.setString(4, textField4.getText());
-            ps.setString(5, textField5.getText());
-            ps.setString(6, comboBoxCategoria.getSelectedItem().toString());
+            ps.setString(1, textField1.getText()); // Cedula
+            ps.setString(2, textField2.getText()); // Nombre
+            ps.setString(3, textField3.getText()); // Telefono
+            ps.setString(4, textField4.getText()); // Correo
+            ps.setString(5, textField5.getText()); // Dirección
+            ps.setString(6, comboBoxCategoria.getSelectedItem().toString()); // Categoria
             ps.setInt(7, id);
 
             int filasActualizadas = ps.executeUpdate();
 
             if (filasActualizadas > 0) {
-                JOptionPane.showMessageDialog(null, "Client successfully updated");
+                JOptionPane.showMessageDialog(null, "Client successfully upgraded");
                 obtenerClientes();
             } else {
                 JOptionPane.showMessageDialog(null, "Client not found for update");
@@ -260,13 +238,10 @@ public class CustomerGUI {
         }
     }
 
-    /**
-     * Método principal para ejecutar la interfaz de gestión de clientes.
-     * @param args Argumentos de línea de comandos.
-     */
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("CRUD CUSTOMERS");
-        frame.setContentPane(new CustomerGUI().main);
+        frame.setContentPane(new CustomersGUI().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(600, 500);

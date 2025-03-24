@@ -1,34 +1,31 @@
 package Pharmacy_Project.dao;
 
-import Pharmacy_Project.connection.ConnectionDB;
-import Pharmacy_Project.model.Customer;
-
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data Access Object (DAO) para la gestión de clientes en la base de datos.
+ * Clase de acceso a datos (DAO) para la gestión de clientes en la base de datos.
  */
-public class CustomerDAO {
-    private ConnectionDB connectionDB = new ConnectionDB();
+public class CustomersDAO {
+    private ConexionDB conexionDB = new ConexionDB();
 
     /**
-     * Obtiene la lista de clientes desde la base de datos.
+     * Obtiene la lista de todos los clientes registrados en la base de datos.
      *
-     * @return una lista de objetos {@link Customer} con los clientes registrados.
+     * @return Lista de objetos {@link Customers} que representan a los clientes.
      */
-    public List<Customer> obtenerCliente() {
-        List<Customer> clientes = new ArrayList<>();
+    public List<Customers> obtenerCliente() {
+        List<Customers> clientes = new ArrayList<>();
         String query = "SELECT * FROM clientes";
 
-        try (Connection con = connectionDB.getConnection();
+        try (Connection con = conexionDB.getconnection();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                Customer cliente = new Customer(rs.getInt("id_cliente"),
+                Customers cliente = new Customers(rs.getInt("id_cliente"),
                         rs.getString("cedula"), rs.getString("nombre_completo"),
                         rs.getString("telefono"), rs.getString("correo_electronico"), rs.getString("direccion"),
                         rs.getString("categoria"));
@@ -43,21 +40,21 @@ public class CustomerDAO {
     /**
      * Agrega un nuevo cliente a la base de datos.
      *
-     * @param customer el objeto {@link Customer} que representa el cliente a agregar.
-     * @return true si el cliente fue agregado exitosamente, false en caso contrario.
+     * @param customers Objeto {@link Customers} que contiene los datos del cliente a agregar.
+     * @return {@code true} si el cliente se agregó con éxito, {@code false} en caso contrario.
      */
-    public boolean agregarCliente(Customer customer) {
+    public boolean agregarCliente(Customers customers) {
         String query = "INSERT INTO clientes (cedula, nombre_completo, telefono, correo_electronico, direccion, categoria) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = connectionDB.getConnection();
+        try (Connection con = conexionDB.getconnection();
              PreparedStatement pst = con.prepareStatement(query)) {
 
-            pst.setString(1, customer.getCedula());
-            pst.setString(2, customer.getNombre_completo());
-            pst.setString(3, customer.getTelefono());
-            pst.setString(4, customer.getCorreo_electronico());
-            pst.setString(5, customer.getDireccion());
-            pst.setString(6, customer.getCategoria());
+            pst.setString(1, customers.getCedula());
+            pst.setString(2, customers.getNombre_completo());
+            pst.setString(3, customers.getTelefono());
+            pst.setString(4, customers.getCorreo_electronico());
+            pst.setString(5, customers.getDireccion());
+            pst.setString(6, customers.getCategoria());
 
             int resultado = pst.executeUpdate();
             return resultado > 0;
@@ -68,14 +65,14 @@ public class CustomerDAO {
     }
 
     /**
-     * Elimina un cliente de la base de datos por su ID.
+     * Elimina un cliente de la base de datos según su ID.
      *
-     * @param id el identificador del cliente a eliminar.
-     * @return true si el cliente fue eliminado exitosamente, false en caso contrario.
+     * @param id Identificador único del cliente a eliminar.
+     * @return {@code true} si el cliente fue eliminado correctamente, {@code false} si no se encontró el cliente o hubo un error.
      */
     public boolean eliminarCliente(int id) {
         String query = "DELETE FROM clientes WHERE id_cliente = ?";
-        try (Connection con = connectionDB.getConnection();
+        try (Connection con = conexionDB.getconnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, id);
