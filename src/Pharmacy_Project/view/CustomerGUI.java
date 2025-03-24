@@ -2,24 +2,21 @@ package Pharmacy_Project.view;
 import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.dao.CustomerDAO;
 import Pharmacy_Project.model.Customer;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.DocumentException;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Font;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.*;
@@ -78,68 +75,76 @@ public class CustomerGUI {
         generatePDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Document documento = new Document();
+                Document documento = new Document(PageSize.A4);
 
                 try {
-                    String ruta = System.getProperty("user.home");
-                    PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/customers.pdf"));
+                    String ruta = System.getProperty("user.home") + "/Desktop/clientes.pdf";
+                    PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream(ruta));
 
-                    Image header = Image.getInstance("src/imagenes/img.png");
-                    header.scaleToFit(650, 1000);
-                    header.setAlignment(Chunk.ALIGN_CENTER);
-                    Paragraph parraro = new Paragraph();
-                    parraro.setAlignment(Paragraph.ALIGN_CENTER);
-                    parraro.add("Format created by Miguel, Santiago and Dreidy©. \n \n");
-                    parraro.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.GREEN));
-                    parraro.add("Registered Customers \n\n");
                     documento.open();
-                    documento.add(header);
-                    documento.add(parraro);
+
+                    String imagePath = "src/imagenes/fondo.png";
+                    File imgFile = new File(imagePath);
+                    if (!imgFile.exists()) {
+                        JOptionPane.showMessageDialog(null, "Error: No se encontró la imagen de fondo.");
+                        return;
+                    }
+
+                    Image background = Image.getInstance(imagePath);
+                    background.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+                    background.setAbsolutePosition(0, 0);
+
+                    PdfContentByte canvas = writer.getDirectContentUnder();
+                    canvas.addImage(background);
+
+                    Paragraph titulo = new Paragraph("Clientes Registrados",
+                            FontFactory.getFont("Tahoma", 22, Font.BOLD, BaseColor.BLUE));
+                    titulo.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(titulo);
+                    documento.add(new Paragraph("\n\n"));
 
                     PdfPTable tabla = new PdfPTable(7);
-                    tabla.addCell("ID");
-                    tabla.addCell("Document");
-                    tabla.addCell("Name");
-                    tabla.addCell("Number");
-                    tabla.addCell("Email");
-                    tabla.addCell("Location");
-                    tabla.addCell("Category");
+                    tabla.setWidthPercentage(100);
+                    tabla.setSpacingBefore(10f);
+                    tabla.setSpacingAfter(10f);
 
+                    String[] headers = {"ID", "Documento", "Nombre", "Teléfono", "Correo", "Dirección", "Categoría"};
+                    for (String header : headers) {
+                        PdfPCell cell = new PdfPCell(new Phrase(header,
+                                FontFactory.getFont("Tahoma", 12, Font.BOLD, BaseColor.WHITE)));
+                        cell.setBackgroundColor(BaseColor.BLUE);
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        tabla.addCell(cell);
+                    }
 
-                    try {
-                        Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/farmacia", "root", "");
-                        PreparedStatement pst = cn.prepareStatement("SELECT * FROM clientes");
-                        ResultSet rs = pst.executeQuery();
+                    try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/farmacia", "root", "");
+                         PreparedStatement pst = cn.prepareStatement("SELECT * FROM clientes");
+                         ResultSet rs = pst.executeQuery()) {
 
-                        if (rs.next()) {
-                            do {
-                                tabla.addCell(rs.getString(1));
-                                tabla.addCell(rs.getString(2));
-                                tabla.addCell(rs.getString(3));
-                                tabla.addCell(rs.getString(4));
-                                tabla.addCell(rs.getString(5));
-                                tabla.addCell(rs.getString(6));
-                                tabla.addCell(rs.getString(7));
-                            } while (rs.next());
+                        if (!rs.isBeforeFirst()) {
+                            JOptionPane.showMessageDialog(null, "No se encontraron clientes.");
+                        } else {
+                            while (rs.next()) {
+                                for (int i = 1; i <= 7; i++) {
+                                    tabla.addCell(rs.getString(i));
+                                }
+                            }
                         }
-
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Error connecting to the database: " + ex.getMessage());
+                        JOptionPane.showMessageDialog(null, "Error en la base de datos: " + ex.getMessage());
                     }
 
                     documento.add(tabla);
                     documento.close();
-                    JOptionPane.showMessageDialog(null, "PDF Successfully Generated.");
 
-                } catch (DocumentException | FileNotFoundException ex) {
-                    JOptionPane.showMessageDialog(null, "Error generating PDF document: " + ex.getMessage());
-                } catch (MalformedURLException ex) {
-                    throw new RuntimeException(ex);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "PDF generado correctamente en el escritorio.");
+
+                } catch (DocumentException | IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al generar el PDF: " + ex.getMessage());
                 }
 
             }
+
         });
     }
 
