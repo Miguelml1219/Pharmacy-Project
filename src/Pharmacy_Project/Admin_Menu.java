@@ -5,10 +5,7 @@ import Pharmacy_Project.view.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * Clase Admin_Menu representa la interfaz de administración del sistema.
@@ -34,6 +31,7 @@ public class Admin_Menu {
     private JButton detailInventoryButton;
     private JButton amountProductsButton;
     private JButton lowStockButton;
+    private JLabel tittle;
     private JFrame frame;
     private JFrame parentFrame;
 
@@ -47,11 +45,59 @@ public class Admin_Menu {
     {
         this.parentFrame = parentFrame;
 
-        // Configuración del tamaño del botón "Back"
-        Dimension backButtonSize = new Dimension(86, 23);
-        BackButton.setPreferredSize(backButtonSize);
-        BackButton.setMinimumSize(backButtonSize);
-        BackButton.setMaximumSize(backButtonSize);
+//        // Configuración del tamaño del botón "Back"
+//        Dimension backButtonSize = new Dimension(86, 23);
+//        BackButton.setPreferredSize(backButtonSize);
+//        BackButton.setMinimumSize(backButtonSize);
+//        BackButton.setMaximumSize(backButtonSize);
+
+
+        customersButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        financialMovementsButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        productsButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        categoryButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        cashRegisterButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        reportsButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        ordersSentButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        lowStockButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        customersButton.setBackground(new Color(41,171,226)); // Azul base
+        customersButton.setForeground(Color.WHITE); // Texto en blanco
+        customersButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        financialMovementsButton.setBackground(new Color(41,171,226)); // Azul base
+        financialMovementsButton.setForeground(Color.WHITE); // Texto en blanco
+        financialMovementsButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        productsButton.setBackground(new Color(41,171,226)); // Azul base
+        productsButton.setForeground(Color.WHITE); // Texto en blanco
+        productsButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        categoryButton.setBackground(new Color(41,171,226)); // Azul base
+        categoryButton.setForeground(Color.WHITE); // Texto en blanco
+        categoryButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        cashRegisterButton.setBackground(new Color(41,171,226)); // Azul base
+        cashRegisterButton.setForeground(Color.WHITE); // Texto en blanco
+        cashRegisterButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        reportsButton.setBackground(new Color(41,171,226)); // Azul base
+        reportsButton.setForeground(Color.WHITE); // Texto en blanco
+        reportsButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        ordersSentButton.setBackground(new Color(41,171,226)); // Azul base
+        ordersSentButton.setForeground(Color.WHITE); // Texto en blanco
+        ordersSentButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        lowStockButton.setBackground(new Color(41,171,226)); // Azul base
+        lowStockButton.setForeground(Color.WHITE); // Texto en blanco
+        lowStockButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+
+        BackButton.setBackground(new Color(255, 102, 102)); // Azul base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(139, 0, 0), 3)); // Borde azul oscuro
+
 
         // Acción para abrir la gestión de clientes
         customersButton.addActionListener(new ActionListener() {
@@ -59,6 +105,18 @@ public class Admin_Menu {
             public void actionPerformed(ActionEvent e) {
                 CustomerGUI customerGUI = new CustomerGUI(frame);
                 customerGUI.runCustomer();
+            }
+        });
+
+        customersButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                customersButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                customersButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -71,12 +129,36 @@ public class Admin_Menu {
             }
         });
 
+        productsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                productsButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                productsButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
         // Acción para abrir la caja registradora
         cashRegisterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Cash_RegisterGUI cash_registerGUI = new Cash_RegisterGUI(frame);
                 cash_registerGUI.runCash();
+            }
+        });
+
+        categoryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                categoryButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                categoryButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -89,12 +171,36 @@ public class Admin_Menu {
             }
         });
 
+        financialMovementsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                financialMovementsButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                financialMovementsButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
         // Acción para abrir la gestión de categorías
         categoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CategoryGUI categoryGUI = new CategoryGUI(frame);
                 categoryGUI.runCategory();
+            }
+        });
+
+        categoryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                categoryButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                categoryButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -107,11 +213,35 @@ public class Admin_Menu {
             }
         });
 
+        reportsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                reportsButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                reportsButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
         lowStockButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LowStock lowstock = new LowStock(frame);
                 lowstock.runLow();
+            }
+        });
+
+        lowStockButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lowStockButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lowStockButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -123,6 +253,18 @@ public class Admin_Menu {
             }
         });
 
+        ordersSentButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ordersSentButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ordersSentButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
         // Acción para regresar al menú principal
         BackButton.addActionListener(new ActionListener() {
             @Override
@@ -131,6 +273,18 @@ public class Admin_Menu {
                     parentFrame.setVisible(true);
                 }
                 frame.dispose();
+            }
+        });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(220, 53, 69)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(255, 102, 102)); // Restaurar color base
             }
         });
 

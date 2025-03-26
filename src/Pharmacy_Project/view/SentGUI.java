@@ -8,12 +8,18 @@ import Pharmacy_Project.model.Financial_Movements;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+/**
+ * Clase SentGUI gestiona la interfaz de usuario para actualizar el estado de los pedidos en la farmacia.
+ * Permite visualizar, buscar y actualizar los pedidos.
+ */
 
 public class SentGUI {
 
@@ -34,7 +40,23 @@ public class SentGUI {
 
     int rows = 0;
 
+    /**
+     * Constructor de la clase SentGUI.
+     * @param parentFrame Marco padre desde donde se abre esta ventana.
+     */
+
     public SentGUI(JFrame parentFrame){
+
+        acceptButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        acceptButton.setBackground(new Color(0, 200, 0)); // Verde base
+        acceptButton.setForeground(Color.WHITE); // Texto en blanco
+        acceptButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
 
         sorter = new TableRowSorter<>(modelo);
         table1.setRowSorter(sorter);
@@ -104,6 +126,18 @@ public class SentGUI {
             }
         });
 
+        acceptButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                acceptButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                acceptButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
+            }
+        });
+
         BackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,6 +145,18 @@ public class SentGUI {
                     parentFrame.setVisible(true);
                 }
                 frame.dispose();
+            }
+        });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -153,6 +199,10 @@ public class SentGUI {
         });
 
     }
+
+    /**
+     * Muestra los datos de los pedidos en la tabla.
+     */
 
 
     public void showdata()
@@ -206,12 +256,21 @@ public class SentGUI {
         }
     }
 
+    /**
+     * Clase para limpiar las filas de la tabla al iniciar la pantalla.
+     */
+
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     }
+
+
+    /**
+     * Inicia la ventana de gestión de pedidos enviados.
+     */
 
 
     public void runSent() {

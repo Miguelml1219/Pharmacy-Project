@@ -7,6 +7,7 @@ import Pharmacy_Project.model.Products;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.time.LocalDate;
@@ -16,6 +17,14 @@ import java.util.Map;
 import javax.swing.RowFilter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+
+
+/**
+ * Clase ProductsGUI gestiona la interfaz de usuario para agregar los productos de la farmacia.
+ * Permite visualizar, buscar y actualizar los productos.
+ */
+
 
 public class ProductsGUI {
     private JPanel main;
@@ -43,10 +52,36 @@ public class ProductsGUI {
     private CustomerGUI.NonEditableTableModel modeloa;
 
 
+    /**
+     * Constructor de la clase ProductsGUI.
+     * @param parentFrame Marco padre desde donde se abre esta ventana.
+     */
 
     int rows = 0;
 
     public ProductsGUI(JFrame parentFrame) {
+
+        addButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        updatedButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        addButton.setBackground(new Color(0, 200, 0)); // Verde base
+        addButton.setForeground(Color.WHITE); // Texto en blanco
+        addButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
+
+        updatedButton.setBackground(new Color(211, 158, 0)); // Amarillo oscuro base
+        updatedButton.setForeground(Color.WHITE); // Texto en blanco
+        updatedButton.setBorder(BorderFactory.createLineBorder(new Color(153, 115, 0), 3)); // Borde amarillo más oscuro
+
+
+        deleteButton.setBackground(new Color(220, 53, 69)); // Rojo base
+        deleteButton.setForeground(Color.WHITE); // Texto en blanco
+        deleteButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
 
         textField1.setVisible(false);
         this.parentFrame = parentFrame;
@@ -92,6 +127,15 @@ public class ProductsGUI {
                     try {
                         // Verificar si la fecha es válida
                         LocalDate fechaValidada = LocalDate.parse(fechaT);
+
+                        LocalDate fechaMinima = LocalDate.of(2026,3,1);
+
+                        if(fechaValidada.isBefore(fechaMinima))
+                        {
+                            JOptionPane.showMessageDialog(null, "The date must be from March 2026 onwards.");
+                            return;
+                        }
+
                         fecha_vencimiento = Date.valueOf(fechaValidada);
                     } catch (DateTimeParseException ex) {
                         JOptionPane.showMessageDialog(null, "Invalid date. Verify that the month and day are correct.");
@@ -126,6 +170,18 @@ public class ProductsGUI {
                     clear();
                     showdata();
                 }
+            }
+        });
+
+        addButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                addButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 
@@ -177,6 +233,18 @@ public class ProductsGUI {
             }
         });
 
+        updatedButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                updatedButton.setBackground(new Color(255, 193, 7)); // Amarillo más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                updatedButton.setBackground(new Color(211, 158, 0)); // Restaurar color base
+            }
+        });
+
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -200,6 +268,18 @@ public class ProductsGUI {
             }
         });
 
+        deleteButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                deleteButton.setBackground(new Color(255, 102, 102)); // Rojo más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                deleteButton.setBackground(new Color(220, 53, 69)); // Restaurar color base
+            }
+        });
+
         BackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -207,6 +287,18 @@ public class ProductsGUI {
                     parentFrame.setVisible(true);
                 }
                 frame.dispose();
+            }
+        });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -260,6 +352,10 @@ public class ProductsGUI {
             }
         });
     }
+
+    /**
+     * Muestra los datos de los pedidos en la tabla.
+     */
 
     public void showdata()
     {
@@ -319,12 +415,18 @@ public class ProductsGUI {
             if (!search.getText().trim().isEmpty()) {
                 search.setText(search.getText());
             }
+
         }
         catch (SQLException e)
         {
             e.printStackTrace();
         }
+
     }
+
+    /**
+     * Clase para limpiar las filas de la tabla al iniciar la pantalla.
+     */
 
 
     public class NonEditableTableModel extends DefaultTableModel {
@@ -333,6 +435,10 @@ public class ProductsGUI {
             return false;
         }
     }
+
+    /**
+     * Clase para limpiar campos.
+     */
 
     public void clear()
     {
@@ -345,6 +451,11 @@ public class ProductsGUI {
         textField7.setText("");
         textField8.setText("");
     }
+
+    /**
+     * Clase para actualizar la categoria de los productos.
+     */
+
 
     public void updateComboBox() {
         // Limpiar todos los mapas
@@ -364,6 +475,11 @@ public class ProductsGUI {
             JOptionPane.showMessageDialog(null, "Error updating data in the ComboBox", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Inicia la ventana de gestión de productos.
+     */
+
 
 
     public void runProducts() {

@@ -8,8 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase ReportDAO que gestiona las consultas relacionadas con los reportes de ventas y clientes.
+ */
+
 public class  ReportDAO {
     private ConnectionDB connectionDB = new ConnectionDB();
+
+    /**
+     * Consulta las ventas diarias agrupadas por fecha.
+     * @return ResultSet con la fecha y el total de ventas diarias.
+     */
 
     public ResultSet sqldiary() {
         Connection con = connectionDB.getConnection();
@@ -27,6 +36,11 @@ public class  ReportDAO {
             return null;
         }
     }
+
+    /**
+     * Consulta las ventas semanales agrupadas por semana.
+     * @return ResultSet con la semana, el rango de fechas y el total de ventas semanales.
+     */
 
     public ResultSet sqlWeekly() {
         Connection con = connectionDB.getConnection();
@@ -49,6 +63,12 @@ public class  ReportDAO {
         }
     }
 
+
+    /**
+     * Consulta las ventas mensuales agrupadas por año y mes.
+     * @return ResultSet con el año, el mes y el total de ventas mensuales.
+     */
+
     public ResultSet sqlMonthly() {
         Connection con = connectionDB.getConnection();
         String query = "SELECT " +
@@ -68,6 +88,11 @@ public class  ReportDAO {
             return null;
         }
     }
+
+    /**
+     * Consulta los productos más vendidos.
+     * @return ResultSet con el nombre del producto, la cantidad vendida y el total en ventas.
+     */
 
     public ResultSet sqlBestSellers() {
         Connection con = connectionDB.getConnection();
@@ -89,6 +114,12 @@ public class  ReportDAO {
             return null;
         }
     }
+
+
+    /**
+     * Consulta los clientes con mayor cantidad de compras.
+     * @return ResultSet con el ID del cliente, nombre, número de órdenes y total gastado.
+     */
 
     public ResultSet sqlTopCustomers() {
         Connection con = connectionDB.getConnection();

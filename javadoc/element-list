@@ -1,0 +1,10 @@
+unnamed package
+Pharmacy_Project
+Pharmacy_Project.connection
+Pharmacy_Project.dao
+Pharmacy_Project.model
+Pharmacy_Project.network.socket_client
+Pharmacy_Project.network.socket_server
+Pharmacy_Project.reports
+Pharmacy_Project.utils
+Pharmacy_Project.view

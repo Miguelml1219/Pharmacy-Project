@@ -3,7 +3,7 @@ package Pharmacy_Project;
 import Pharmacy_Project.network.socket_server.Socket_ServerGUI;
 import Pharmacy_Project.network.socket_client.Socket_ClientGUI;
 import Pharmacy_Project.view.Order_DetailGUI;
-import Pharmacy_Project.utils.BackGround;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -38,10 +38,10 @@ public class Main_Menu {
         main.setLayout(new GridBagLayout()); // Centrar los botones
         tittle.setFont(new Font("Marlett Non-latin", Font.BOLD | Font.ITALIC, 120)); // Fuente Serif con Bold Italic y 72pt
         tittle.setBorder(BorderFactory.createEmptyBorder(30, 10, 110, 10)); // Espacio superior
+        tittle.setText("<html><span style='color:rgb(140,198,63);'>Pharma</span>"
+                + "<span style='color:rgb(41,171,226);'>Plus</span></html>");
 
-
-
-        Dimension buttonSize = new Dimension(500, 30); // Ancho: 200px, Alto: 40px
+        Dimension buttonSize = new Dimension(500, 55); // Ancho: 200px, Alto: 40px
         adminMenuButton.setPreferredSize(buttonSize);
         placeOrderButton.setPreferredSize(buttonSize);
         chatButton.setPreferredSize(buttonSize);
@@ -52,19 +52,20 @@ public class Main_Menu {
         chatButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
         exitButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
 
-        adminMenuButton.setBackground(new Color(0, 123, 255)); // Azul base
+        adminMenuButton.setBackground(new Color(41,171,226)); // Azul base
         adminMenuButton.setForeground(Color.WHITE); // Texto en blanco
-        adminMenuButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+        adminMenuButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3, true)); // Borde azul oscuro
 
-        placeOrderButton.setBackground(new Color(0, 123, 255)); // Azul base
+
+        placeOrderButton.setBackground(new Color(41,171,226)); // Azul base
         placeOrderButton.setForeground(Color.WHITE); // Texto en blanco
         placeOrderButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
 
-        chatButton.setBackground(new Color(0, 123, 255)); // Azul base
+        chatButton.setBackground(new Color(41,171,226)); // Azul base
         chatButton.setForeground(Color.WHITE); // Texto en blanco
         chatButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
 
-        exitButton.setBackground(new Color(0, 123, 255)); // Azul base
+        exitButton.setBackground(new Color(41,171,226)); // Azul base
         exitButton.setForeground(Color.WHITE); // Texto en blanco
         exitButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
 
@@ -82,11 +83,13 @@ public class Main_Menu {
         adminMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Admin_Menu admin_menu = new Admin_Menu(frame);
                 admin_menu.runAdmin();
                 frame.setVisible(false);
             }
         });
+
         placeOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,50 +143,52 @@ public class Main_Menu {
         adminMenuButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                adminMenuButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                adminMenuButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                adminMenuButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                adminMenuButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
         placeOrderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                placeOrderButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                placeOrderButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                placeOrderButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                placeOrderButton.setBackground(new Color(41,171,226)); // Restaurar color base
+                //placeOrderButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
             }
         });
 
         chatButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                chatButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                chatButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                chatButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                chatButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
         exitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                exitButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                exitButton.setBackground(new Color(0, 123, 255)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                exitButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                exitButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
+
     }
 
     /**

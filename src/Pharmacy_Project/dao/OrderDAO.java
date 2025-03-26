@@ -8,11 +8,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
+/**
+ * Clase OrderDAO para gestionar operaciones CRUD en la tabla pedidos.
+ */
+
 public class OrderDAO {
 
     private ConnectionDB connectionDB = new ConnectionDB();
     private Order_DetailDAO order_detailDAO = new Order_DetailDAO();
 
+    /**
+     * Agrega un nuevo pedido a la base de datos.
+     * @param order Objeto Order con los datos del pedido.
+     */
     public void addOrder(Order order)
     {
         Connection con = connectionDB.getConnection();
@@ -46,6 +55,10 @@ public class OrderDAO {
         }
 
     }
+    /**
+     * Elimina un pedido de la base de datos por su ID.
+     * @param id Identificador del pedido a eliminar.
+     */
 
     public void delete(int id)
     {
@@ -73,6 +86,11 @@ public class OrderDAO {
 
         }
     }
+
+    /**
+     * Actualiza un pedido en la base de datos.
+     * @param order Objeto Order con los datos actualizados del pedido.
+     */
 
     public void upOrder(Order order)
     {

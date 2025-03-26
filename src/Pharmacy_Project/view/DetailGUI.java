@@ -9,6 +9,11 @@ import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase DetailGUI que representa la interfaz gráfica para la visualización de detalles de pedidos.
+ * Permite mostrar los productos asociados a una orden específica.
+ */
+
 public class DetailGUI {
 
     private JPanel main;
@@ -23,6 +28,12 @@ public class DetailGUI {
     private TableRowSorter<DefaultTableModel> sorter;
     private CustomerGUI.NonEditableTableModel modelo;
 
+    /**
+     * Constructor de la clase DetailGUI.
+     * Inicializa la ventana de detalles de un pedido y muestra los datos.
+     * @param parentFrame Marco padre desde donde se abre esta ventana.
+     * @param orderId ID del pedido cuyos detalles se desean visualizar.
+     */
 
     public DetailGUI(JFrame parentFrame, int orderId)
     {
@@ -41,6 +52,11 @@ public class DetailGUI {
         });
 
     }
+
+    /**
+     * Muestra los datos de los detalles de un pedido en la tabla.
+     * @param orderId ID del pedido cuyos detalles se desean visualizar.
+     */
 
     public void showdata(int orderId)
     {
@@ -97,12 +113,20 @@ public class DetailGUI {
         }
     }
 
+    /**
+     * Clase para definir un modelo de tabla no editable.
+     */
+
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     }
+
+    /**
+     * Ejecuta la ventana de detalles del pedido.
+     */
 
     public void runDetail() {
 

@@ -4,14 +4,18 @@ import Pharmacy_Project.connection.ConnectionDB;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+
+/**
+ * Clase que representa la interfaz de usuario para la caja registradora en la farmacia.
+ * Permite visualizar los datos de la tabla "caja" en la base de datos.
+ */
 
 public class Cash_RegisterGUI {
 
@@ -22,11 +26,21 @@ public class Cash_RegisterGUI {
     private JButton BackButton;
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Constructor de la interfaz de la caja registradora.
+     * @param parentFrame La ventana principal desde donde se abre esta interfaz.
+     */
+
     public Cash_RegisterGUI(JFrame parentFrame)
     {
         this.parentFrame = parentFrame;
         showdata();
 
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
 
         BackButton.addActionListener(new ActionListener() {
             @Override
@@ -38,7 +52,24 @@ public class Cash_RegisterGUI {
             }
         });
 
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
     }
+
+    /**
+     * Método que obtiene y muestra los datos de la tabla "caja" en la base de datos.
+     */
 
     public void showdata() {
         Cash_RegisterGUI.NonEditableTableModel modelo = new Cash_RegisterGUI.NonEditableTableModel();
@@ -68,6 +99,9 @@ public class Cash_RegisterGUI {
         }
     }
 
+    /**
+     * Clase interna para un modelo de tabla no editable.
+     */
 
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
@@ -76,6 +110,9 @@ public class Cash_RegisterGUI {
         }
     }
 
+    /**
+     * Método que inicializa y muestra la ventana de la caja registradora.
+     */
 
     public void runCash() {
 

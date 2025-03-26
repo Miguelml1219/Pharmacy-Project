@@ -33,6 +33,10 @@ import javax.swing.RowFilter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Clase CustomerGUI que representa la interfaz gráfica para la gestión de clientes.
+ * Permite registrar, actualizar, eliminar y buscar clientes en la base de datos.
+ */
 
 public class CustomerGUI {
     private JPanel main;
@@ -61,16 +65,23 @@ public class CustomerGUI {
     int rows = 0;
 
 
+    /**
+     * Constructor de la clase CustomerGUI.
+     * Configura la interfaz gráfica y los eventos de los botones.
+     * @param parentFrame Marco padre desde donde se abre esta ventana.
+     */
+
     public CustomerGUI(JFrame parentFrame) {
 
 //        Font headerFont = new Font("Marlett Non-latin", Font.BOLD, 14); // Fuente Arial, Negrita, Tamaño 14
 //        JTableHeader tableHeader = table1.getTableHeader();
 //        tableHeader.setFont(headerFont);
 //
-//        registerButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
-//        updateButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
-//        deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
-//        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        registerButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        updateButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        downloadPDFButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
 
         registerButton.setBackground(new Color(0, 200, 0)); // Verde base
         registerButton.setForeground(Color.WHITE); // Texto en blanco
@@ -85,9 +96,13 @@ public class CustomerGUI {
         deleteButton.setForeground(Color.WHITE); // Texto en blanco
         deleteButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
 
-        BackButton.setBackground(new Color(0, 123, 255)); // Azul base
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
         BackButton.setForeground(Color.WHITE); // Texto en blanco
-        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        downloadPDFButton.setBackground(new Color(255, 102, 102)); // Azul base
+        downloadPDFButton.setForeground(Color.WHITE); // Texto en blanco
+        downloadPDFButton.setBorder(BorderFactory.createLineBorder(new Color(139, 0, 0), 3)); // Borde azul oscuro
 
         textField1.setEditable(false);
         textField1.setVisible(false);
@@ -102,6 +117,9 @@ public class CustomerGUI {
         BackButton.setPreferredSize(backButtonSize);
         BackButton.setMinimumSize(backButtonSize);
         BackButton.setMaximumSize(backButtonSize);
+
+
+        //Registra un nuevo cliente en la base de datos.
 
         registerButton.addActionListener(new ActionListener() {
             @Override
@@ -163,6 +181,8 @@ public class CustomerGUI {
             }
         });
 
+        //Actualiza un nuevo cliente en la base de datos.
+
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -212,6 +232,8 @@ public class CustomerGUI {
             }
         });
 
+        // Elimina un cliente seleccionado de la base de datos.
+
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -259,12 +281,12 @@ public class CustomerGUI {
         BackButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                BackButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                BackButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -300,6 +322,18 @@ public class CustomerGUI {
 
         });
 
+        downloadPDFButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(220, 53, 69)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(255, 102, 102)); // Restaurar color base
+            }
+        });
+
 
         search.addKeyListener(new KeyAdapter() {
             @Override
@@ -326,6 +360,11 @@ public class CustomerGUI {
         });
 
     }
+
+    /**
+     * Método para generar PDF de registro de clientes.
+     */
+
 
     public void generatePDF(){
         Document documento = new Document(PageSize.A4);
@@ -405,6 +444,10 @@ public class CustomerGUI {
 
     }
 
+    /**
+     * Muestra los datos de los clientes en la tabla.
+     */
+
 
     public void showdata()
     {
@@ -461,6 +504,10 @@ public class CustomerGUI {
         }
     }
 
+    /**
+     * Clase para definir un modelo de tabla no editable.
+     */
+
 
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
@@ -468,6 +515,10 @@ public class CustomerGUI {
             return false;
         }
     }
+
+    /**
+     * Clase para limpiar campos.
+     */
 
 
     public void clear()
@@ -479,6 +530,10 @@ public class CustomerGUI {
         textField5.setText("");
         textField6.setText("");
     }
+
+    /**
+     * Método para inicializar y mostrar la ventana de gestión de clientes.
+     */
 
     public void runCustomer() {
 

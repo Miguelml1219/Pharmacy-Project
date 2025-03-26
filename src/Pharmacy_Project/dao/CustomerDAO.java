@@ -20,11 +20,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+
+/**
+ * Clase DAO para gestionar operaciones CRUD sobre la entidad Cliente en la base de datos.
+ */
+
 public class CustomerDAO {
 
     private ConnectionDB connectionDB = new ConnectionDB();
 
-
+    /**
+     * Agrega un nuevo cliente a la base de datos.
+     * @param customer Objeto Customer con la información del cliente.
+     */
     public void add(Customer customer)
     {
         Connection con = connectionDB.getConnection();
@@ -59,6 +67,11 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * Actualiza la información de un cliente existente en la base de datos.
+     * @param customer Objeto Customer con los nuevos datos del cliente.
+     */
+
     public void update(Customer customer){
         Connection con = connectionDB.getConnection();
 
@@ -88,6 +101,10 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * Elimina un cliente de la base de datos según su ID.
+     * @param id ID del cliente a eliminar.
+     */
 
     public void delete(int id)
     {
@@ -115,6 +132,13 @@ public class CustomerDAO {
 
         }
     }
+
+    /**
+     * Envía una factura en formato PDF al correo del cliente.
+     * @param filePath Ruta del archivo PDF de la factura.
+     * @param customerName Nombre del cliente.
+     * @param emailCliente Correo electrónico del cliente.
+     */
 
     public void enviarFacturaPorCorreo(String filePath, String customerName, String emailCliente) {
         String remitente = "pharmacy1503@gmail.com";
@@ -181,6 +205,12 @@ public class CustomerDAO {
             JOptionPane.showMessageDialog(null, "Error when sending the invoice.");
         }
     }
+
+    /**
+     * Obtiene el correo electrónico de un cliente según su selección.
+     * @param clienteSeleccionado Nombre del cliente en formato "ID - Nombre".
+     * @return Correo electrónico del cliente.
+     */
 
     public String obtenerCorreo(String clienteSeleccionado) {
         String email = null;

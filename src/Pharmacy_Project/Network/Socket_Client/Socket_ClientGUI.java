@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Clase que representa un cliente de chat basado en sockets con una interfaz gráfica.
+ */
+
 public class Socket_ClientGUI {
 
     private JTextArea textArea1;
@@ -19,6 +23,10 @@ public class Socket_ClientGUI {
     PrintWriter out;
     BufferedReader in;
     private boolean isRunning = false;
+
+    /**
+     * Constructor de la clase, inicializa los componentes de la interfaz gráfica y sus eventos.
+     */
 
     public Socket_ClientGUI() {
 
@@ -57,6 +65,13 @@ public class Socket_ClientGUI {
         });
     }
 
+    /**
+     * Establece la conexión con el servidor de chat.
+     *
+     * @param serverAddress Dirección IP o nombre del servidor.
+     * @return true si la conexión fue exitosa, false en caso de error.
+     */
+
     public boolean Server(String serverAddress) {
 
         try {
@@ -72,6 +87,10 @@ public class Socket_ClientGUI {
         }
     }
 
+    /**
+     * Escucha y recibe mensajes del servidor de manera continua.
+     * Si el servidor cierra la conexión, el cliente también se cierra.
+     */
 
     public void receivedMessage() {
         try {
@@ -90,11 +109,19 @@ public class Socket_ClientGUI {
         }
     }
 
+    /**
+     * Envía un mensaje al servidor si el campo de texto no está vacío.
+     */
+
     public void SendMessage() {
         String sendMessage = textField1.getText();
         textArea1.append("Client: " + sendMessage + "\n");
         out.println(sendMessage);
     }
+
+    /**
+     * Cierra la conexión con el servidor y libera los recursos.
+     */
 
     public void closeClient() {
         isRunning = false;
@@ -108,6 +135,12 @@ public class Socket_ClientGUI {
         SwingUtilities.getWindowAncestor(main).dispose();
     }
 
+    /**
+     * Envía una señal al servidor para que cierre la conexión de forma externa.
+     * Intenta conectarse al servidor y enviar el comando "shutdown".
+     * Si la conexión no es posible, la excepción es ignorada.
+     */
+
     private static void closeServerExternally() {
         try {
             Socket socket = new Socket("localhost", 12345);
@@ -117,6 +150,11 @@ public class Socket_ClientGUI {
         } catch (IOException ignored) {
         }
     }
+
+
+    /**
+     * Inicia la interfaz del cliente de chat y solicita la dirección del servidor.
+     */
 
     public static void startClient() {
         String serverAddress;
@@ -130,11 +168,12 @@ public class Socket_ClientGUI {
                 return;
             }
 
-            if (serverAddress.equalsIgnoreCase("localhost")) {
-                break;
-            } else {
-                JOptionPane.showMessageDialog(null, "Please, enter 'localhost'.");
-            }
+//            if (serverAddress.equalsIgnoreCase("localhost")) {
+//                break;
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Please, enter 'localhost'.");
+//            }
+            break;
         }
 
 

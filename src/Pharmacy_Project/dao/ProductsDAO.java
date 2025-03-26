@@ -12,11 +12,18 @@ import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.model.Customer;
 import Pharmacy_Project.model.Products;
 
+/**
+ * Clase para manejar las operaciones CRUD de la tabla productos en la base de datos.
+ */
 
 public class ProductsDAO {
 
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Agrega un nuevo producto a la base de datos.
+     * @param products Objeto Products con los datos del producto a agregar.
+     */
     public void add(Products products){
         Connection con = connectionDB.getConnection();
 
@@ -49,7 +56,10 @@ public class ProductsDAO {
         }
     }
 
-
+    /**
+     * Actualiza los datos de un producto en la base de datos.
+     * @param products Objeto Products con los datos actualizados del producto.
+     */
 
 
     public void update(Products products){
@@ -83,6 +93,11 @@ public class ProductsDAO {
         }
     }
 
+    /**
+     * Elimina un producto de la base de datos.
+     * @param id ID del producto a eliminar.
+     */
+
 
     public void delete(int id)
     {
@@ -110,6 +125,11 @@ public class ProductsDAO {
 
         }
     }
+
+    /**
+     * Obtiene el ID máximo de la tabla categoria.
+     * @return ID máximo encontrado en la tabla categoria.
+     */
 
     public int obtenerID() {
         int id = 0;

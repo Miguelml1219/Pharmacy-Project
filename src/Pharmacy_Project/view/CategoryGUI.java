@@ -6,6 +6,7 @@ import Pharmacy_Project.model.Category;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,6 +19,10 @@ import java.awt.event.KeyEvent;
 
 import Pharmacy_Project.dao.CategoryDAO;
 
+
+/**
+ * Clase que gestiona la interfaz gráfica para la administración de categorías.
+ */
 
 public class CategoryGUI {
     private JPanel main;
@@ -38,7 +43,34 @@ public class CategoryGUI {
 
     int rows = 0;
 
+    /**
+     * Constructor de la clase.
+     * @param parentFrame Ventana principal desde la que se abre esta ventana.
+     */
+
     public CategoryGUI(JFrame parentFrame) {
+
+        addButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        updateButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        addButton.setBackground(new Color(0, 200, 0)); // Verde base
+        addButton.setForeground(Color.WHITE); // Texto en blanco
+        addButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
+
+        updateButton.setBackground(new Color(211, 158, 0)); // Amarillo oscuro base
+        updateButton.setForeground(Color.WHITE); // Texto en blanco
+        updateButton.setBorder(BorderFactory.createLineBorder(new Color(153, 115, 0), 3)); // Borde amarillo más oscuro
+
+
+        deleteButton.setBackground(new Color(220, 53, 69)); // Rojo base
+        deleteButton.setForeground(Color.WHITE); // Texto en blanco
+        deleteButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
 
         textField1.setVisible(false);
         this.parentFrame = parentFrame;
@@ -159,6 +191,18 @@ public class CategoryGUI {
             }
         });
 
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
         table1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -176,6 +220,9 @@ public class CategoryGUI {
                 }
             }
         });
+
+        // Evento para filtrar la tabla al escribir en el campo de búsqueda
+
 
         search.addKeyListener(new KeyAdapter() {
             @Override
@@ -201,6 +248,11 @@ public class CategoryGUI {
             }
         });
     }
+
+
+    /**
+     * Muestra los datos de las categorías en la tabla.
+     */
 
     public void showdata() {
 
@@ -241,6 +293,10 @@ public class CategoryGUI {
         }
     }
 
+    /**
+     * Clase para definir un modelo de tabla no editable.
+     * Extiende DefaultTableModel y sobrescribe isCellEditable para evitar la edición de celdas.
+     */
 
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
@@ -249,10 +305,19 @@ public class CategoryGUI {
         }
     }
 
+    /**
+     * Método para limpiar los campos de texto de la interfaz.
+     */
+
     public void clear(){
         textField1.setText("");
         textField2.setText("");
     }
+
+
+    /**
+     * Método para inicializar y mostrar la ventana de gestión de categorías.
+     */
 
     public void runCategory() {
 
@@ -262,10 +327,15 @@ public class CategoryGUI {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
         frame.setVisible(true);
+
+        // Agrega un listener para manejar el cierre de la ventana
+
         frame.addWindowListener(new WindowAdapter() {
 
             @Override
             public void windowClosing(WindowEvent e) {
+
+                // Muestra un cuadro de diálogo de confirmación antes de cerrar
 
                 int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)

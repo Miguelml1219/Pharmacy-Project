@@ -27,6 +27,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Clase que gestiona la interfaz de detalles de pedido en la farmacia.
+ */
+
 public class Order_DetailGUI {
     private JComboBox comboBox1;
     private JPanel main;
@@ -60,6 +64,11 @@ public class Order_DetailGUI {
 
     int rows=0;
 
+    /**
+     * Constructor de la interfaz de detalles de pedido.
+     * @param parentFrame La ventana padre de la interfaz.
+     */
+
     public Order_DetailGUI(JFrame parentFrame) {
 
 
@@ -88,6 +97,8 @@ public class Order_DetailGUI {
         textField2.setText(now.format(formatter));
         this.parentFrame = parentFrame;
         showdata();
+
+        //Agrega eventos a los botones y componentes interactivos.
 
 
         createOrderButton.addActionListener(new ActionListener() {
@@ -398,6 +409,8 @@ public class Order_DetailGUI {
                 }
             }
 
+            //Genera la factura de la orden
+
             public String generarFacturaPDF() {
                 try {
                     Document document = new Document();
@@ -496,6 +509,9 @@ public class Order_DetailGUI {
 
     }
 
+    /**
+     * Metodo para actualizar la categoria dependiendo del client elegido.
+     */
 
 
     public void updateCat(String cliente) {
@@ -519,6 +535,9 @@ public class Order_DetailGUI {
         }
     }
 
+    /**
+     * Metodo para actualizar el total de la orden.
+     */
 
     int totalt=0;
 
@@ -559,6 +578,9 @@ public class Order_DetailGUI {
 
     }
 
+    /**
+     * Muestra los detalles del pedido en la tabla.
+     */
 
     public void showdata()
     {
@@ -619,6 +641,11 @@ public class Order_DetailGUI {
         }
     }
 
+
+    /**
+     * Clase interna que define un modelo de tabla no editable.
+     */
+
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -626,10 +653,20 @@ public class Order_DetailGUI {
         }
     }
 
+
+    /**
+     * Clase para limpiar las filas de la tabla al iniciar la pantalla.
+     */
+
     public void clearTable() {
         DefaultTableModel model = (DefaultTableModel) table1.getModel();
         model.setRowCount(0); // Elimina todas las filas
     }
+
+    /**
+     * Clase para limpiar los campos.
+     */
+
 
     public void clear()
     {
@@ -640,6 +677,11 @@ public class Order_DetailGUI {
         textField5.setText("");
         textField6.setText("");
     }
+
+    /**
+     * Clase para actualizar el comboBox de clientes y productos.
+     */
+
 
     public void updateComboBox() {
         // Limpiar todos los mapas
@@ -677,11 +719,9 @@ public class Order_DetailGUI {
         }
     }
 
-
-
-
-
-
+    /**
+     * Método que inicializa y muestra la ventana de productos con bajo stock.
+     */
 
     public void runOrder() {
 

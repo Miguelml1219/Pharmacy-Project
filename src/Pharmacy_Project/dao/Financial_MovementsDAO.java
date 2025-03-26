@@ -10,10 +10,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * DAO para gestionar los movimientos financieros en la base de datos.
+ */
 public class Financial_MovementsDAO {
 
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Agrega un nuevo movimiento financiero a la base de datos.
+     * Verifica si hay saldo suficiente antes de agregar un gasto.
+     *
+     * @param financial_movements Objeto Financial_Movements a agregar.
+     */
     public void add(Financial_Movements financial_movements)
     {
         Connection con = connectionDB.getConnection();
@@ -55,6 +64,13 @@ public class Financial_MovementsDAO {
 
         }
     }
+
+    /**
+     * Actualiza un movimiento financiero en la base de datos.
+     * Antes de actualizar, se ajusta el saldo en la caja.
+     *
+     * @param financial_movements Objeto Financial_Movements con los datos actualizados.
+     */
 
     public void update(Financial_Movements financial_movements){
         Connection con = connectionDB.getConnection();
@@ -118,6 +134,16 @@ public class Financial_MovementsDAO {
         }
     }
 
+    /**
+     * Elimina un movimiento financiero de la base de datos.
+     * Ajusta el saldo en la caja después de la eliminación.
+     *
+     * @param id            ID del movimiento a eliminar.
+     * @param metodo_pago   Método de pago utilizado.
+     * @param monto         Monto del movimiento.
+     * @param tipo_movimiento Tipo de movimiento (Income o Expense).
+     */
+
     public void delete(int id, String metodo_pago, int monto, String tipo_movimiento)
     {
         Connection con = connectionDB.getConnection();
@@ -145,6 +171,14 @@ public class Financial_MovementsDAO {
         }
     }
 
+    /**
+     * Actualiza el saldo de la caja según el método de pago y el tipo de movimiento.
+     *
+     * @param metodo_pago   Método de pago afectado.
+     * @param monto         Monto a modificar.
+     * @param tipo_movimiento Tipo de movimiento (Income o Expense).
+     */
+
     public void updateCashRegister(String metodo_pago, int monto, String tipo_movimiento)
     {
         Connection con = connectionDB.getConnection();
@@ -170,6 +204,15 @@ public class Financial_MovementsDAO {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Verifica si hay suficiente saldo en la caja para realizar un gasto.
+     *
+     * @param metodo_pago Método de pago utilizado.
+     * @param monto       Monto del gasto.
+     * @return true si hay suficiente saldo, false en caso contrario.
+     */
 
     public boolean hasSufficientBalance(String metodo_pago, int monto)
     {

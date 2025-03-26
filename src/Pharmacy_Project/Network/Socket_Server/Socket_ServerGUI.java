@@ -9,6 +9,11 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Clase que implementa un servidor de chat con una interfaz gráfica.
+ */
+
+
 public class Socket_ServerGUI {
     private JTextArea textArea1;
     public JPanel main;
@@ -20,6 +25,10 @@ public class Socket_ServerGUI {
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private boolean isRunning = false;
+
+    /**
+     * Constructor que inicializa la interfaz gráfica y configura los eventos de los botones.
+     */
 
     public Socket_ServerGUI() {
 
@@ -58,6 +67,10 @@ public class Socket_ServerGUI {
         new Thread(this::Server).start();
     }
 
+    /**
+     * Método que inicia el servidor y espera conexiones de clientes.
+     */
+
     public void Server() {
         try (ServerSocket serverSocket = new ServerSocket(12345)) {
             //JOptionPane.showMessageDialog(null, "Start Server. Wait connection...");
@@ -73,6 +86,11 @@ public class Socket_ServerGUI {
             JOptionPane.showMessageDialog(null, "Server Error" + e.getMessage());
         }
     }
+
+
+    /**
+     * Método que escucha los mensajes recibidos desde el cliente y los muestra en la interfaz.
+     */
 
     public void receivedMessage() {
         try {
@@ -95,6 +113,10 @@ public class Socket_ServerGUI {
         }
     }
 
+    /**
+     * Método que envía un mensaje al cliente y lo muestra en la interfaz.
+     */
+
     public void SendMessage() {
         String sendMessage = textField1.getText();
         textArea1.append("Server: " + sendMessage + "\n");
@@ -102,6 +124,9 @@ public class Socket_ServerGUI {
     }
 
 
+    /**
+     * Método que cierra el servidor y libera los recursos.
+     */
 
     public void closeServer() {
         isRunning = false;
@@ -115,6 +140,10 @@ public class Socket_ServerGUI {
         }
         SwingUtilities.getWindowAncestor(main).dispose();
     }
+
+    /**
+     * Método que inicia el servidor y muestra la interfaz gráfica.
+     */
 
 
     public static void startServer() {

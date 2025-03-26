@@ -1,17 +1,14 @@
 package Pharmacy_Project.reports;
 
 import Pharmacy_Project.connection.ConnectionDB;
-import Pharmacy_Project.utils.BackGround;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ReportGUI {
     private JPanel main;
@@ -29,13 +26,21 @@ public class ReportGUI {
 
     private ConnectionDB connectionDB = new ConnectionDB();
 
+    /**
+     * Constructor de la clase ReportGUI.
+     * @param parentFrame Marco padre desde donde se abre esta ventana.
+     */
+
     public ReportGUI(JFrame parentFrame) {
         this.parentFrame = parentFrame;
+
 
         // Crear una fuente personalizada
         Font headerFont = new Font("Marlett Non-latin", Font.BOLD, 14); // Fuente Arial, Negrita, Tamaño 14
         JTableHeader tableHeader = table1.getTableHeader();
         tableHeader.setFont(headerFont);
+
+        //Apariencia de los botones
 
         diaryButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
         weeklyButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
@@ -44,30 +49,31 @@ public class ReportGUI {
         customersPurchasesButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
         BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
 
-        diaryButton.setBackground(new Color(0, 123, 255)); // Azul base
+        diaryButton.setBackground(new Color(0, 200, 0)); // Azul base
         diaryButton.setForeground(Color.WHITE); // Texto en blanco
-        diaryButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+        diaryButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde azul oscuro
 
-        weeklyButton.setBackground(new Color(0, 123, 255)); // Azul base
+        weeklyButton.setBackground(new Color(0, 200, 0)); // Azul base
         weeklyButton.setForeground(Color.WHITE); // Texto en blanco
-        weeklyButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+        weeklyButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde azul oscuro
 
-        monthlyButton.setBackground(new Color(0, 123, 255)); // Azul base
+        monthlyButton.setBackground(new Color(0, 200, 0)); // Azul base
         monthlyButton.setForeground(Color.WHITE); // Texto en blanco
-        monthlyButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+        monthlyButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde azul oscuro
 
-        bestSellersButton.setBackground(new Color(0, 123, 255)); // Azul base
+        bestSellersButton.setBackground(new Color(0, 200, 0)); // Azul base
         bestSellersButton.setForeground(Color.WHITE); // Texto en blanco
-        bestSellersButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+        bestSellersButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde azul oscuro
 
-        customersPurchasesButton.setBackground(new Color(0, 123, 255)); // Azul base
+        customersPurchasesButton.setBackground(new Color(0, 200, 0)); // Azul base
         customersPurchasesButton.setForeground(Color.WHITE); // Texto en blanco
-        customersPurchasesButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde azul oscuro
+        customersPurchasesButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde azul oscuro
 
-        BackButton.setBackground(new Color(128, 192, 128)); // Verde base
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
         BackButton.setForeground(Color.WHITE); // Texto en blanco
-        BackButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
 
+        //Configurar eventos de los botones
 
         diaryButton.addActionListener(new ActionListener() {
             @Override
@@ -81,12 +87,12 @@ public class ReportGUI {
         diaryButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                diaryButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                diaryButton.setBackground(new Color(160, 208, 160)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                diaryButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                diaryButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 
@@ -101,12 +107,12 @@ public class ReportGUI {
         weeklyButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                weeklyButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                weeklyButton.setBackground(new Color(160, 208, 160)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                weeklyButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                weeklyButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 
@@ -122,12 +128,12 @@ public class ReportGUI {
         monthlyButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                monthlyButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                monthlyButton.setBackground(new Color(160, 208, 160)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                monthlyButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                monthlyButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 
@@ -143,12 +149,12 @@ public class ReportGUI {
         bestSellersButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                bestSellersButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                bestSellersButton.setBackground(new Color(160, 208, 160)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                bestSellersButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                bestSellersButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 
@@ -166,12 +172,12 @@ public class ReportGUI {
         customersPurchasesButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                customersPurchasesButton.setBackground(new Color(102, 178, 255)); // Azul más claro al pasar el mouse
+                customersPurchasesButton.setBackground(new Color(160, 208, 160)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                customersPurchasesButton.setBackground(new Color(0, 123, 255)); // Restaurar color base
+                customersPurchasesButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 
@@ -188,17 +194,21 @@ public class ReportGUI {
         BackButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                BackButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                BackButton.setBackground(new Color(128, 192, 128)); // Restaurar color base
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
 
     }
+
+    /**
+     * Muestra el reporte diario en la tabla.
+     */
     public void showdata() {
         NonEditableTableModel modelo = new NonEditableTableModel();
         modelo.addColumn("Date");
@@ -227,6 +237,10 @@ public class ReportGUI {
             JOptionPane.showMessageDialog(null, "Error when displaying data: " + e.getMessage());
         }
     }
+
+    /**
+     * Muestra el reporte semanal en la tabla.
+     */
 
     public void showWeeklyReport() {
         NonEditableTableModel modelo = new NonEditableTableModel();
@@ -259,6 +273,10 @@ public class ReportGUI {
             JOptionPane.showMessageDialog(null, "Error when displaying weekly data: " + e.getMessage());
         }
     }
+
+    /**
+     * Muestra el reporte mensual en la tabla.
+     */
 
     public void showMonthlyReport() {
         NonEditableTableModel modelo = new NonEditableTableModel();
@@ -353,6 +371,10 @@ public class ReportGUI {
         }
     }
 
+    /**
+     * Clase interna para hacer la tabla no editable.
+     */
+
 
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
@@ -362,6 +384,9 @@ public class ReportGUI {
     }
 
 
+    /**
+     * Inicia la ventana de reportes.
+     */
 
     public void runReport() {
 

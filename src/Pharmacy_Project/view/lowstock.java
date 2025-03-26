@@ -4,18 +4,18 @@ import Pharmacy_Project.connection.ConnectionDB;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
+/**
+ * Clase LowStock que representa la interfaz gráfica para visualizar los productos con bajo stock en la farmacia.
+ */
 
 public class LowStock {
 
@@ -30,9 +30,20 @@ public class LowStock {
     private TableRowSorter<DefaultTableModel> sorter;
     private CustomerGUI.NonEditableTableModel modelo;
 
+    /**
+     * Constructor de la clase LowStock.
+     * @param parentFrame El marco padre desde donde se llama esta ventana.
+     */
 
     public LowStock(JFrame parentFrame)
     {
+
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
         this.parentFrame = parentFrame;
         sorter = new TableRowSorter<>(modelo);
         table1.setRowSorter(sorter);
@@ -45,6 +56,18 @@ public class LowStock {
                     parentFrame.setVisible(true);
                 }
                 frame.dispose();
+            }
+        });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -72,6 +95,10 @@ public class LowStock {
             }
         });
     }
+
+    /**
+     * Método para cargar los datos de los productos con bajo stock desde la base de datos.
+     */
 
     public void showdata() {
 
@@ -115,12 +142,20 @@ public class LowStock {
         }
     }
 
+    /**
+     * Clase interna que define un modelo de tabla no editable.
+     */
+
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     }
+
+    /**
+     * Método que inicializa y muestra la ventana de productos con bajo stock.
+     */
 
     public void runLow() {
 

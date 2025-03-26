@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.Font;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,6 +25,13 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.RowFilter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+/**
+ * Clase Financial_MovementsGUI
+ *
+ * Esta clase proporciona una interfaz gráfica para gestionar los movimientos financieros dentro del sistema de farmacia.
+ * Permite agregar, actualizar, eliminar y visualizar movimientos financieros, así como generar informes en formato PDF.
+ */
 
 public class Financial_MovementsGUI {
 
@@ -51,8 +59,43 @@ public class Financial_MovementsGUI {
     private CustomerGUI.NonEditableTableModel modelo;
     int rows = 0;
 
+    /**
+     * Constructor de la clase.
+     *
+     * @param parentFrame La ventana principal desde donde se abre esta interfaz.
+     */
+
     public Financial_MovementsGUI(JFrame parentFrame)
     {
+        addButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        updateButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        downloadPDFButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 14));
+
+        addButton.setBackground(new Color(0, 200, 0)); // Verde base
+        addButton.setForeground(Color.WHITE); // Texto en blanco
+        addButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
+
+        updateButton.setBackground(new Color(211, 158, 0)); // Amarillo oscuro base
+        updateButton.setForeground(Color.WHITE); // Texto en blanco
+        updateButton.setBorder(BorderFactory.createLineBorder(new Color(153, 115, 0), 3)); // Borde amarillo más oscuro
+
+        deleteButton.setBackground(new Color(220, 53, 69)); // Rojo base
+        deleteButton.setForeground(Color.WHITE); // Texto en blanco
+        deleteButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        downloadPDFButton.setBackground(new Color(255, 102, 102)); // Azul base
+        downloadPDFButton.setForeground(Color.WHITE); // Texto en blanco
+        downloadPDFButton.setBorder(BorderFactory.createLineBorder(new Color(139, 0, 0), 3)); // Borde azul oscuro
+
+
+
+
         textField4.setEditable(false);
         textField3.setEditable(false);
         comboBox1.setVisible(false);
@@ -132,6 +175,19 @@ public class Financial_MovementsGUI {
 
             }
         });
+
+        addButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                addButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
+            }
+        });
+
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,6 +225,19 @@ public class Financial_MovementsGUI {
 
             }
         });
+
+        updateButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                updateButton.setBackground(new Color(255, 193, 7)); // Amarillo más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                updateButton.setBackground(new Color(211, 158, 0)); // Restaurar color base
+            }
+        });
+
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -191,6 +260,18 @@ public class Financial_MovementsGUI {
             }
         });
 
+        deleteButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                deleteButton.setBackground(new Color(255, 102, 102)); // Rojo más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                deleteButton.setBackground(new Color(220, 53, 69)); // Restaurar color base
+            }
+        });
+
         BackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -198,6 +279,18 @@ public class Financial_MovementsGUI {
                     parentFrame.setVisible(true);
                 }
                 frame.dispose();
+            }
+        });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -229,6 +322,19 @@ public class Financial_MovementsGUI {
             }
         });
 
+        downloadPDFButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(220, 53, 69)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(255, 102, 102)); // Restaurar color base
+            }
+        });
+
+
         search.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -253,6 +359,10 @@ public class Financial_MovementsGUI {
             }
         });
     }
+
+    /**
+     * Método para generar un informe en formato PDF con los movimientos financieros registrados.
+     */
 
 
     public void generatePDF(){
@@ -282,7 +392,7 @@ public class Financial_MovementsGUI {
             documento.add(new Paragraph("\n\n\n"));
             documento.add(new Paragraph("\n\n\n"));
 
-            Paragraph titulo = new Paragraph("Registered Customers",
+            Paragraph titulo = new Paragraph("Financial Movements",
                     FontFactory.getFont("Tahoma", 22, java.awt.Font.BOLD, BaseColor.BLUE));
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
@@ -334,7 +444,9 @@ public class Financial_MovementsGUI {
     }
 
 
-
+    /**
+     * Método para actualizar la informacion/descripcion de un movimientos.
+     */
 
 
     public void updateComboBox3() {
@@ -393,6 +505,10 @@ public class Financial_MovementsGUI {
         }
     }
 
+    /**
+     * Método que muestra los datos de los movimientos financieros en la tabla.
+     */
+
     public void showdata() {
 
         if (sorter != null) {
@@ -441,12 +557,18 @@ public class Financial_MovementsGUI {
         }
     }
 
+    /**
+     * Método para limpiar los campos de entrada.
+     */
 
     public void clear(){
         textField1.setText("");
         textField2.setText("");
     }
 
+    /**
+     * Clase interna para definir un modelo de tabla no editable.
+     */
 
     public class NonEditableTableModel extends DefaultTableModel {
         @Override
@@ -454,6 +576,10 @@ public class Financial_MovementsGUI {
             return false;
         }
     }
+
+    /**
+     * Método para ejecutar la ventana de gestión de movimientos financieros.
+     */
 
     public void runMovements() {
 

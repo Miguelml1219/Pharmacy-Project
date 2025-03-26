@@ -8,11 +8,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Clase para manejar las operaciones CRUD de la tabla Categoria en la base de datos.
+ */
 public class CategoryDAO {
 
     private ConnectionDB connectionDB = new ConnectionDB();
 
-
+    /**
+     * Agrega una nueva categoría a la base de datos.
+     *
+     * @param category Objeto de tipo {@link Category} que contiene la información de la nueva categoría.
+     */
     public void add(Category category)
     {
         Connection con = connectionDB.getConnection();
@@ -41,6 +48,11 @@ public class CategoryDAO {
         }
     }
 
+    /**
+     * Actualiza una categoría existente en la base de datos.
+     *
+     * @param category Objeto de tipo {@link Category} que contiene la información actualizada de la categoría.
+     */
     public void update(Category category){
         Connection con = connectionDB.getConnection();
 
@@ -65,6 +77,12 @@ public class CategoryDAO {
         }
     }
 
+
+    /**
+     * Elimina una categoría de la base de datos dado su ID.
+     *
+     * @param id Identificador único de la categoría a eliminar.
+     */
 
     public void delete(int id)
     {

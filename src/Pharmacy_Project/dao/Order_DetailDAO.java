@@ -9,10 +9,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase DAO para la gestión de detalles de pedidos en la base de datos.
+ */
 public class Order_DetailDAO {
 
     private ConnectionDB connectionDB = new ConnectionDB();
 
+
+    /**
+     * Agrega un nuevo detalle de pedido a la base de datos.
+     * @param order_detail Objeto Order_Detail con los datos a insertar.
+     */
     public void add(Order_Detail order_detail)
     {
         Connection con = connectionDB.getConnection();
@@ -46,6 +54,11 @@ public class Order_DetailDAO {
         }
     }
 
+    /**
+     * Actualiza un detalle de pedido existente en la base de datos.
+     * @param order_detail Objeto Order_Detail con los datos actualizados.
+     */
+
 
     public void update(Order_Detail order_detail){
         Connection con = connectionDB.getConnection();
@@ -76,7 +89,10 @@ public class Order_DetailDAO {
         }
     }
 
-
+    /**
+     * Elimina un detalle de pedido de la base de datos.
+     * @param id ID del detalle de pedido a eliminar.
+     */
 
     public void delete(int id)
     {
@@ -104,6 +120,10 @@ public class Order_DetailDAO {
         }
     }
 
+    /**
+     * Obtiene el ID máximo de los pedidos registrados en la base de datos.
+     * @return ID del último pedido registrado.
+     */
 
     public int obtenerID() {
         int id = 0;
@@ -124,6 +144,12 @@ public class Order_DetailDAO {
         return id;
     }
 
+    /**
+     * Obtiene el precio de un producto en la base de datos.
+     * @param idProducto ID del producto.
+     * @return Precio del producto.
+     */
+
     public int obtainPriceProduct(int nameProduct) {
         int precio = 0;
         Connection con = connectionDB.getConnection();
@@ -143,6 +169,13 @@ public class Order_DetailDAO {
 
         return precio;
     }
+
+    /**
+     * Actualiza el stock de un producto después de una venta.
+     * @param idProducto ID del producto.
+     * @param presentation Presentación del producto (Unit, Blister, Box).
+     * @param amount Cantidad vendida.
+     */
 
     public void actualizarStock(int idProducto, String presentation, int amount) {
         int unit = 1; // Por defecto para Unit
@@ -197,6 +230,13 @@ public class Order_DetailDAO {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Verifica si hay suficiente stock disponible para un producto.
+     * @param idProducto ID del producto.
+     * @param cantidadSolicitada Cantidad requerida.
+     * @return true si hay stock suficiente, false en caso contrario.
+     */
 
     public boolean verificarStockDisponible(int idProducto, int cantidadSolicitada) {
         ConnectionDB connectionDB = new ConnectionDB();
