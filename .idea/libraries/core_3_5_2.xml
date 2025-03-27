@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="core-3.5.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/Pharmacy_Project/utils/core-3.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/Pharmacy_Project/utils/itext5-itextpdf-5.5.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/Pharmacy_Project/utils/javase-3.5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

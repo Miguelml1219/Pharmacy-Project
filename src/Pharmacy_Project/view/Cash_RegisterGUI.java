@@ -1,145 +1,140 @@
 package Pharmacy_Project.view;
 
 import Pharmacy_Project.connection.ConnectionDB;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+/**
+ * Clase que representa la interfaz de usuario para la caja registradora en la farmacia.
+ * Permite visualizar los datos de la tabla "caja" en la base de datos.
+ */
 
 public class Cash_RegisterGUI {
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTable table1;
-    private JButton registrarButton;
-    private JButton actualizarButton;
-    private JButton eliminarButton;
-    private JButton calcularTotalButton;
-    private JLabel totalLabel;
+
+    private JFrame frame;
+    private JFrame parentFrame;
     private JPanel main;
-    private JLabel cajaLabel;
-    private JLabel IDLabel;
-    private JLabel conceptoLabel;
-    private JLabel valorLabel;
-    private DefaultTableModel tableModel;
-    private Connection connection;
+    private JTable table1;
+    private JButton BackButton;
+    private ConnectionDB connectionDB = new ConnectionDB();
 
-    public Cash_RegisterGUI() {
-        connection = new ConnectionDB().getConnection();
-        tableModel = new DefaultTableModel(new String[]{"ID", "Concepto", "Valor"}, 0);
-        table1.setModel(tableModel);
+    /**
+     * Constructor de la interfaz de la caja registradora.
+     * @param parentFrame La ventana principal desde donde se abre esta interfaz.
+     */
 
-        registrarButton.addActionListener(e -> registrarMovimiento());
-        actualizarButton.addActionListener(e -> actualizarMovimiento());
-        eliminarButton.addActionListener(e -> eliminarMovimiento());
-        calcularTotalButton.addActionListener(e -> calcularTotal());
+    public Cash_RegisterGUI(JFrame parentFrame)
+    {
+        this.parentFrame = parentFrame;
+        showdata();
 
-        table1.addMouseListener(new MouseAdapter() {
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        BackButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                int selectedRow = table1.getSelectedRow();
-                if (selectedRow != -1) {
-                    textField1.setText(tableModel.getValueAt(selectedRow, 0).toString());
-                    textField2.setText(tableModel.getValueAt(selectedRow, 1).toString());
-                    textField3.setText(tableModel.getValueAt(selectedRow, 2).toString());
+            public void actionPerformed(ActionEvent e) {
+                if (parentFrame != null){
+                    parentFrame.setVisible(true);
+                }
+                frame.dispose();
+            }
+        });
+
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
+    }
+
+    /**
+     * Método que obtiene y muestra los datos de la tabla "caja" en la base de datos.
+     */
+
+    public void showdata() {
+        Cash_RegisterGUI.NonEditableTableModel modelo = new Cash_RegisterGUI.NonEditableTableModel();
+
+        modelo.addColumn("Id_Cash");
+        modelo.addColumn("Concept");
+        modelo.addColumn("Value");
+
+        table1.setModel(modelo);
+
+        String[] dato = new String[3];
+        Connection con = connectionDB.getConnection();
+
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM caja");
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+
+                modelo.addRow(dato);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Clase interna para un modelo de tabla no editable.
+     */
+
+    public class NonEditableTableModel extends DefaultTableModel {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+
+    /**
+     * Método que inicializa y muestra la ventana de la caja registradora.
+     */
+
+    public void runCash() {
+
+        frame = new JFrame("Data Base Pharmacy");
+        frame.setContentPane(this.main);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setUndecorated(true);
+        frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                if(option == JOptionPane.YES_OPTION)
+                {
+                    frame.dispose(); // Cierra la ventana
+                    System.exit(0);
                 }
             }
         });
 
-        cargarMovimientos();
-    }
-
-    public void registrarMovimiento() {
-        try {
-            String sql = "INSERT INTO caja (concepto, valor) VALUES (?, ?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, textField2.getText());
-            ps.setDouble(2, Double.parseDouble(textField3.getText()));
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Movimiento registrado exitosamente");
-            cargarMovimientos();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al registrar movimiento: " + e.getMessage());
-        }
-    }
-
-    public void actualizarMovimiento() {
-        int selectedRow = table1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione un movimiento para actualizar");
-            return;
-        }
-
-        try {
-            int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
-            String sql = "UPDATE caja SET concepto=?, valor=? WHERE id_caja=?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, textField2.getText());
-            ps.setDouble(2, Double.parseDouble(textField3.getText()));
-            ps.setInt(3, id);
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Movimiento actualizado exitosamente");
-            cargarMovimientos();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar movimiento: " + e.getMessage());
-        }
-    }
-
-    public void eliminarMovimiento() {
-        int selectedRow = table1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione un movimiento para eliminar");
-            return;
-        }
-
-        try {
-            int id = Integer.parseInt(table1.getValueAt(selectedRow, 0).toString());
-            String sql = "DELETE FROM caja WHERE id_caja=?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Movimiento eliminado exitosamente");
-            cargarMovimientos();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar movimiento: " + e.getMessage());
-        }
-    }
-
-    public void cargarMovimientos() {
-        tableModel.setRowCount(0);
-        try {
-            String sql = "SELECT id_caja, concepto, valor FROM caja";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                tableModel.addRow(new Object[]{
-                        rs.getInt("id_caja"),
-                        rs.getString("concepto"),
-                        rs.getDouble("valor")
-                });
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar movimientos: " + e.getMessage());
-        }
-    }
-
-    public void calcularTotal() {
-        double total = 0.0;
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            total += Double.parseDouble(tableModel.getValueAt(i, 2).toString());
-        }
-        totalLabel.setText("Total: $" + total);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Caja Registradora");
-            Cash_RegisterGUI gui = new Cash_RegisterGUI();
-            frame.setContentPane(gui.main);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-        });
     }
 }

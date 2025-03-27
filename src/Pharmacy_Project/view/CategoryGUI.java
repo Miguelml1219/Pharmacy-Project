@@ -1,126 +1,349 @@
 package Pharmacy_Project.view;
+
 import Pharmacy_Project.connection.ConnectionDB;
+import Pharmacy_Project.model.Category;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.RowFilter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+
+import Pharmacy_Project.dao.CategoryDAO;
+
+
+/**
+ * Clase que gestiona la interfaz gráfica para la administración de categorías.
+ */
 
 public class CategoryGUI {
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTable table1;
-    private JButton agregarButton;
-    private JButton actualizarButton;
-    private JButton eliminarButton;
     private JPanel main;
-    private JLabel IDLabel;
-    private JLabel nombre_CategoriaLabel;
-    private DefaultTableModel tableModel;
-    private Connection connection;
+    private JTable table1;
+    private JTextField textField1;
+    private JButton addButton;
+    private JButton updateButton;
+    private JButton deleteButton;
+    private JTextField textField2;
+    private JButton BackButton;
+    private JTextField search;
+    private JFrame frame;
+    private JFrame parentFrame;
+    private CategoryDAO categoryDAO = new CategoryDAO();
+    private ConnectionDB connectionDB = new ConnectionDB();
+    private TableRowSorter<DefaultTableModel> sorter;
+    private CustomerGUI.NonEditableTableModel modelo;
 
-    public CategoryGUI() {
-        connection = new ConnectionDB().getConnection();
-        tableModel = new DefaultTableModel(new String[]{"ID", "Nombre Categoría"}, 0);
-        table1.setModel(tableModel);
+    int rows = 0;
 
-        agregarButton.addActionListener(e -> agregarCategoria());
-        actualizarButton.addActionListener(e -> actualizarCategoria());
-        eliminarButton.addActionListener(e -> eliminarCategoria());
+    /**
+     * Constructor de la clase.
+     * @param parentFrame Ventana principal desde la que se abre esta ventana.
+     */
 
-        table1.addMouseListener(new MouseAdapter() {
+    public CategoryGUI(JFrame parentFrame) {
+
+        addButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        updateButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        addButton.setBackground(new Color(0, 200, 0)); // Verde base
+        addButton.setForeground(Color.WHITE); // Texto en blanco
+        addButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
+
+        updateButton.setBackground(new Color(211, 158, 0)); // Amarillo oscuro base
+        updateButton.setForeground(Color.WHITE); // Texto en blanco
+        updateButton.setBorder(BorderFactory.createLineBorder(new Color(153, 115, 0), 3)); // Borde amarillo más oscuro
+
+
+        deleteButton.setBackground(new Color(220, 53, 69)); // Rojo base
+        deleteButton.setForeground(Color.WHITE); // Texto en blanco
+        deleteButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        textField1.setVisible(false);
+        this.parentFrame = parentFrame;
+        sorter = new TableRowSorter<>(modelo);
+        table1.setRowSorter(sorter);
+        showdata();
+
+        addButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
+
+                if (textField2.getText().trim().isEmpty()) {
+
+                    JOptionPane.showMessageDialog(null, "Complete the field Name Category");
+
+                } else {
+
+                    String name_cat = textField2.getText();
+
+                    if (!name_cat.matches("^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$")) {
+                        JOptionPane.showMessageDialog(null, "The Name Category field must only contain letters");
+                        return;
+                    }
+
+                    boolean namExist = false;
+                    for (int i = 0; i < table1.getRowCount(); i++) {
+                        String namExisting = table1.getValueAt(i, 1).toString();
+                        if (namExisting.equalsIgnoreCase(name_cat)) {
+                            namExist = true;
+                            break;
+                        }
+                    }
+
+                    if (namExist) {
+                        JOptionPane.showMessageDialog(null, "The name " + name_cat + " already exists");
+                        textField2.setText("");
+                        return;
+                    }
+
+                    Category category = new Category(0, name_cat);
+                    categoryDAO.add(category);
+                    clear();
+                    showdata();
+                }
+
+            }
+        });
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (textField2.getText().trim().isEmpty()) {
+
+                    JOptionPane.showMessageDialog(null, "Complete the field Name Category");
+
+                } else {
+
+                    String name_cat = textField2.getText();
+
+                    int id_category = Integer.parseInt(textField1.getText());
+
+                    if (!name_cat.matches("^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$")) {
+                        JOptionPane.showMessageDialog(null, "The Name Category field must only contain letters");
+                        return;
+                    }
+
+                    boolean namExist = false;
+                    for (int i = 0; i < table1.getRowCount(); i++) {
+                        String namExisting = table1.getValueAt(i, 1).toString();
+                        if (namExisting.equalsIgnoreCase(name_cat)) {
+                            namExist = true;
+                            break;
+                        }
+                    }
+
+                    if (namExist) {
+                        JOptionPane.showMessageDialog(null, "The name " + name_cat + " already exists");
+                        textField2.setText("");
+                        return;
+                    }
+
+                    Category category = new Category(id_category, name_cat);
+                    categoryDAO.update(category);
+                    clear();
+                    showdata();
+                }
+
+            }
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
                 int selectedRow = table1.getSelectedRow();
-                if (selectedRow != -1) {
-                    textField1.setText(tableModel.getValueAt(selectedRow, 0).toString());
-                    textField2.setText(tableModel.getValueAt(selectedRow, 1).toString());
+
+                if (textField2.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Complete the field Name Category");
+                }else if (selectedRow == -1) { // Si no hay fila seleccionada
+                    JOptionPane.showMessageDialog(null, "Please, select a category to remove");
+                } else {
+
+                    int id_category = Integer.parseInt(textField1.getText());
+
+                    categoryDAO.delete(id_category);
+                    clear();
+                    showdata();
                 }
             }
         });
 
-        cargarCategoria();
+        BackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (parentFrame != null){
+                    parentFrame.setVisible(true);
+                }
+                frame.dispose();
+            }
+        });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                int selectedRows = table1.getSelectedRow();
+
+                if(selectedRows>=0)
+                {
+                    textField1.setText((String)table1.getValueAt(selectedRows,0));
+                    textField2.setText((String)table1.getValueAt(selectedRows,1));
+
+                    rows = selectedRows;
+
+                }
+            }
+        });
+
+        // Evento para filtrar la tabla al escribir en el campo de búsqueda
+
+
+        search.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String searchText = search.getText().trim().toLowerCase();
+
+                if (sorter != null) {
+                    // Filtro que busca en todas las columnas
+                    RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                        @Override
+                        public boolean include(Entry<? extends DefaultTableModel, ? extends Object> entry) {
+                            for (int i = 0; i < entry.getValueCount(); i++) {
+                                if (entry.getStringValue(i).toLowerCase().contains(searchText)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    };
+
+                    sorter.setRowFilter(filter);
+                }
+            }
+        });
     }
 
-    public void agregarCategoria() {
-        try {
-            String sql = "INSERT INTO categoria (nombre_categoria) VALUES (?)"; // Eliminé id_categoria
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, textField2.getText());
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Categoría agregada exitosamente");
-            cargarCategoria();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al agregar categoría: " + e.getMessage());
-        }
-    }
 
-    public void actualizarCategoria() {
-        int selectedRow = table1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione una categoría para actualizar");
-            return;
+    /**
+     * Muestra los datos de las categorías en la tabla.
+     */
+
+    public void showdata() {
+
+        if (sorter != null) {
+            table1.setRowSorter(null);
         }
 
-        try {
-            String id_categoria = table1.getValueAt(selectedRow, 0).toString();
-            String query = "UPDATE categoria SET nombre_categoria=? WHERE id=?";
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, textField2.getText());
-            ps.setInt(2, Integer.parseInt(id_categoria));
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Categoría actualizada exitosamente");
-            cargarCategoria();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar categoría: " + e.getMessage());
-        }
-    }
+        CategoryGUI.NonEditableTableModel modelo = new CategoryGUI.NonEditableTableModel();
 
-    public void eliminarCategoria() {
-        int selectedRow = table1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione una categoría para eliminar");
-            return;
-        }
+        modelo.addColumn("Id_Category");
+        modelo.addColumn("Name Category");
+
+        table1.setModel(modelo);
+
+        String[] dato = new String[2];
+        Connection con = connectionDB.getConnection();
 
         try {
-            String id_categoria = table1.getValueAt(selectedRow, 0).toString();
-            String deleteQuery = "DELETE FROM categoria WHERE id_categoria=?";
-            PreparedStatement ps = connection.prepareStatement(deleteQuery);
-            ps.setInt(1, Integer.parseInt(id_categoria));
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Categoría eliminada exitosamente");
-            cargarCategoria();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar categoría: " + e.getMessage());
-        }
-    }
-
-    public void cargarCategoria() {
-        tableModel.setRowCount(0);
-        try {
-            String query = "SELECT id_categoria, nombre_categoria FROM categoria";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM categoria");
 
             while (rs.next()) {
-                tableModel.addRow(new Object[]{
-                        rs.getInt("id_categoria"),
-                        rs.getString("nombre_categoria")
-                });
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+
+                modelo.addRow(dato);
+            }
+
+            sorter = new TableRowSorter<>(modelo);
+            table1.setRowSorter(sorter);
+
+            // Restablecer el filtro de búsqueda si hay texto
+            if (!search.getText().trim().isEmpty()) {
+                search.setText(search.getText());
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar categoría: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Gestión de Categoría");
-            CategoryGUI gui = new CategoryGUI();
-            frame.setContentPane(gui.main);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
+    /**
+     * Clase para definir un modelo de tabla no editable.
+     * Extiende DefaultTableModel y sobrescribe isCellEditable para evitar la edición de celdas.
+     */
+
+    public class NonEditableTableModel extends DefaultTableModel {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+
+    /**
+     * Método para limpiar los campos de texto de la interfaz.
+     */
+
+    public void clear(){
+        textField1.setText("");
+        textField2.setText("");
+    }
+
+
+    /**
+     * Método para inicializar y mostrar la ventana de gestión de categorías.
+     */
+
+    public void runCategory() {
+
+        frame = new JFrame("Data Base Pharmacy");
+        frame.setContentPane(this.main);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setUndecorated(true);
+        frame.setVisible(true);
+
+        // Agrega un listener para manejar el cierre de la ventana
+
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                // Muestra un cuadro de diálogo de confirmación antes de cerrar
+
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                if(option == JOptionPane.YES_OPTION)
+                {
+                    frame.dispose(); // Cierra la ventana
+                    System.exit(0);
+                }
+            }
         });
     }
 }
