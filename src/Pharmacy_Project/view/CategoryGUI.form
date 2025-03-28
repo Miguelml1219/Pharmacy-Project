@@ -32,6 +32,7 @@
         </constraints>
         <properties>
           <font name="Marlett" size="24" style="3"/>
+          <foreground color="-16764058"/>
           <text value="Categories"/>
         </properties>
       </component>

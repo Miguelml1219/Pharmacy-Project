@@ -83,7 +83,7 @@ public class Socket_ServerGUI {
             new Thread(this::receivedMessage).start();
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Server Error" + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Server Error" + e.getMessage());
         }
     }
 
@@ -119,7 +119,7 @@ public class Socket_ServerGUI {
 
     public void SendMessage() {
         String sendMessage = textField1.getText();
-        textArea1.append("Server: " + sendMessage + "\n");
+        textArea1.append("PharmaPlus: " + sendMessage + "\n");
         out.println(sendMessage);
     }
 

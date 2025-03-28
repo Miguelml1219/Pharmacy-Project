@@ -14,13 +14,18 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-986896"/>
+        </properties>
       </component>
       <component id="aa796" class="javax.swing.JButton" binding="sendMessageButton" default-binding="true">
         <constraints>
           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-11483016"/>
+          <foreground color="-1"/>
+          <icon value="Pharmacy_Project/imgs/enviar.png"/>
           <text value="Send Message"/>
         </properties>
       </component>
@@ -78,7 +83,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-986896"/>
+        </properties>
       </component>
       <component id="5fe09" class="javax.swing.JLabel">
         <constraints>
@@ -93,7 +100,10 @@
           <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="⬅️ Exit"/>
+          <background color="-39836"/>
+          <foreground color="-1"/>
+          <icon value="Pharmacy_Project/imgs/exit.png"/>
+          <text value="Exit"/>
         </properties>
       </component>
     </children>

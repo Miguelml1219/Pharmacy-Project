@@ -71,6 +71,44 @@ public class Order_DetailGUI {
 
     public Order_DetailGUI(JFrame parentFrame) {
 
+        createOrderButton.setFont(new java.awt.Font("Marlett Non-latin", java.awt.Font.BOLD, 16));
+        deleteOrderButton.setFont(new java.awt.Font("Marlett Non-latin", java.awt.Font.BOLD, 16));
+        addProductButton.setFont(new java.awt.Font("Marlett Non-latin", java.awt.Font.BOLD, 16));
+        changeProductButton.setFont(new java.awt.Font("Marlett Non-latin", java.awt.Font.BOLD, 16));
+        deleteProductButton.setFont(new java.awt.Font("Marlett Non-latin", java.awt.Font.BOLD, 16));
+        BackButton.setFont(new java.awt.Font("Marlett Non-latin", java.awt.Font.BOLD, 16));
+        placeOrderButton.setFont(new java.awt.Font("Marlett Non-latin", java.awt.Font.BOLD, 16));
+
+        createOrderButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
+        createOrderButton.setForeground(Color.WHITE); // Texto en blanco
+        createOrderButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
+
+        deleteOrderButton.setBackground(new Color(220, 53, 69)); // Rojo base
+        deleteOrderButton.setForeground(Color.WHITE); // Texto en blanco
+        deleteOrderButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
+
+        addProductButton.setBackground(new Color(41,171,226)); // Verde base
+        addProductButton.setForeground(Color.WHITE); // Texto en blanco
+        addProductButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        changeProductButton.setBackground(new Color(41,171,226)); // Verde base
+        changeProductButton.setForeground(Color.WHITE); // Texto en blanco
+        changeProductButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        deleteProductButton.setBackground(new Color(41,171,226)); // Verde base
+        deleteProductButton.setForeground(Color.WHITE); // Texto en blanco
+        deleteProductButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        placeOrderButton.setBackground(new Color(41,171,226)); // Verde base
+        placeOrderButton.setForeground(Color.WHITE); // Texto en blanco
+        placeOrderButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+
+
 
         updateComboBox();
         updateCat(comboBox2.getSelectedItem().toString());
@@ -144,6 +182,18 @@ public class Order_DetailGUI {
             }
         });
 
+        createOrderButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createOrderButton.setBackground(new Color(120, 190, 120)); // Verde más intenso al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                createOrderButton.setBackground(new Color(160, 208, 160)); // Restaurar color base
+            }
+        });
+
         deleteOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -180,6 +230,18 @@ public class Order_DetailGUI {
 
                 }
 
+            }
+        });
+
+        deleteOrderButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                deleteOrderButton.setBackground(new Color(255, 102, 102)); // Rojo más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                deleteOrderButton.setBackground(new Color(220, 53, 69)); // Restaurar color base
             }
         });
 
@@ -249,6 +311,20 @@ public class Order_DetailGUI {
 
             }
         });
+
+        addProductButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                addProductButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addProductButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
+
         changeProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -297,6 +373,19 @@ public class Order_DetailGUI {
 
             }
         });
+
+        changeProductButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                changeProductButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                changeProductButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
         deleteProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -316,6 +405,18 @@ public class Order_DetailGUI {
                     showdata();
                     updateTotal();
                 }
+            }
+        });
+
+        deleteProductButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                deleteProductButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                deleteProductButton.setBackground(new Color(41,171,226)); // Restaurar color base
             }
         });
 
@@ -374,12 +475,13 @@ public class Order_DetailGUI {
 
                         if (emailCliente != null && !emailCliente.isEmpty()) {
                             customerDAO.enviarFacturaPorCorreo(filePath, customerName,emailCliente);
+                            //generarFacturaPDF();
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Email not found");
                         }
                     }
 
-                    generarFacturaPDF();
                     clearTable();
 
                     textField1.setText("");
@@ -470,7 +572,7 @@ public class Order_DetailGUI {
                     document.add(new Paragraph("Total + IVA: " + textField6.getText()));
                     document.close();
 
-                    JOptionPane.showMessageDialog(null, "Invoice generated and saved correctly: " + filePath);
+                    //JOptionPane.showMessageDialog(null, "Invoice generated and saved correctly: " + filePath);
 
 
                     Desktop.getDesktop().open(new File(filePath));
@@ -482,6 +584,18 @@ public class Order_DetailGUI {
             }
 
 
+        });
+
+        placeOrderButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                placeOrderButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                placeOrderButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
         });
 
 
@@ -506,6 +620,19 @@ public class Order_DetailGUI {
                 frame.dispose();
             }
         });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
 
     }
 

@@ -22,20 +22,28 @@ public class QRGenerator {
 
     public static void showqr() {
 
-        JFrame frame = new JFrame("Nequi");
-        frame.setSize(280, 280);
+        JFrame frame = new JFrame("Scan the QR ");
+        frame.setSize(280, 320);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //frame.setUndecorated(true); // Sin bordes del sistema
+        frame.setBackground(new Color(70, 70, 70)); // Fondo gris claro
+
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(70, 70, 70)); // Color gris oscuro
+        panel.setLayout(new BorderLayout()); // Usar BorderLayout para centrar la imagen
 
         // Ruta de la imagen del código QR
+        //String rutaImagen = "C:/Users/crist/IdeaProjects/Pharmacy-Project/src/Pharmacy_Project/utils/qrnequi.jpeg";
+        String rutaImagen = "src/Pharmacy_Project/utils/qrnequi.jpeg";
 
-        String rutaImagen = "C:/Users/crist/IdeaProjects/Pharmacy-Project/src/Pharmacy_Project/utils/qrnequi.jpeg";
 
         ImageIcon icon = new ImageIcon(rutaImagen);
         Image img = icon.getImage().getScaledInstance(230, 230, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
 
+        panel.add(label, BorderLayout.CENTER);
 
-        frame.add(label, BorderLayout.CENTER);
+        frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

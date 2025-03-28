@@ -82,7 +82,7 @@ public class Socket_ClientGUI {
             return true;
 
         } catch (IOException t) {
-            JOptionPane.showMessageDialog(null, "Error in client: " + t.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in client: " + t.getMessage());
             return false;
         }
     }
@@ -197,7 +197,7 @@ public class Socket_ClientGUI {
             clientFrame.setLocation(225, 200);
             clientFrame.setVisible(true);
         }else {
-            JOptionPane.showMessageDialog(null, "Failed to connect to server.");
+            //JOptionPane.showMessageDialog(null, "Failed to connect to server.");
         }
     }
 }

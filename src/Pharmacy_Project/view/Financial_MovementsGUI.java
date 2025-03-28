@@ -248,6 +248,13 @@ public class Financial_MovementsGUI {
                     JOptionPane.showMessageDialog(null, "Please, select a movement to remove");
                 } else {
 
+                    String descripcion = table1.getValueAt(selectedRow, 5).toString(); // Columna 5 (índice 4)
+
+                    if (descripcion.contains("Order")) { // Verifica si contiene "Order"
+                        JOptionPane.showMessageDialog(null, "No se puede eliminar una venta ya realizada");
+                        return; // Detiene la ejecución
+                    }
+
                     int id_movement = Integer.parseInt(table1.getValueAt(selectedRow,0).toString());
                     String tipo_movimiento = table1.getValueAt(selectedRow,1).toString();
                     int monto = Integer.parseInt(table1.getValueAt(selectedRow,3).toString());

@@ -6,6 +6,7 @@ import Pharmacy_Project.dao.Order_DetailDAO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
@@ -37,6 +38,13 @@ public class DetailGUI {
 
     public DetailGUI(JFrame parentFrame, int orderId)
     {
+
+        BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+
+        BackButton.setBackground(new Color(41,171,226)); // Verde base
+        BackButton.setForeground(Color.WHITE); // Texto en blanco
+        BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
         this.parentFrame = parentFrame;
 
         showdata(orderId);
@@ -50,6 +58,19 @@ public class DetailGUI {
                 frame.dispose();
             }
         });
+
+        BackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                BackButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                BackButton.setBackground(new Color(41,171,226)); // Restaurar color base
+            }
+        });
+
 
     }
 

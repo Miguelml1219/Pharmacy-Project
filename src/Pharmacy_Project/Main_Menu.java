@@ -118,9 +118,9 @@ public class Main_Menu {
                         ex.printStackTrace();
                     }
 
-                    new Thread(() -> {
-                        Socket_ClientGUI.startClient();
-                    }).start();
+//                    new Thread(() -> {
+//                        Socket_ClientGUI.startClient();
+//                    }).start();
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Canceled Chat");
@@ -133,10 +133,18 @@ public class Main_Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(main);
-                if (frame != null) {
-                    JOptionPane.showMessageDialog(null,"GoodBye ;)");
-                    frame.dispose();
+                int option = JOptionPane.showConfirmDialog(frame, "Do you want to log out?","Confirm exit",JOptionPane.YES_NO_OPTION);
+                if(option == JOptionPane.YES_OPTION)
+                {
+                    frame.dispose(); // Cierra la ventana
+                    System.exit(0);
                 }
+
+
+//                if (frame != null) {
+//                    JOptionPane.showMessageDialog(null,"GoodBye ;)");
+//                    frame.dispose();
+//                }
             }
         });
 

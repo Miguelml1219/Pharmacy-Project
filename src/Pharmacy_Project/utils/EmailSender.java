@@ -54,7 +54,6 @@ public class EmailSender {
             //message.setText("Hello " + customerName + ",\n\nYour pharmacy registration has been successful, thank you for joining!\n\n\nRegards,\nML Pharmacy");
 
             // Cuerpo del correo en formato HTML
-
             MimeBodyPart textPart = new MimeBodyPart();
             // 🖼️ Mensaje en formato HTML con una imagen de internet
             String htmlMessage = "<h1>Hello " + customerName + ",</h1>"

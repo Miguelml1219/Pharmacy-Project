@@ -112,7 +112,7 @@ public class SentGUI {
 
                                 financial_movementsDAO.add(financial_movements);                            }
                         }
-                        JOptionPane.showMessageDialog(null, "Order updated successfully");
+                        //JOptionPane.showMessageDialog(null, "Order updated successfully");
                     } else {
                         JOptionPane.showMessageDialog(null, "Order not update");
                     }

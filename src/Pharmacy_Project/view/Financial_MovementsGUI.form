@@ -67,6 +67,7 @@
         </constraints>
         <properties>
           <font name="Marlett" size="20" style="3"/>
+          <foreground color="-16764058"/>
           <text value="Financial Movements"/>
         </properties>
       </component>
