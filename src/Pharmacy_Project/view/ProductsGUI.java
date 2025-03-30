@@ -3,12 +3,21 @@ package Pharmacy_Project.view;
 import Pharmacy_Project.connection.ConnectionDB;
 import Pharmacy_Project.dao.ProductsDAO;
 import Pharmacy_Project.model.Products;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.Font;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -17,7 +26,6 @@ import java.util.Map;
 import javax.swing.RowFilter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.table.DefaultTableCellRenderer;
 
 
 /**
@@ -43,6 +51,7 @@ public class ProductsGUI {
     private JButton deleteButton;
     private JButton BackButton;
     private JTextField search;
+    private JButton downloadPDFButton;
     private JFrame frame;
     private JFrame parentFrame;
     private ProductsDAO productsDAO = new ProductsDAO();
@@ -65,6 +74,7 @@ public class ProductsGUI {
         updatedButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
         deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
         BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        downloadPDFButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 14));
 
         addButton.setBackground(new Color(0, 200, 0)); // Verde base
         addButton.setForeground(Color.WHITE); // Texto en blanco
@@ -82,6 +92,10 @@ public class ProductsGUI {
         BackButton.setBackground(new Color(41,171,226)); // Verde base
         BackButton.setForeground(Color.WHITE); // Texto en blanco
         BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        downloadPDFButton.setBackground(new Color(255, 102, 102)); // Azul base
+        downloadPDFButton.setForeground(Color.WHITE); // Texto en blanco
+        downloadPDFButton.setBorder(BorderFactory.createLineBorder(new Color(139, 0, 0), 3)); // Borde azul oscuro
 
         textField1.setVisible(false);
         this.parentFrame = parentFrame;
@@ -351,6 +365,104 @@ public class ProductsGUI {
                 }
             }
         });
+
+        downloadPDFButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generatePDF();
+            }
+        });
+
+        downloadPDFButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(220, 53, 69)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(255, 102, 102)); // Restaurar color base
+            }
+        });
+
+    }
+
+    public void generatePDF(){
+        Document documento = new Document(PageSize.A4);
+
+        try {
+            String filePath = "Factura_Productos.pdf";
+            PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream(filePath));
+
+            documento.open();
+
+            String imagePath = "src/Pharmacy_Project/utils/plantilla.jpeg";
+            File imgFile = new File(imagePath);
+            if (!imgFile.exists()) {
+                JOptionPane.showMessageDialog(null, "Error: Background image not found.");
+                return;
+            }
+
+            com.itextpdf.text.Image background = com.itextpdf.text.Image.getInstance(imagePath);
+            background.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+            background.setAbsolutePosition(0, 0);
+
+            PdfContentByte canvas = writer.getDirectContentUnder();
+            canvas.addImage(background);
+
+
+            documento.add(new Paragraph("\n\n\n"));
+            documento.add(new Paragraph("\n\n\n"));
+
+            Paragraph titulo = new Paragraph("Products",
+                    FontFactory.getFont("Tahoma", 22, java.awt.Font.BOLD, BaseColor.BLUE));
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(titulo);
+            documento.add(new Paragraph("\n\n"));
+
+            PdfPTable tabla = new PdfPTable(9);
+            tabla.setWidthPercentage(110);
+            tabla.setSpacingBefore(10f);
+            tabla.setSpacingAfter(10f);
+
+            String[] headers = {"Id product", "Id category", "Name", "Description", "Price", "Current Stock", "Minimum Stock", "Expiration Date", "Lot"};
+            for (String header : headers) {
+                PdfPCell cell = new PdfPCell(new Phrase(header,
+                        FontFactory.getFont("Tahoma", 12, java.awt.Font.BOLD, BaseColor.WHITE)));
+                cell.setBackgroundColor(BaseColor.BLUE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tabla.addCell(cell);
+            }
+
+            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/farmacia", "root", "");
+                 PreparedStatement pst = cn.prepareStatement("SELECT * FROM productos");
+                 ResultSet rs = pst.executeQuery()) {
+
+                if (!rs.isBeforeFirst()) {
+                    JOptionPane.showMessageDialog(null, "No products were found.");
+                } else {
+                    while (rs.next()) {
+                        for (int i = 1; i <= 9; i++) {
+                            tabla.addCell(rs.getString(i));
+                        }
+                    }
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error in the database: " + ex.getMessage());
+            }
+
+            documento.add(tabla);
+            documento.close();
+
+            JOptionPane.showMessageDialog(null, "PDF successfully generated.");
+
+            Desktop.getDesktop().open(new File(filePath));
+
+
+        } catch (DocumentException | IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error generating the PDF: " + ex.getMessage());
+        }
+
     }
 
     /**

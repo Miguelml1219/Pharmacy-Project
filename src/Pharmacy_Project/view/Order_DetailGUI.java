@@ -83,29 +83,29 @@ public class Order_DetailGUI {
         createOrderButton.setForeground(Color.WHITE); // Texto en blanco
         createOrderButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
 
-        deleteOrderButton.setBackground(new Color(220, 53, 69)); // Rojo base
+        deleteOrderButton.setBackground(new Color(255, 102, 102)); // Rojo base
         deleteOrderButton.setForeground(Color.WHITE); // Texto en blanco
         deleteOrderButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde rojo oscuro
 
-        addProductButton.setBackground(new Color(41,171,226)); // Verde base
+        addProductButton.setBackground(new Color(0, 200, 0)); // Verde base
         addProductButton.setForeground(Color.WHITE); // Texto en blanco
-        addProductButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+        addProductButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
 
-        changeProductButton.setBackground(new Color(41,171,226)); // Verde base
+        changeProductButton.setBackground(new Color(255, 193, 7)); // Verde base
         changeProductButton.setForeground(Color.WHITE); // Texto en blanco
-        changeProductButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+        changeProductButton.setBorder(BorderFactory.createLineBorder(new Color(153, 115, 0), 3)); // Borde verde oscuro
 
-        deleteProductButton.setBackground(new Color(41,171,226)); // Verde base
+        deleteProductButton.setBackground(new Color(255, 102, 102)); // Verde base
         deleteProductButton.setForeground(Color.WHITE); // Texto en blanco
-        deleteProductButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+        deleteProductButton.setBorder(BorderFactory.createLineBorder(new Color(176, 32, 48), 3)); // Borde verde oscuro
 
         BackButton.setBackground(new Color(41,171,226)); // Verde base
         BackButton.setForeground(Color.WHITE); // Texto en blanco
         BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
 
-        placeOrderButton.setBackground(new Color(41,171,226)); // Verde base
+        placeOrderButton.setBackground(new Color(0, 200, 0)); // Verde base
         placeOrderButton.setForeground(Color.WHITE); // Texto en blanco
-        placeOrderButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+        placeOrderButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
 
 
 
@@ -236,12 +236,12 @@ public class Order_DetailGUI {
         deleteOrderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                deleteOrderButton.setBackground(new Color(255, 102, 102)); // Rojo más claro al pasar el mouse
+                deleteOrderButton.setBackground(new Color(220, 53, 69)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                deleteOrderButton.setBackground(new Color(220, 53, 69)); // Restaurar color base
+                deleteOrderButton.setBackground(new Color(255, 102, 102)); // Restaurar color base
             }
         });
 
@@ -315,12 +315,12 @@ public class Order_DetailGUI {
         addProductButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                addProductButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+                addProductButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                addProductButton.setBackground(new Color(41,171,226)); // Restaurar color base
+                addProductButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 
@@ -377,12 +377,12 @@ public class Order_DetailGUI {
         changeProductButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                changeProductButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+                changeProductButton.setBackground(new Color(255, 193, 7)); // Amarillo más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                changeProductButton.setBackground(new Color(41,171,226)); // Restaurar color base
+                changeProductButton.setBackground(new Color(255, 193, 7)); // Restaurar color base
             }
         });
 
@@ -411,14 +411,15 @@ public class Order_DetailGUI {
         deleteProductButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                deleteProductButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+                deleteProductButton.setBackground(new Color(220, 53, 69)); // Azul más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                deleteProductButton.setBackground(new Color(41,171,226)); // Restaurar color base
+                deleteProductButton.setBackground(new Color(255, 102, 102)); // Restaurar color base
             }
         });
+
 
         table1.addMouseListener(new MouseAdapter() {
             @Override
@@ -589,12 +590,12 @@ public class Order_DetailGUI {
         placeOrderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                placeOrderButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+                placeOrderButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                placeOrderButton.setBackground(new Color(41,171,226)); // Restaurar color base
+                placeOrderButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
 

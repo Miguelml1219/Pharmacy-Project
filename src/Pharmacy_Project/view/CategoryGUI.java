@@ -55,13 +55,13 @@ public class CategoryGUI {
         deleteButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
         BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
 
-        addButton.setBackground(new Color(41,171,226)); // Verde base
+        addButton.setBackground(new Color(0, 200, 0)); // Verde base
         addButton.setForeground(Color.WHITE); // Texto en blanco
-        addButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+        addButton.setBorder(BorderFactory.createLineBorder(new Color(96, 160, 96), 3)); // Borde verde oscuro
 
-        updateButton.setBackground(new Color(41,171,226)); // Verde base
+        updateButton.setBackground(new Color(211, 158, 0)); // Verde base
         updateButton.setForeground(Color.WHITE); // Texto en blanco
-        updateButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+        updateButton.setBorder(BorderFactory.createLineBorder(new Color(153, 115, 0), 3)); // Borde verde oscuro
 
         deleteButton.setBackground(new Color(220, 53, 69)); // Rojo base
         deleteButton.setForeground(Color.WHITE); // Texto en blanco
@@ -121,15 +121,14 @@ public class CategoryGUI {
         addButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                addButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+                addButton.setBackground(new Color(160, 208, 160)); // Verde más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                addButton.setBackground(new Color(41,171,226)); // Restaurar color base
+                addButton.setBackground(new Color(0, 200, 0)); // Restaurar color base
             }
         });
-
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -176,12 +175,12 @@ public class CategoryGUI {
         updateButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                updateButton.setBackground(new Color(102, 178, 255)); // Verde más claro al pasar el mouse
+                updateButton.setBackground(new Color(255, 193, 7)); // Amarillo más claro al pasar el mouse
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                updateButton.setBackground(new Color(41,171,226)); // Restaurar color base
+                updateButton.setBackground(new Color(211, 158, 0)); // Restaurar color base
             }
         });
 

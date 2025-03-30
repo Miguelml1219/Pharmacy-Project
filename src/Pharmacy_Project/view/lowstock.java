@@ -1,15 +1,22 @@
 package Pharmacy_Project.view;
 
 import Pharmacy_Project.connection.ConnectionDB;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.Font;
 import java.awt.event.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.*;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
@@ -23,12 +30,13 @@ public class LowStock {
     private JTable table1;
     private JButton BackButton;
     private JTextField search;
+    private JButton downloadPDFButton;
 
     private JFrame frame;
     private JFrame parentFrame;
     private ConnectionDB connectionDB = new ConnectionDB();
     private TableRowSorter<DefaultTableModel> sorter;
-    private CustomerGUI.NonEditableTableModel modelo;
+    private NonEditableTableModel modelo;
 
     /**
      * Constructor de la clase LowStock.
@@ -39,10 +47,15 @@ public class LowStock {
     {
 
         BackButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 16));
+        downloadPDFButton.setFont(new Font("Marlett Non-latin", Font.BOLD, 14));
 
         BackButton.setBackground(new Color(41,171,226)); // Verde base
         BackButton.setForeground(Color.WHITE); // Texto en blanco
         BackButton.setBorder(BorderFactory.createLineBorder(new Color(0, 86, 179), 3)); // Borde verde oscuro
+
+        downloadPDFButton.setBackground(new Color(255, 102, 102)); // Azul base
+        downloadPDFButton.setForeground(Color.WHITE); // Texto en blanco
+        downloadPDFButton.setBorder(BorderFactory.createLineBorder(new Color(139, 0, 0), 3)); // Borde azul oscuro
 
         this.parentFrame = parentFrame;
         sorter = new TableRowSorter<>(modelo);
@@ -94,6 +107,91 @@ public class LowStock {
                 }
             }
         });
+
+        downloadPDFButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generatePDF();
+            }
+        });
+
+        downloadPDFButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(220, 53, 69)); // Azul más claro al pasar el mouse
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                downloadPDFButton.setBackground(new Color(255, 102, 102)); // Restaurar color base
+            }
+        });
+
+    }
+
+    public void generatePDF(){
+            try {
+                Document document = new Document();
+                String filePath = "Factura_Stock.pdf";
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+                document.open();
+
+                // Cargar la imagen de fondo
+                String imagePath = "src/Pharmacy_Project/utils/plantilla.jpeg";
+                Image background = Image.getInstance(imagePath);
+                background.setAbsolutePosition(0, 0);
+                background.scaleToFit(document.getPageSize().getWidth(), document.getPageSize().getHeight());
+
+                // Agregar imagen de fondo al documento
+                PdfContentByte canvas = writer.getDirectContentUnder();
+                canvas.addImage(background);
+
+                // Título
+                document.add(new Paragraph("\n\n\n"));
+                document.add(new Paragraph("\n\n\n"));
+                Paragraph titulo = new Paragraph("Products",
+                        FontFactory.getFont("Tahoma", 22, java.awt.Font.BOLD, BaseColor.BLUE));
+                titulo.setAlignment(Element.ALIGN_CENTER);
+                document.add(titulo);
+                document.add(new Paragraph("\n\n"));
+
+                // Crear la tabla
+                PdfPTable table = new PdfPTable(3); // Asegurar 3 columnas
+                table.setWidthPercentage(100);
+                table.setWidths(new float[]{3, 2, 2}); // Ajustar el ancho de columnas
+
+                String[] headers = {"Product","Current Stock","Minimum Stock"};
+                for (String header : headers) {
+                    PdfPCell cell = new PdfPCell(new Phrase(header,
+                            FontFactory.getFont("Tahoma", 12, java.awt.Font.BOLD, BaseColor.WHITE)));
+                    cell.setBackgroundColor(BaseColor.BLUE);
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(cell);
+                }
+
+                // Agregar datos desde la tabla de la GUI
+                for (int i = 0; i < table1.getRowCount(); i++) {
+                    table.addCell(table1.getValueAt(i, 0).toString()); // Producto
+                    table.addCell(table1.getValueAt(i, 1).toString()); // Stock Actual
+                    table.addCell(table1.getValueAt(i, 2).toString()); // Stock Mínimo
+                }
+
+                // Agregar tabla al documento
+                document.add(table);
+
+                // Cerrar documento
+                document.close();
+
+                JOptionPane.showMessageDialog(null, "PDF successfully generated.");
+
+                //JOptionPane.showMessageDialog(null, "Invoice generated and saved correctly: " + filePath);
+
+                Desktop.getDesktop().open(new File(filePath));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
     }
 
     /**

@@ -23,7 +23,7 @@ public class QRGenerator {
     public static void showqr() {
 
         JFrame frame = new JFrame("Scan the QR ");
-        frame.setSize(280, 320);
+        frame.setSize(360, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //frame.setUndecorated(true); // Sin bordes del sistema
         frame.setBackground(new Color(70, 70, 70)); // Fondo gris claro
@@ -38,7 +38,7 @@ public class QRGenerator {
 
 
         ImageIcon icon = new ImageIcon(rutaImagen);
-        Image img = icon.getImage().getScaledInstance(230, 230, Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(315, 315, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
 
         panel.add(label, BorderLayout.CENTER);
