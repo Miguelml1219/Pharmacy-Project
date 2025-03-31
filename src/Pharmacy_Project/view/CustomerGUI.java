@@ -144,20 +144,39 @@ public class CustomerGUI {
                         return;
                     }
 
+                    String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+                    if (!email.matches(emailRegex)) {
+                        JOptionPane.showMessageDialog(null, "Correo inválido. Introduzca un correo válido.");
+                        return;
+                    }
+
                     int numDoc = Integer.parseInt(num_doc);
 
                     boolean docExist = false;
+                    boolean emailExist = false;
+
                     for (int i = 0; i < table1.getRowCount(); i++) {
                         int docExisting = Integer.parseInt(table1.getValueAt(i, 1).toString());
+                        String emailExisting = table1.getValueAt(i, 4).toString();
+
                         if (docExisting == numDoc) {
                             docExist = true;
-                            break;
+                        }
+
+                        if (emailExisting.equalsIgnoreCase(email)) {
+                            emailExist = true;
                         }
                     }
 
                     if (docExist) {
                         JOptionPane.showMessageDialog(null, "El Numero de Documento " + numDoc + " ya existe");
                         textField6.setText("");
+                        return;
+                    }
+
+                    if (emailExist) {
+                        JOptionPane.showMessageDialog(null, "El correo " + email + " ya está registrado");
+                        textField4.setText("");
                         return;
                     }
 
@@ -205,6 +224,12 @@ public class CustomerGUI {
                     }
                     if (!telefono.matches("\\d+")) {
                         JOptionPane.showMessageDialog(null, "El campo Numero de Teléfono solo debe contener numeros");
+                        return;
+                    }
+
+                    String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+                    if (!email.matches(emailRegex)) {
+                        JOptionPane.showMessageDialog(null, "Correo inválido. Introduzca un correo válido.");
                         return;
                     }
 
