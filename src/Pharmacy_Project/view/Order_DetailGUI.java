@@ -152,7 +152,7 @@ public class Order_DetailGUI {
                 Timestamp fecha = Timestamp.valueOf(textField2.getText());
 
 
-                Order order = new Order(0, id_cliente, fecha, 0, "", "Preparation");
+                Order order = new Order(0, id_cliente, fecha, 0, "", "Preparación");
                 orderDAO.addOrder(order);
 
                 textField1.setText(String.valueOf(id+1));
@@ -198,7 +198,7 @@ public class Order_DetailGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (table1.getRowCount()>0){
-                    JOptionPane.showMessageDialog(null, "First delete the product", "Alert", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Primero elimina un Producto", "Alert", JOptionPane.WARNING_MESSAGE);
                 }else {
                     int currentId = order_detailDAO.obtenerID();
                     orderDAO.delete(currentId);
@@ -262,24 +262,24 @@ public class Order_DetailGUI {
             public void actionPerformed(ActionEvent e) {
 
                 if (textField4.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete quantity field");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Cantidad");
                 }else {
                     clearTable();
                     int id_producto = productMap.get(comboBox3.getSelectedItem().toString());
                     int cantidad = Integer.parseInt(textField4.getText());
                     String und_medida = (String) comboBox4.getSelectedItem();
 
-                    textField5.setText("Preparation");
+                    textField5.setText("Preparación");
 
                     String cantidadT = textField1.getText();
 
                     if (!cantidadT.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Télefono solo debe contener nuúmeros");
                         return;
                     }
 
                     if (!order_detailDAO.verificarStockDisponible(id_producto, cantidad)) {
-                        JOptionPane.showMessageDialog(null, "Not enough stock for this product!", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "No hay suficiente inventario para el producto!", "Error", JOptionPane.ERROR_MESSAGE);
                         return; // Bloquea la adición del producto si no hay stock suficiente
                     }
 
@@ -291,7 +291,7 @@ public class Order_DetailGUI {
                     int subtotal;
                     if (und_medida.equals("Blister")) {
                         subtotal = cantidad * precio_unitario * 10; // Un blister tiene 10 unidades
-                    } else if (und_medida.equals("Box")) {
+                    } else if (und_medida.equals("Caja")) {
                         subtotal = cantidad * precio_unitario * 20; // Una caja tiene 20 unidades
                     } else {
                         // Para presentación "Unidad" u otras
@@ -330,7 +330,7 @@ public class Order_DetailGUI {
             public void actionPerformed(ActionEvent e) {
 
                 if (textField4.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete quantity field");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Cantidad");
                 }else {
 
                     int id_detalle =Integer.parseInt(textField7.getText());
@@ -338,12 +338,12 @@ public class Order_DetailGUI {
                     int cantidad = Integer.parseInt(textField4.getText());
                     String und_medida = (String) comboBox4.getSelectedItem();
 
-                    textField5.setText("Preparation");
+                    textField5.setText("Preparación");
 
                     String cantidadT = textField1.getText();
 
                     if (!cantidadT.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Télefono solo debe contener números");
                         return;
                     }
 
@@ -355,7 +355,7 @@ public class Order_DetailGUI {
                     int subtotal;
                     if (und_medida.equals("Blister")) {
                         subtotal = cantidad * precio_unitario * 10; // Un blister tiene 10 unidades
-                    } else if (und_medida.equals("Box")) {
+                    } else if (und_medida.equals("Caja")) {
                         subtotal = cantidad * precio_unitario * 20; // Una caja tiene 20 unidades
                     } else {
                         // Para presentación "Unidad" u otras
@@ -393,9 +393,9 @@ public class Order_DetailGUI {
                 int selectedRow = table1.getSelectedRow();
 
                 if (textField4.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete quantity field");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Cantidad");
                 }else if (selectedRow == -1) { // Si no hay fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Please, select a product to remove");
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto para eliminar");
                 } else{
                     int id_detalle = Integer.parseInt(textField7.getText());
                     order_detailDAO.delete(id_detalle);
@@ -446,7 +446,7 @@ public class Order_DetailGUI {
 
                 if(textField4.getText().trim().isEmpty())
                 {
-                    JOptionPane.showMessageDialog(null, "Please enter an amount");
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa una cantidad");
                 }else{
 
                     Timestamp fecha = Timestamp.valueOf(textField2.getText());
@@ -462,7 +462,7 @@ public class Order_DetailGUI {
                         order_detailDAO.actualizarStock(idProducto, presentacion, cantidad);
                     }
 
-                    Order order = new Order(currentId, 0, fecha, total, metodo, "Sent");
+                    Order order = new Order(currentId, 0, fecha, total, metodo, "Enviado");
                     orderDAO.upOrder(order);
 
                     // Generar factura y obtener la ruta
@@ -534,18 +534,18 @@ public class Order_DetailGUI {
                     document.add(new Paragraph(" "));
                     document.add(new Paragraph(" "));
                     document.add(new Paragraph(" "));
-                    document.add(new Paragraph("Bill of sale", new Font(Font.FontFamily.HELVETICA, 30, Font.BOLD)));
+                    document.add(new Paragraph("Factura de Venta", new Font(Font.FontFamily.HELVETICA, 30, Font.BOLD)));
                     document.add(new Paragraph(" "));
                     document.add(new Paragraph(" "));
-                    document.add(new Paragraph("Order number: " + textField1.getText()));
+                    document.add(new Paragraph("Número de Pedido: " + textField1.getText()));
                     document.add(new Paragraph(" "));
-                    document.add(new Paragraph("Date: " + textField2.getText()));
+                    document.add(new Paragraph("Fecha: " + textField2.getText()));
                     document.add(new Paragraph(" "));
-                    document.add(new Paragraph("Customer: " + comboBox2.getSelectedItem().toString()));
+                    document.add(new Paragraph("Cliente: " + comboBox2.getSelectedItem().toString()));
                     document.add(new Paragraph(" "));
-                    document.add(new Paragraph("Category: " + textField3.getText()));
+                    document.add(new Paragraph("Categoria: " + textField3.getText()));
                     document.add(new Paragraph(" "));
-                    document.add(new Paragraph("Method Payment: " + comboBox1.getSelectedItem().toString()));
+                    document.add(new Paragraph("Método de Pago: " + comboBox1.getSelectedItem().toString()));
                     document.add(new Paragraph(" "));
                     document.add(new Paragraph(" "));
                     document.add(new Paragraph(" "));
@@ -554,10 +554,10 @@ public class Order_DetailGUI {
                     PdfPTable table = new PdfPTable(5);
                     table.setWidthPercentage(100);
                     table.setWidths(new float[]{3, 2, 1, 2, 2});
-                    table.addCell("Product");
-                    table.addCell("Presentation");
-                    table.addCell("Amount");
-                    table.addCell("Price");
+                    table.addCell("Producto");
+                    table.addCell("Presentación");
+                    table.addCell("Cantidad");
+                    table.addCell("Precio");
                     table.addCell("Subtotal");
 
                     for (int i = 0; i < table1.getRowCount(); i++) {
@@ -605,7 +605,7 @@ public class Order_DetailGUI {
 
             String metodoSeleccionado = (String) comboBox1.getSelectedItem();
 
-            if (metodoSeleccionado.equals("Transfer")) {
+            if (metodoSeleccionado.equals("Transferencia")) {
 
                 QRGenerator.showqr();
                 //System.out.println("✅ Generated QR");
@@ -682,13 +682,13 @@ public class Order_DetailGUI {
         String category = textField3.getText();
         switch (category)
         {
-            case "Frequent Customer":
+            case "Cliente Frecuente":
                 discount = (int)(sum * 0.5);
                 break;
-            case "Senior Customer":
+            case "Cliente Mayor":
                 discount = (int)(sum * 0.4);
                 break;
-            case "Regular Customer":
+            case "Cliente Regular":
                 discount = (int)(sum * 0.3);
                 break;
             default:
@@ -714,12 +714,12 @@ public class Order_DetailGUI {
     {
         NonEditableTableModel modelo = new NonEditableTableModel();
 
-        modelo.addColumn("id_detail");
-        modelo.addColumn("id_order");
-        modelo.addColumn("Product");
-        modelo.addColumn("Presentation");
-        modelo.addColumn("Amount");
-        modelo.addColumn("Price");
+        modelo.addColumn("id_detalle");
+        modelo.addColumn("id_pedido");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Presentación");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Precio");
         modelo.addColumn("Subtotal");
 
         table1.setModel(modelo);
@@ -865,7 +865,7 @@ public class Order_DetailGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     clearTable();

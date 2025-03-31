@@ -83,12 +83,12 @@ public class DetailGUI {
     {
         DetailGUI.NonEditableTableModel modelo = new DetailGUI.NonEditableTableModel();
 
-        modelo.addColumn("id_detail");
-        modelo.addColumn("id_order");
-        modelo.addColumn("Product");
-        modelo.addColumn("Presentation");
-        modelo.addColumn("Amount");
-        modelo.addColumn("Price");
+        modelo.addColumn("id_detalle");
+        modelo.addColumn("id_pedido");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Presentación");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Precio");
         modelo.addColumn("Subtotal");
 
         table1.setModel(modelo);

@@ -211,8 +211,8 @@ public class ReportGUI {
      */
     public void showdata() {
         NonEditableTableModel modelo = new NonEditableTableModel();
-        modelo.addColumn("Date");
-        modelo.addColumn("Daily Sales");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Ventas Diarias");
         table1.setModel(modelo);
 
         try {
@@ -244,10 +244,10 @@ public class ReportGUI {
 
     public void showWeeklyReport() {
         NonEditableTableModel modelo = new NonEditableTableModel();
-        modelo.addColumn("Week");
-        modelo.addColumn("Start of week");
-        modelo.addColumn("End of week");
-        modelo.addColumn("Weekly Sale");
+        modelo.addColumn("Semana");
+        modelo.addColumn("Inicio de semana");
+        modelo.addColumn("Fin de semana");
+        modelo.addColumn("Ventas Semanales");
         table1.setModel(modelo);
 
         try {
@@ -280,9 +280,9 @@ public class ReportGUI {
 
     public void showMonthlyReport() {
         NonEditableTableModel modelo = new NonEditableTableModel();
-        modelo.addColumn("Year");
-        modelo.addColumn("Month");
-        modelo.addColumn("Monthly Sales");
+        modelo.addColumn("Año");
+        modelo.addColumn("Mes");
+        modelo.addColumn("Ventas Mensuales");
         table1.setModel(modelo);
 
         try {
@@ -310,9 +310,9 @@ public class ReportGUI {
 
     public void showBestSellersReport() {
         NonEditableTableModel modelo = new NonEditableTableModel();
-        modelo.addColumn("Product");
-        modelo.addColumn("Quantity Sold");
-        modelo.addColumn("Total Sales");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad Vendida");
+        modelo.addColumn("Total Ventas");
         table1.setModel(modelo);
 
         try {
@@ -340,10 +340,10 @@ public class ReportGUI {
 
     public void showTopCustomersReport() {
         NonEditableTableModel modelo = new NonEditableTableModel();
-        modelo.addColumn("ID Customer");
-        modelo.addColumn("Customer");
-        modelo.addColumn("Order Number");
-        modelo.addColumn("Total Spent");
+        modelo.addColumn("ID Cliente");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Numero de Orden");
+        modelo.addColumn("Total Gastado");
         table1.setModel(modelo);
 
         try {
@@ -401,7 +401,7 @@ public class ReportGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operations you are performing will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Está seguro de que desea salir?\nCualquier operación que esté realizando y no haya guardado se perderá.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

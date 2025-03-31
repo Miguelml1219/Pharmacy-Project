@@ -50,16 +50,17 @@ public class EmailSender {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-            message.setSubject("Welcome to PharmaPlus");
+            message.setSubject("Bienvenido a PharmaPlus");
             //message.setText("Hello " + customerName + ",\n\nYour pharmacy registration has been successful, thank you for joining!\n\n\nRegards,\nML Pharmacy");
 
             // Cuerpo del correo en formato HTML
             MimeBodyPart textPart = new MimeBodyPart();
             // 🖼️ Mensaje en formato HTML con una imagen de internet
-            String htmlMessage = "<h1>Hello " + customerName + ",</h1>"
-                    + "<p>Your pharmacy registration has been successful, thank you for joining!</p>"
+            String htmlMessage = "<h1>Hola " + customerName + ",</h1>"
+                    + "<p>Tu registro en PharmaPLus ha sido exitoso, gracias por unirte!</p>"
                     + "<img src='cid:logo' width='500' height='200'alt='Logo de la farmacia'>"
-                    + "<p>Regards,<br>PharmaPlus</p>";
+                    + "<p>Puedes acceder a nuestra plataforma aquí: <a href='https://pharmaplus1503.netlify.app/' target='_blank'>PharmaPlus</a></p>"
+                    + "<p>Saludos,<br>PharmaPlus</p>";
             textPart.setContent(htmlMessage, "text/html");
 
             // Adjuntar imagen al correo

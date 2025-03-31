@@ -24,7 +24,7 @@ public class  ReportDAO {
         Connection con = connectionDB.getConnection();
         String query = "SELECT fecha_pedido, SUM(total_pedido) as venta_diaria " +
                 "FROM pedidos " +
-                "WHERE estado = 'Delivered' AND DATE(fecha_pedido) = CURDATE() " +
+                "WHERE estado = 'Entregado' AND DATE(fecha_pedido) = CURDATE() " +
                 "GROUP BY fecha_pedido " +
                 "ORDER BY fecha_pedido DESC";
         try {
@@ -50,7 +50,7 @@ public class  ReportDAO {
                 "MAX(fecha_pedido) as fin_semana, " +
                 "SUM(total_pedido) as venta_semanal " +
                 "FROM pedidos " +
-                "WHERE estado = 'Delivered' AND YEARWEEK(fecha_pedido, 1) = YEARWEEK(CURDATE(), 1) " +
+                "WHERE estado = 'Entregado' AND YEARWEEK(fecha_pedido, 1) = YEARWEEK(CURDATE(), 1) " +
                 "GROUP BY YEARWEEK(fecha_pedido, 1) " +
                 "ORDER BY semana DESC";
         try {
@@ -76,7 +76,7 @@ public class  ReportDAO {
                 "MONTH(fecha_pedido) as mes, " +
                 "SUM(total_pedido) as venta_mensual " +
                 "FROM pedidos " +
-                "WHERE estado = 'Delivered' AND YEAR(fecha_pedido) = YEAR(CURDATE()) AND MONTH(fecha_pedido) = MONTH(CURDATE()) " +
+                "WHERE estado = 'Entregado' AND YEAR(fecha_pedido) = YEAR(CURDATE()) AND MONTH(fecha_pedido) = MONTH(CURDATE()) " +
                 "GROUP BY YEAR(fecha_pedido), MONTH(fecha_pedido) " +
                 "ORDER BY año DESC, mes DESC";
         try {
@@ -102,7 +102,7 @@ public class  ReportDAO {
                 "SUM(d.subtotal) as total_ventas " +
                 "FROM detalle_pedido d " +
                 "JOIN pedidos o ON d.id_pedido = o.id_pedido JOIN productos i ON d.id_producto = i.id_producto " +
-                "WHERE o.estado = 'Delivered' " +
+                "WHERE o.estado = 'Entregado' " +
                 "GROUP BY d.id_producto " +
                 "ORDER BY cantidad_vendida DESC";
         try {
@@ -130,7 +130,7 @@ public class  ReportDAO {
                 "SUM(o.total_pedido) as total_gastado " +
                 "FROM clientes c " +
                 "JOIN pedidos o ON c.id_cliente = o.id_cliente " +
-                "WHERE o.estado = 'Delivered' " +
+                "WHERE o.estado = 'Entregado' " +
                 "GROUP BY c.id_cliente, c.nombre_completo " +
                 "ORDER BY total_gastado DESC";
         try {

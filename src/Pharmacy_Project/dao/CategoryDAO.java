@@ -32,7 +32,7 @@ public class CategoryDAO {
             int result = pst.executeUpdate();
 
             if (result > 0){
-                JOptionPane.showMessageDialog(null, "Succesfully added");
+                JOptionPane.showMessageDialog(null, "Agregado exitosamente");
 
             }else{
                 JOptionPane.showMessageDialog(null,"Dont added");
@@ -67,7 +67,7 @@ public class CategoryDAO {
             int result = stmt.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Update category successfully");
+                JOptionPane.showMessageDialog(null,"Categoria actualizada exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Category not found");
         }
@@ -97,7 +97,7 @@ public class CategoryDAO {
             int result = pst.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully delete");
+                JOptionPane.showMessageDialog(null,"Eliminado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont delete");
 

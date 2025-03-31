@@ -307,7 +307,7 @@ public class Admin_Menu {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Está seguro de que desea salir?\nCualquier operación que esté realizando y no haya guardado se perderá.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

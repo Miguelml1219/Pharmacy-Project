@@ -126,7 +126,7 @@ public class CustomerGUI {
             public void actionPerformed(ActionEvent e) {
 
                 if (textField2.getText().trim().isEmpty() || textField3.getText().trim().isEmpty() || textField4.getText().trim().isEmpty() || textField5.getText().trim().isEmpty() || textField6.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete all fields");
+                    JOptionPane.showMessageDialog(null, "Completa todos los campos");
                 } else {
                     String num_doc = textField6.getText();
                     String nombre = textField2.getText();
@@ -136,11 +136,11 @@ public class CustomerGUI {
                     String categoria = (String) comboBox1.getSelectedItem();
 
                     if (!num_doc.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The Num_Document field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Numero de Documento solo debe contener numeros");
                         return;
                     }
                     if (!telefono.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The phone field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Numero de Teléfono solo debe contener numeros");
                         return;
                     }
 
@@ -156,7 +156,7 @@ public class CustomerGUI {
                     }
 
                     if (docExist) {
-                        JOptionPane.showMessageDialog(null, "The number of document " + numDoc + " already exists");
+                        JOptionPane.showMessageDialog(null, "El Numero de Documento " + numDoc + " ya existe");
                         textField6.setText("");
                         return;
                     }
@@ -188,7 +188,7 @@ public class CustomerGUI {
             public void actionPerformed(ActionEvent e) {
 
                 if (textField2.getText().trim().isEmpty() || textField3.getText().trim().isEmpty() || textField4.getText().trim().isEmpty() || textField5.getText().trim().isEmpty() || textField6.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete all fields");
+                    JOptionPane.showMessageDialog(null, "Completa todos los campos");
                 } else {
                     String num_doc = textField6.getText();
                     String nombre = textField2.getText();
@@ -200,11 +200,11 @@ public class CustomerGUI {
                     int id_cliente = Integer.parseInt(textField1.getText());
 
                     if (!num_doc.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The Num_Document field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Numero de Documento solo debe contener numeros");
                         return;
                     }
                     if (!telefono.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Numero de Teléfono solo debe contener numeros");
                         return;
                     }
 
@@ -241,9 +241,9 @@ public class CustomerGUI {
                 int selectedRow = table1.getSelectedRow();
 
                 if (textField2.getText().trim().isEmpty() || textField3.getText().trim().isEmpty() || textField4.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete all fields");
+                    JOptionPane.showMessageDialog(null, "Completa todos los campos");
                 } else if (selectedRow == -1) { // Si no hay fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Please, select a client to remove");
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar");
                 } else {
                     int id_cliente = Integer.parseInt(textField1.getText());
                     customerDAO.delete(id_cliente);
@@ -393,7 +393,7 @@ public class CustomerGUI {
             documento.add(new Paragraph("\n\n\n"));
             documento.add(new Paragraph("\n\n\n"));
 
-            Paragraph titulo = new Paragraph("Registered Customers",
+            Paragraph titulo = new Paragraph("Clientes Registrados",
                     FontFactory.getFont("Tahoma", 22, Font.BOLD, BaseColor.BLUE));
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
@@ -404,7 +404,7 @@ public class CustomerGUI {
             tabla.setSpacingBefore(10f);
             tabla.setSpacingAfter(10f);
 
-            String[] headers = {"ID", "Document", "Name", "Number", "Email", "Location", "Category"};
+            String[] headers = {"ID", "Documento", "Nombre", "Teléfono", "Correo", "Dirección", "Categoria"};
             for (String header : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(header,
                         FontFactory.getFont("Tahoma", 12, Font.BOLD, BaseColor.WHITE)));
@@ -418,7 +418,7 @@ public class CustomerGUI {
                  ResultSet rs = pst.executeQuery()) {
 
                 if (!rs.isBeforeFirst()) {
-                    JOptionPane.showMessageDialog(null, "No clients were found.");
+                    JOptionPane.showMessageDialog(null, "No clientes encontrados.");
                 } else {
                     while (rs.next()) {
                         for (int i = 1; i <= 7; i++) {
@@ -433,7 +433,7 @@ public class CustomerGUI {
             documento.add(tabla);
             documento.close();
 
-            JOptionPane.showMessageDialog(null, "PDF successfully generated.");
+            JOptionPane.showMessageDialog(null, "PDF generado exitosamente.");
 
             Desktop.getDesktop().open(new File(filePath));
 
@@ -459,13 +459,13 @@ public class CustomerGUI {
 
         NonEditableTableModel modelo = new NonEditableTableModel();
 
-        modelo.addColumn("Id_Customer");
-        modelo.addColumn("Num_Document");
-        modelo.addColumn("Full Name");
-        modelo.addColumn("Phone Number");
-        modelo.addColumn("Email");
-        modelo.addColumn("Address");
-        modelo.addColumn("Category");
+        modelo.addColumn("Id_Cliente");
+        modelo.addColumn("Num_Documento");
+        modelo.addColumn("Nombre Completo");
+        modelo.addColumn("Teléfono");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Dirección");
+        modelo.addColumn("Categoria");
 
         table1.setModel(modelo);
 
@@ -548,7 +548,7 @@ public class CustomerGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

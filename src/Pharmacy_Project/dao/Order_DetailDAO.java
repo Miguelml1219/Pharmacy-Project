@@ -41,7 +41,7 @@ public class Order_DetailDAO {
             int result = pst.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully added");
+                JOptionPane.showMessageDialog(null,"Agregada exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont added");
         }
@@ -79,7 +79,7 @@ public class Order_DetailDAO {
             int result = stmt.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Update Order successfully");
+                JOptionPane.showMessageDialog(null,"Orden actualizada exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Order not found");
         }
@@ -107,7 +107,7 @@ public class Order_DetailDAO {
             int result = pst.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully delete");
+                JOptionPane.showMessageDialog(null,"Eliminado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont delete");
 
@@ -182,7 +182,7 @@ public class Order_DetailDAO {
 
         if (presentation.equals("Blister")) {
             unit = 10;
-        } else if (presentation.equals("Box")) {
+        } else if (presentation.equals("Caja")) {
             unit = 20;
         }
 
@@ -210,17 +210,17 @@ public class Order_DetailDAO {
                     updateStmt.executeUpdate();
 
                     int nuevoStock = currentStock - amountT;
-                    JOptionPane.showMessageDialog(null, "Stock updated correctly. " + amountT+ " units were discounted ");
+                    JOptionPane.showMessageDialog(null, "Stock actualizado correctamente. " + amountT+ " unidades fueron descontadas ");
 
                     // Mostrar alerta si el stock está en su mínimo o menor
                     if (nuevoStock <= stockMinimo) {
                         JOptionPane.showMessageDialog(null,
-                                "Stock low for: " + nameProduct + " - Replenishment required!",
+                                "Bajo Stock para: " + nameProduct + " - Reabastecimiento requerido!",
                                 "Stock Alert", JOptionPane.WARNING_MESSAGE);
                     }
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Not enough stock. Current Stock: " + currentStock + ", Required: " + amountT);
+                    JOptionPane.showMessageDialog(null, "No hay suficiente stock. Stock Actual: " + currentStock + ", Requerido: " + amountT);
                 }
 
             }

@@ -46,9 +46,9 @@ public class Socket_ClientGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (out != null) {
-                    out.println("Client has left the chat.");
+                    out.println("Cliente abandono el chat.");
                 }
-                JOptionPane.showMessageDialog(null, "You have left the chat.");
+                JOptionPane.showMessageDialog(null, "Abandonaste el chat.");
                 closeClient();
             }
         });
@@ -96,10 +96,10 @@ public class Socket_ClientGUI {
         try {
             String message;
             while ((message = in.readLine()) != null) {
-                textArea1.append("Server: " + message + "\n");
+                textArea1.append("Servidor: " + message + "\n");
 
-                if (message.contains("has left the chat")) {
-                    JOptionPane.showMessageDialog(null, "The other user has left the chat.");
+                if (message.contains("Abandono el chat")) {
+                    JOptionPane.showMessageDialog(null, "El otro usuario abandono el chat");
                     closeClient();
                     break;
                 }
@@ -115,7 +115,7 @@ public class Socket_ClientGUI {
 
     public void SendMessage() {
         String sendMessage = textField1.getText();
-        textArea1.append("Client: " + sendMessage + "\n");
+        textArea1.append("Cliente: " + sendMessage + "\n");
         out.println(sendMessage);
     }
 
@@ -160,7 +160,7 @@ public class Socket_ClientGUI {
         String serverAddress;
 
         while (true){
-            serverAddress = JOptionPane.showInputDialog("Enter the IP of Server (localhost it's local): ");
+            serverAddress = JOptionPane.showInputDialog("Ingresa el IP del servidor (localhost si es local): ");
 
             if (serverAddress == null) {
                 JOptionPane.showMessageDialog(null, "Connection cancelled.");
@@ -186,7 +186,7 @@ public class Socket_ClientGUI {
             clientFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    JOptionPane.showMessageDialog(clientFrame,"You left the chat");
+                    JOptionPane.showMessageDialog(clientFrame,"Abandonaste el chat");
 
 //                    clientGUI.closeClient();
 //                    clientFrame.dispose();

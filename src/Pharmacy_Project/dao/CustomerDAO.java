@@ -50,7 +50,7 @@ public class CustomerDAO {
             int result = pst.executeUpdate();
 
             if (result > 0){
-                JOptionPane.showMessageDialog(null, "Succesfully added");
+                JOptionPane.showMessageDialog(null, "Agregado exitosamente");
                 EmailSender.sendEmail(customer.getCorreo_electronico(), customer.getNombre_completo());
 
             }else{
@@ -91,7 +91,7 @@ public class CustomerDAO {
             int result = stmt.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Update customer successfully");
+                JOptionPane.showMessageDialog(null,"Cliente actualizado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Customer not found");
         }
@@ -119,7 +119,7 @@ public class CustomerDAO {
             int result = pst.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully delete");
+                JOptionPane.showMessageDialog(null,"Eliminado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont delete");
 
@@ -143,16 +143,17 @@ public class CustomerDAO {
     public void enviarFacturaPorCorreo(String filePath, String customerName, String emailCliente) {
         String remitente = "pharmacy1503@gmail.com";
         String clave = "hxdn snye vvkg sayh";  // Usa una clave de aplicación de Gmail
-        String asunto = "Bill of your purchase";
+        String asunto = "Factura de tu compra";
         //String cuerpo = "Attached you will find the invoice of your purchase, thank you for choosing us!";
 
         String cuerpo = "<div style='font-family: Arial, sans-serif; color: #333; padding: 20px;'>"
-                + "<h1>Hello " + customerName + ",</h1>"
-                + "<p>Thank you for your purchase at <b>PharmaPlus</b>. Attached you will find your invoice.</p>"
-                + "<p>We appreciate your preference and look forward to serving you again!</p>"
+                + "<h1>Hola " + customerName + ",</h1>"
+                + "<p>Gracias por tu compra en <b>PharmaPlus</b>. Adjuntamos su factura.</p>"
+                + "<p>Agradecemos su preferencia y esperamos poder servirle de nuevo!</p>"
                 + "<br>"
                 + "<img src='cid:logo' width='500' alt='Pharmacy Logo' style='border-radius: 10px;'>"
-                + "<p>Best regards,<br><b>PharmaPlus Team</b></p>";
+                + "<p>Puedes acceder a nuestra plataforma aquí: <a href='https://pharmaplus1503.netlify.app/' target='_blank'>PharmaPlus</a></p>"
+                + "<p>Saludos cordiales,<br><b>Equipo PharmaPlus</b></p>";
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -198,7 +199,7 @@ public class CustomerDAO {
             message.setContent(multipart);
 
             Transport.send(message);
-            JOptionPane.showMessageDialog(null, "Bill sent to: " + emailCliente);
+            JOptionPane.showMessageDialog(null, "Factura enviada a: " + emailCliente);
 
         } catch (Exception e) {
             e.printStackTrace();

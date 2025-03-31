@@ -149,7 +149,7 @@ public class LowStock {
                 // Título
                 document.add(new Paragraph("\n\n\n"));
                 document.add(new Paragraph("\n\n\n"));
-                Paragraph titulo = new Paragraph("Products",
+                Paragraph titulo = new Paragraph("Productos Bajos en Inventario",
                         FontFactory.getFont("Tahoma", 22, java.awt.Font.BOLD, BaseColor.BLUE));
                 titulo.setAlignment(Element.ALIGN_CENTER);
                 document.add(titulo);
@@ -160,7 +160,7 @@ public class LowStock {
                 table.setWidthPercentage(100);
                 table.setWidths(new float[]{3, 2, 2}); // Ajustar el ancho de columnas
 
-                String[] headers = {"Product","Current Stock","Minimum Stock"};
+                String[] headers = {"Producto","Stock actual","Stock Mínimo"};
                 for (String header : headers) {
                     PdfPCell cell = new PdfPCell(new Phrase(header,
                             FontFactory.getFont("Tahoma", 12, java.awt.Font.BOLD, BaseColor.WHITE)));
@@ -182,7 +182,7 @@ public class LowStock {
                 // Cerrar documento
                 document.close();
 
-                JOptionPane.showMessageDialog(null, "PDF successfully generated.");
+                JOptionPane.showMessageDialog(null, "PDF generado exitosamente.");
 
                 //JOptionPane.showMessageDialog(null, "Invoice generated and saved correctly: " + filePath);
 
@@ -206,9 +206,9 @@ public class LowStock {
 
         LowStock.NonEditableTableModel modelo = new LowStock.NonEditableTableModel();
 
-        modelo.addColumn("Product");
-        modelo.addColumn("Current Stock");
-        modelo.addColumn("Minimum Stock");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Stock Actual");
+        modelo.addColumn("Stock Mínimo");
 
         table1.setModel(modelo);
 
@@ -268,7 +268,7 @@ public class LowStock {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

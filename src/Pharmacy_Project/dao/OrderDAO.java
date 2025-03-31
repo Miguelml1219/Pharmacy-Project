@@ -41,7 +41,7 @@ public class OrderDAO {
             int result = pst.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully added");
+                JOptionPane.showMessageDialog(null,"Agregado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont added");
 
@@ -73,7 +73,7 @@ public class OrderDAO {
             int result = pst.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully delete");
+                JOptionPane.showMessageDialog(null,"Eliminado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont delete");
 
@@ -111,7 +111,7 @@ public class OrderDAO {
 
             int resultado = pst.executeUpdate();
             if(resultado>0)
-                JOptionPane.showMessageDialog(null,"Order placed successfully");
+                JOptionPane.showMessageDialog(null,"Pedido realizado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Order not placed");
 

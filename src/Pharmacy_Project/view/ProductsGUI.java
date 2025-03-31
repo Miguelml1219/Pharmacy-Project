@@ -110,7 +110,7 @@ public class ProductsGUI {
 
                 if (textField2.getText().trim().isEmpty() || textField3.getText().trim().isEmpty() || textField4.getText().trim().isEmpty()|| textField5.getText().trim().isEmpty()
                         || textField6.getText().trim().isEmpty()|| textField7.getText().trim().isEmpty()|| textField8.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete all fields");
+                    JOptionPane.showMessageDialog(null, "Completa todos los campos");
                 } else {
 
                     String nombre = textField2.getText();
@@ -124,16 +124,16 @@ public class ProductsGUI {
 
 
                     if (!precioT.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The price field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Precio solo debe contener números");
                         return;
                     } else if (!stockA.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The current stock field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Stock Actual solo debe contener números");
                         return;
                     }else if(!stockM.matches("\\d+")){
-                        JOptionPane.showMessageDialog(null, "The minimum stock field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Stock Mínimo solo debe contener número");
                         return;
                     } else if (!fechaT.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                        JOptionPane.showMessageDialog(null, "Incorrect date format. Should be YYYYY-MM-DD");
+                        JOptionPane.showMessageDialog(null, "Formato de Fecha Incorrecto. Debe ser YYYYY-MM-DD");
                         return;
                     }
 
@@ -146,13 +146,13 @@ public class ProductsGUI {
 
                         if(fechaValidada.isBefore(fechaMinima))
                         {
-                            JOptionPane.showMessageDialog(null, "The date must be from March 2026 onwards.");
+                            JOptionPane.showMessageDialog(null, "La fecha debe ser a partir de Marzo de 2026 en adelante");
                             return;
                         }
 
                         fecha_vencimiento = Date.valueOf(fechaValidada);
                     } catch (DateTimeParseException ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid date. Verify that the month and day are correct.");
+                        JOptionPane.showMessageDialog(null, "Fecha Invalida. Verifica que el Mes y el Dia sean correctos.");
                         return;
                     }
 
@@ -171,7 +171,7 @@ public class ProductsGUI {
                     }
 
                     if (namExist) {
-                        JOptionPane.showMessageDialog(null, "The name " + nombre + " already exists");
+                        JOptionPane.showMessageDialog(null, "El nombre " + nombre + " ya existe");
                         textField2.setText("");
                         return;
                     }
@@ -206,7 +206,7 @@ public class ProductsGUI {
 
                 if (textField2.getText().trim().isEmpty() || textField3.getText().trim().isEmpty() || textField4.getText().trim().isEmpty()|| textField5.getText().trim().isEmpty()
                         || textField6.getText().trim().isEmpty()|| textField7.getText().trim().isEmpty()|| textField8.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete all fields");
+                    JOptionPane.showMessageDialog(null, "Completa todos los campos");
                 } else {
 
                     int id_producto = Integer.parseInt(textField1.getText());
@@ -221,13 +221,13 @@ public class ProductsGUI {
 
 
                     if (!precioT.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The price field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Precio solo debe contener números");
                         return;
                     } else if (!stockA.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(null, "The current stock field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Stock Actual solo debe contener números");
                         return;
                     }else if(!stockM.matches("\\d+")){
-                        JOptionPane.showMessageDialog(null, "The minimum stock field should only contain numbers");
+                        JOptionPane.showMessageDialog(null, "El campo Stock Mínimo solo debe contener número");
                         return;
                     }
 
@@ -269,10 +269,10 @@ public class ProductsGUI {
                 if (textField2.getText().trim().isEmpty() || textField3.getText().trim().isEmpty() || textField4.getText().trim().isEmpty()|| textField5.getText().trim().isEmpty()
                         || textField6.getText().trim().isEmpty()|| textField7.getText().trim().isEmpty()|| textField8.getText().trim().isEmpty()) {
 
-                    JOptionPane.showMessageDialog(null, "Complete all fields");
+                    JOptionPane.showMessageDialog(null, "Completa todos los campos");
 
                 }else if (selectedRow == -1) { // Si no hay fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Please, select a product to remove");
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto para remover");
                 } else{
                     int id_cliente = Integer.parseInt(textField1.getText());
                     productsDAO.delete(id_cliente);
@@ -414,7 +414,7 @@ public class ProductsGUI {
             documento.add(new Paragraph("\n\n\n"));
             documento.add(new Paragraph("\n\n\n"));
 
-            Paragraph titulo = new Paragraph("Products",
+            Paragraph titulo = new Paragraph("Productos",
                     FontFactory.getFont("Tahoma", 22, java.awt.Font.BOLD, BaseColor.BLUE));
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
@@ -425,7 +425,7 @@ public class ProductsGUI {
             tabla.setSpacingBefore(10f);
             tabla.setSpacingAfter(10f);
 
-            String[] headers = {"Id product", "Id category", "Name", "Description", "Price", "Current Stock", "Minimum Stock", "Expiration Date", "Lot"};
+            String[] headers = {"Id producto", "Id categoria", "Nombre", "Descripción", "Precio", "Stock Actual", "Stock Mínimo", "Fecha Vencimiento", "Lote"};
             for (String header : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(header,
                         FontFactory.getFont("Tahoma", 12, java.awt.Font.BOLD, BaseColor.WHITE)));
@@ -454,7 +454,7 @@ public class ProductsGUI {
             documento.add(tabla);
             documento.close();
 
-            JOptionPane.showMessageDialog(null, "PDF successfully generated.");
+            JOptionPane.showMessageDialog(null, "PDF generado exitosamente.");
 
             Desktop.getDesktop().open(new File(filePath));
 
@@ -477,15 +477,15 @@ public class ProductsGUI {
 
         NonEditableTableModel modeloa = new NonEditableTableModel();
 
-        modeloa.addColumn("id_product");
-        modeloa.addColumn("Category");
-        modeloa.addColumn("Product");
-        modeloa.addColumn("Description");
-        modeloa.addColumn("Price");
-        modeloa.addColumn("Current Stock");
-        modeloa.addColumn("Minimum Stock");
-        modeloa.addColumn("Expiration Date");
-        modeloa.addColumn("Lot");
+        modeloa.addColumn("id_producto");
+        modeloa.addColumn("Categoria");
+        modeloa.addColumn("Producto");
+        modeloa.addColumn("Descripción");
+        modeloa.addColumn("Precio");
+        modeloa.addColumn("Stock Actual");
+        modeloa.addColumn("Stock Mínimo");
+        modeloa.addColumn("Fecha Vencimiento");
+        modeloa.addColumn("Lote");
 
         table1.setModel(modeloa);
 
@@ -607,7 +607,7 @@ public class ProductsGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

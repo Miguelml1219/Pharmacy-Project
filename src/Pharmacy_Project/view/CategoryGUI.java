@@ -83,14 +83,14 @@ public class CategoryGUI {
 
                 if (textField2.getText().trim().isEmpty()) {
 
-                    JOptionPane.showMessageDialog(null, "Complete the field Name Category");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Nombre Categoria");
 
                 } else {
 
                     String name_cat = textField2.getText();
 
                     if (!name_cat.matches("^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$")) {
-                        JOptionPane.showMessageDialog(null, "The Name Category field must only contain letters");
+                        JOptionPane.showMessageDialog(null, "El campo Nombre Categoria solo puede contener letras");
                         return;
                     }
 
@@ -104,7 +104,7 @@ public class CategoryGUI {
                     }
 
                     if (namExist) {
-                        JOptionPane.showMessageDialog(null, "The name " + name_cat + " already exists");
+                        JOptionPane.showMessageDialog(null, "El nombre " + name_cat + " ya existe");
                         textField2.setText("");
                         return;
                     }
@@ -135,7 +135,7 @@ public class CategoryGUI {
 
                 if (textField2.getText().trim().isEmpty()) {
 
-                    JOptionPane.showMessageDialog(null, "Complete the field Name Category");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Nombre Categoria");
 
                 } else {
 
@@ -144,7 +144,7 @@ public class CategoryGUI {
                     int id_category = Integer.parseInt(textField1.getText());
 
                     if (!name_cat.matches("^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$")) {
-                        JOptionPane.showMessageDialog(null, "The Name Category field must only contain letters");
+                        JOptionPane.showMessageDialog(null, "El campo Nombre Categoria solo puede contener letras");
                         return;
                     }
 
@@ -158,7 +158,7 @@ public class CategoryGUI {
                     }
 
                     if (namExist) {
-                        JOptionPane.showMessageDialog(null, "The name " + name_cat + " already exists");
+                        JOptionPane.showMessageDialog(null, "El nombre " + name_cat + " ya existe");
                         textField2.setText("");
                         return;
                     }
@@ -191,9 +191,9 @@ public class CategoryGUI {
                 int selectedRow = table1.getSelectedRow();
 
                 if (textField2.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Complete the field Name Category");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Nombre Categoria");
                 }else if (selectedRow == -1) { // Si no hay fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Please, select a category to remove");
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione una categoria para eliminar");
                 } else {
 
                     int id_category = Integer.parseInt(textField1.getText());
@@ -298,8 +298,8 @@ public class CategoryGUI {
 
         CategoryGUI.NonEditableTableModel modelo = new CategoryGUI.NonEditableTableModel();
 
-        modelo.addColumn("Id_Category");
-        modelo.addColumn("Name Category");
+        modelo.addColumn("Id_Categoria");
+        modelo.addColumn("Nombre Categoria");
 
         table1.setModel(modelo);
 
@@ -373,7 +373,7 @@ public class CategoryGUI {
 
                 // Muestra un cuadro de diálogo de confirmación antes de cerrar
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

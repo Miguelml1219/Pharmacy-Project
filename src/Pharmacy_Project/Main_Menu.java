@@ -104,7 +104,7 @@ public class Main_Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(null, "Want to enter the chat?", "Enter to the chat", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(null, "¿Deseas entrar al chat?", "Ingresar al chat", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                 if (option == JOptionPane.YES_OPTION) {
 
@@ -133,7 +133,7 @@ public class Main_Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(main);
-                int option = JOptionPane.showConfirmDialog(frame, "Do you want to log out?","Confirm exit",JOptionPane.YES_NO_OPTION);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Quieres salir?","Confirmar Salida",JOptionPane.YES_NO_OPTION);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana
@@ -219,7 +219,7 @@ public class Main_Menu {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost..","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Está seguro de que desea salir?\nCualquier operación que esté realizando y no haya guardado se perderá.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

@@ -45,9 +45,9 @@ public class Socket_ServerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (out != null) {
-                    out.println("Server has left the chat.");
+                    out.println("PharmaPLus abandono el chat");
                 }
-                JOptionPane.showMessageDialog(null, "You have left the chat.");
+                JOptionPane.showMessageDialog(null, "Abandonaste el chat");
                 closeServer();
             }
         });
@@ -96,14 +96,14 @@ public class Socket_ServerGUI {
         try {
             String message;
             while ((message = in.readLine()) != null) {
-                textArea1.append("Client: " + message + "\n");
+                textArea1.append("Cliente: " + message + "\n");
                 if(message.equalsIgnoreCase("shutdown"))
                 {
                     closeServer(); // Cierra la aplicación
                     break;
                 }
-                if (message.contains("has left the chat")) {
-                    JOptionPane.showMessageDialog(null, "The other user has left the chat.");
+                if (message.contains("abandono el chat")) {
+                    JOptionPane.showMessageDialog(null, "El otro usuario abandono el chat");
                     closeServer(); // Cierra la aplicación
                     break;
                 }
@@ -156,7 +156,7 @@ public class Socket_ServerGUI {
         serverFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                JOptionPane.showMessageDialog(serverFrame,"You left the chat");
+                JOptionPane.showMessageDialog(serverFrame,"Abandonaste el chat");
 
 //                serverGUI.closeServer();
 //                serverFrame.dispose();

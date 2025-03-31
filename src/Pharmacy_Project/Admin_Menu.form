@@ -15,7 +15,7 @@
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Customers"/>
+          <text value="Clientes"/>
         </properties>
       </component>
       <component id="e3c13" class="javax.swing.JButton" binding="productsButton" default-binding="true">
@@ -23,7 +23,7 @@
           <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Products"/>
+          <text value="Productos"/>
         </properties>
       </component>
       <component id="f73ea" class="javax.swing.JButton" binding="cashRegisterButton" default-binding="true">
@@ -31,7 +31,7 @@
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Cash Register"/>
+          <text value="Registro de Caja"/>
         </properties>
       </component>
       <component id="b7760" class="javax.swing.JLabel" binding="tittle">
@@ -42,7 +42,7 @@
           <enabled value="true"/>
           <font name="Marlett" size="65" style="3"/>
           <foreground color="-16764058"/>
-          <text value="Administration Menu"/>
+          <text value="Menú Administrador"/>
         </properties>
       </component>
       <component id="223da" class="javax.swing.JLabel">
@@ -66,7 +66,7 @@
           <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Financial Movements"/>
+          <text value="Movimientos Financieros"/>
         </properties>
       </component>
       <component id="9d9ad" class="javax.swing.JButton" binding="categoryButton" default-binding="true">
@@ -74,7 +74,7 @@
           <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Category"/>
+          <text value="Categorias"/>
         </properties>
       </component>
       <component id="8b642" class="javax.swing.JButton" binding="reportsButton" default-binding="true">
@@ -82,7 +82,7 @@
           <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Reports"/>
+          <text value="Reportes"/>
         </properties>
       </component>
       <component id="6886d" class="javax.swing.JLabel">
@@ -98,7 +98,7 @@
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="⬅️ Back"/>
+          <text value="⬅️ Volver"/>
         </properties>
       </component>
       <component id="5b50c" class="javax.swing.JButton" binding="ordersSentButton" default-binding="true">
@@ -106,7 +106,7 @@
           <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Orders sent"/>
+          <text value="Pedidos Enviados"/>
         </properties>
       </component>
       <component id="75c9d" class="javax.swing.JButton" binding="lowStockButton" default-binding="true">
@@ -114,7 +114,7 @@
           <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Low Stock"/>
+          <text value="Bajo Inventario"/>
         </properties>
       </component>
     </children>

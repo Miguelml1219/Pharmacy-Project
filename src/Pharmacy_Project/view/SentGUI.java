@@ -71,7 +71,7 @@ public class SentGUI {
                 int selectedRow = table1.getSelectedRow();
 
                 if (selectedRow == -1) {
-                    JOptionPane.showMessageDialog(null, "Please select an order");
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un pedido");
                     return;
                 }
 
@@ -93,7 +93,7 @@ public class SentGUI {
                     int resultado = pst.executeUpdate();
 
                     if (resultado > 0) {
-                        if("Delivered".equalsIgnoreCase(status))
+                        if("Entregado".equalsIgnoreCase(status))
                         {
                             String totalQuery = "SELECT total_pedido, fecha_pedido FROM pedidos WHERE id_pedido = ?";
                             PreparedStatement totalStmt = con.prepareStatement(totalQuery);
@@ -107,14 +107,14 @@ public class SentGUI {
                                 String metodo = table1.getValueAt(selectedRow,4).toString();
 
                                 Financial_Movements financial_movements = new Financial_Movements(0,
-                                        "Income","Sale",total,fecha,
-                                        "Sale made - Order #" + orderId, metodo);
+                                        "Ingreso","Venta",total,fecha,
+                                        "Venta realizada - Pedido #" + orderId, metodo);
 
                                 financial_movementsDAO.add(financial_movements);                            }
                         }
                         //JOptionPane.showMessageDialog(null, "Order updated successfully");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Order not update");
+                        JOptionPane.showMessageDialog(null, "Pedido Actualizado");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -213,12 +213,12 @@ public class SentGUI {
 
         SentGUI.NonEditableTableModel modelo = new SentGUI.NonEditableTableModel();
 
-        modelo.addColumn("Id_Order");
-        modelo.addColumn("Id_Customer");
-        modelo.addColumn("Date Order");
-        modelo.addColumn("Total order");
-        modelo.addColumn("Method Payment");
-        modelo.addColumn("Status");
+        modelo.addColumn("Id_Pedido");
+        modelo.addColumn("Id_Cliente");
+        modelo.addColumn("Fecha Pedido");
+        modelo.addColumn("Total Pedido");
+        modelo.addColumn("Método de Pago");
+        modelo.addColumn("Estado");
 
         table1.setModel(modelo);
 
@@ -286,7 +286,7 @@ public class SentGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

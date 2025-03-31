@@ -44,7 +44,7 @@ public class ProductsDAO {
             int result = stmt.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully added");
+                JOptionPane.showMessageDialog(null,"Agregado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont added");
         }
@@ -83,7 +83,7 @@ public class ProductsDAO {
             int result = stmt.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Update product successfully");
+                JOptionPane.showMessageDialog(null,"Producto actualizado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Product not found");
         }
@@ -112,7 +112,7 @@ public class ProductsDAO {
             int result = pst.executeUpdate();
 
             if (result>0)
-                JOptionPane.showMessageDialog(null,"Succesfully delete");
+                JOptionPane.showMessageDialog(null,"Eliminado exitosamente");
             else
                 JOptionPane.showMessageDialog(null,"Dont delete");
 

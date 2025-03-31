@@ -26,7 +26,7 @@
           <background color="-11483016"/>
           <foreground color="-1"/>
           <icon value="Pharmacy_Project/imgs/enviar.png"/>
-          <text value="Send Message"/>
+          <text value="Enviar Mensaje"/>
         </properties>
       </component>
       <component id="27660" class="javax.swing.JTextField" binding="textField1" default-binding="true">
@@ -95,7 +95,7 @@
           <background color="-39836"/>
           <foreground color="-1"/>
           <icon value="Pharmacy_Project/imgs/exit.png"/>
-          <text value="Exit"/>
+          <text value="Salir"/>
         </properties>
       </component>
       <component id="f85eb" class="javax.swing.JLabel">

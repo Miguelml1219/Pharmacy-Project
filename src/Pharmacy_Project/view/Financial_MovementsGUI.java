@@ -149,7 +149,7 @@ public class Financial_MovementsGUI {
 
                 if(textField2.getText().trim().isEmpty())
                 {
-                    JOptionPane.showMessageDialog(null, "Complete quantity field");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Cantidad");
 
                 }else{
 
@@ -195,11 +195,11 @@ public class Financial_MovementsGUI {
                 int selectedRow = table1.getSelectedRow();
 
                 if (selectedRow == -1) { // Si no hay fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Please, select a movement to update");
+                    JOptionPane.showMessageDialog(null, "Por favor, selecciona un movimiento para actualizar");
                 }
                 if(textField2.getText().trim().isEmpty())
                 {
-                    JOptionPane.showMessageDialog(null, "Complete quantity field");
+                    JOptionPane.showMessageDialog(null, "Completa el campo Cantidad");
 
                 }else{
 
@@ -245,12 +245,12 @@ public class Financial_MovementsGUI {
                 int selectedRow = table1.getSelectedRow();
 
                 if (selectedRow == -1) { // Si no hay fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Please, select a movement to remove");
+                    JOptionPane.showMessageDialog(null, "Por favor, selecciona un movimiento para eliminar");
                 } else {
 
                     String descripcion = table1.getValueAt(selectedRow, 5).toString(); // Columna 5 (índice 4)
 
-                    if (descripcion.contains("Order")) { // Verifica si contiene "Order"
+                    if (descripcion.contains("Pedido")) { // Verifica si contiene "Order"
                         JOptionPane.showMessageDialog(null, "No se puede eliminar una venta ya realizada");
                         return; // Detiene la ejecución
                     }
@@ -399,7 +399,7 @@ public class Financial_MovementsGUI {
             documento.add(new Paragraph("\n\n\n"));
             documento.add(new Paragraph("\n\n\n"));
 
-            Paragraph titulo = new Paragraph("Financial Movements",
+            Paragraph titulo = new Paragraph("Movimientos Financieros",
                     FontFactory.getFont("Tahoma", 22, java.awt.Font.BOLD, BaseColor.BLUE));
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
@@ -410,7 +410,7 @@ public class Financial_MovementsGUI {
             tabla.setSpacingBefore(10f);
             tabla.setSpacingAfter(10f);
 
-            String[] headers = {"Id movement", "Type movement", "Category", "Amount", "Date", "Description", "Method payment"};
+            String[] headers = {"Id movimiento", "Tipo Movimiento", "Categoria", "Cantidad", "Fecha", "Descripción", "Método de Pago"};
             for (String header : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(header,
                         FontFactory.getFont("Tahoma", 12, java.awt.Font.BOLD, BaseColor.WHITE)));
@@ -439,7 +439,7 @@ public class Financial_MovementsGUI {
             documento.add(tabla);
             documento.close();
 
-            JOptionPane.showMessageDialog(null, "PDF successfully generated.");
+            JOptionPane.showMessageDialog(null, "PDF generado exitosamente.");
 
             Desktop.getDesktop().open(new File(filePath));
 
@@ -458,12 +458,12 @@ public class Financial_MovementsGUI {
 
     public void updateComboBox3() {
         String selectedItem = (String) comboBox3.getSelectedItem();
-        if (selectedItem.equals("Income")) {
+        if (selectedItem.equals("Ingresos")) {
             comboBox2.setVisible(true);
             comboBox2.setEnabled(true);
             comboBox1.setVisible(false);
             updateDescriptionIncomes(); // Establecer descripción inicial de Income
-        } else if (selectedItem.equals("Expenses")) {
+        } else if (selectedItem.equals("Egresos")) {
             comboBox1.setVisible(true);
             comboBox1.setEnabled(true);
             comboBox2.setVisible(false);
@@ -475,14 +475,14 @@ public class Financial_MovementsGUI {
         String selectedItem = (String) comboBox2.getSelectedItem();
         if (selectedItem != null) {
             switch (selectedItem) {
-                case "Sales returns":
-                    textField3.setText("A sale is refunded due to a product return.");
+                case "Devoluciones de ventas":
+                    textField3.setText("Se reembolsa una venta debido a la devolución de un producto.");
                     break;
-                case "Grants and subsidies":
-                    textField3.setText("External funding is received without repayment.");
+                case "Ayudas y subvenciones":
+                    textField3.setText("Se recibe financiación externa sin devolución.");
                     break;
-                case "Commissions received":
-                    textField3.setText("Money is earned for mediating sales or services.");
+                case "Comisiones recibidas":
+                    textField3.setText("Se gana dinero por mediar en ventas o servicios.");
                     break;
                 default:
                     textField3.setText("");
@@ -496,14 +496,14 @@ public class Financial_MovementsGUI {
         String selectedItem = (String) comboBox1.getSelectedItem();
         if (selectedItem != null) {
             switch (selectedItem) {
-                case "Rent":
-                    textField3.setText("Payment is made for the use of a space or property.");
+                case "Renta":
+                    textField3.setText("Se paga por el uso de un espacio o propiedad.");
                     break;
-                case "Public services":
-                    textField3.setText("Expenses for water, electricity, gas, and internet are covered.");
+                case "Servicios Publicos":
+                    textField3.setText("Los gastos de agua, electricidad, gas e internet están cubiertos.");
                     break;
-                case "Purchase of medicines and supplies":
-                    textField3.setText("Products are acquired to stock the business.");
+                case "Compra de medicamentos y suministros":
+                    textField3.setText("Se adquieren productos para abastecer la farmacia.");
                     break;
                 default:
                     textField3.setText("");
@@ -524,13 +524,13 @@ public class Financial_MovementsGUI {
 
         Financial_MovementsGUI.NonEditableTableModel modelo = new Financial_MovementsGUI.NonEditableTableModel();
 
-        modelo.addColumn("Id_Movement");
-        modelo.addColumn("Type Movement");
-        modelo.addColumn("Category");
-        modelo.addColumn("Amount");
-        modelo.addColumn("Date");
-        modelo.addColumn("Description");
-        modelo.addColumn("Method Payment");
+        modelo.addColumn("Id_Movimiento");
+        modelo.addColumn("Tipo Movimiento");
+        modelo.addColumn("Categoria");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Descripción");
+        modelo.addColumn("Método de Pago");
 
         table1.setModel(modelo);
 
@@ -601,7 +601,7 @@ public class Financial_MovementsGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

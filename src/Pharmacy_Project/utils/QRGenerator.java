@@ -22,7 +22,7 @@ public class QRGenerator {
 
     public static void showqr() {
 
-        JFrame frame = new JFrame("Scan the QR ");
+        JFrame frame = new JFrame("Scanea el QR ");
         frame.setSize(360, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //frame.setUndecorated(true); // Sin bordes del sistema

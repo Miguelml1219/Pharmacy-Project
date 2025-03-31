@@ -74,9 +74,9 @@ public class Cash_RegisterGUI {
     public void showdata() {
         Cash_RegisterGUI.NonEditableTableModel modelo = new Cash_RegisterGUI.NonEditableTableModel();
 
-        modelo.addColumn("Id_Cash");
-        modelo.addColumn("Concept");
-        modelo.addColumn("Value");
+        modelo.addColumn("Id Caja");
+        modelo.addColumn("Concepto");
+        modelo.addColumn("Valor");
 
         table1.setModel(modelo);
 
@@ -127,7 +127,7 @@ public class Cash_RegisterGUI {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?\nAny operation you are performing and have not saved will be lost.","Confirm exit",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(frame, "¿Estas seguro que quieres salir?\nCualquier operación que estes haciendo y no hayas guardado se perdera.","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
                 if(option == JOptionPane.YES_OPTION)
                 {
                     frame.dispose(); // Cierra la ventana

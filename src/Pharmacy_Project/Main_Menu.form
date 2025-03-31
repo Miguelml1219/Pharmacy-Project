@@ -18,7 +18,7 @@
         <properties>
           <font/>
           <icon value="Pharmacy_Project/imgs/admin.png"/>
-          <text value="  Admin Menu"/>
+          <text value="Menú Administrador"/>
         </properties>
       </component>
       <component id="64e59" class="javax.swing.JButton" binding="placeOrderButton" default-binding="true">
@@ -27,7 +27,7 @@
         </constraints>
         <properties>
           <icon value="Pharmacy_Project/imgs/pedido.png"/>
-          <text value="  Place Order"/>
+          <text value="Realizar Pedido"/>
         </properties>
       </component>
       <component id="9a7d3" class="javax.swing.JButton" binding="chatButton" default-binding="true">
@@ -45,7 +45,7 @@
         </constraints>
         <properties>
           <icon value="Pharmacy_Project/imgs/salir.png"/>
-          <text value="  Exit"/>
+          <text value="Salir"/>
         </properties>
       </component>
       <component id="9600e" class="javax.swing.JLabel" binding="tittle">

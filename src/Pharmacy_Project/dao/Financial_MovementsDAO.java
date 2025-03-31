@@ -27,11 +27,11 @@ public class Financial_MovementsDAO {
     {
         Connection con = connectionDB.getConnection();
 
-        if(financial_movements.getTipo_movimiento().equalsIgnoreCase("Expenses"))
+        if(financial_movements.getTipo_movimiento().equalsIgnoreCase("Egresos"))
         {
             if(!hasSufficientBalance(financial_movements.getMetodo_pago(), financial_movements.getMonto()))
             {
-                JOptionPane.showMessageDialog(null, "Insufficient funds in " + financial_movements.getMetodo_pago() + " to complete this transaction");
+                JOptionPane.showMessageDialog(null, "Fondos insuficientes en " + financial_movements.getMetodo_pago() + " para completar esta transacción");
                 return;
             }
         }
@@ -52,7 +52,7 @@ public class Financial_MovementsDAO {
 
             if (result>0) {
                 updateCashRegister(financial_movements.getMetodo_pago(), financial_movements.getMonto(), financial_movements.getTipo_movimiento());
-                JOptionPane.showMessageDialog(null, "Succesfully added");
+                JOptionPane.showMessageDialog(null, "Agregado exitosamente");
             }else
                 JOptionPane.showMessageDialog(null,"Dont added");
         }
@@ -87,12 +87,12 @@ public class Financial_MovementsDAO {
                 String metodoPagoAnterior = rs.getString("metodo_pago");
                 String tipoMovimientoAnterior = rs.getString("tipo_movimiento");
 
-                if(financial_movements.getTipo_movimiento().equalsIgnoreCase("Expenses"))
+                if(financial_movements.getTipo_movimiento().equalsIgnoreCase("Egresos"))
                 {
                     int diference = financial_movements.getMonto() - montoAnterior;
                     if(diference>0 && !hasSufficientBalance(financial_movements.getMetodo_pago(), diference))
                     {
-                        JOptionPane.showMessageDialog(null, "Insufficient funds in " + financial_movements.getMetodo_pago() + " to complete this update.");
+                        JOptionPane.showMessageDialog(null, "Fondos insuficientes en " + financial_movements.getMetodo_pago() + " para completar la actualización.");
                     }
                 }
 
@@ -124,7 +124,7 @@ public class Financial_MovementsDAO {
             if (result>0) {
                 updateCashRegister(financial_movements.getMetodo_pago(), financial_movements.getMonto(), financial_movements.getTipo_movimiento());
 
-                JOptionPane.showMessageDialog(null, "Update successfully");
+                JOptionPane.showMessageDialog(null, "Actualizado exitosamente");
             }else
                 JOptionPane.showMessageDialog(null,"Movement not found");
         }
@@ -158,7 +158,7 @@ public class Financial_MovementsDAO {
 
             if (result>0) {
                 updateCashRegister(metodo_pago, -monto, tipo_movimiento);
-                JOptionPane.showMessageDialog(null, "Succesfully delete");
+                JOptionPane.showMessageDialog(null, "Eliminado exitosamente");
             }else
                 JOptionPane.showMessageDialog(null,"Dont delete");
 
@@ -187,7 +187,7 @@ public class Financial_MovementsDAO {
         try{
             PreparedStatement pst = con.prepareStatement(query);
 
-            if(tipo_movimiento.equalsIgnoreCase("Expenses")){
+            if(tipo_movimiento.equalsIgnoreCase("Egresos")){
                 monto = -monto;
             }
 
